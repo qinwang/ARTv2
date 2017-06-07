@@ -5,5 +5,6 @@ ARTv2 is currently in alpha and is not feature complete. When ARTv2 is feature c
 
 # Feature Requests
 Check out the Trello board to vote on new features and fixes!  
-https://trello.com/b/ypqTVBle/artv2
+
+[![ARTv2 Trello](http://i.imgur.com/maXZNiA.png)](https://trello.com/b/ypqTVBle/artv2 "ARTv2 Trello - Click to View!")
 
