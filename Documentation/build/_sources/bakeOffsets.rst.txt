@@ -1,0 +1,6 @@
+=================
+ART_BakeOffsetsUI
+=================
+
+.. automodule:: Interfaces.ART_BakeOffsetsUI
+    :members:

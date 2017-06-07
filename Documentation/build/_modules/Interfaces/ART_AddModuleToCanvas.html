@@ -1,0 +1,423 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Interfaces.ART_AddModuleToCanvas &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Interfaces.ART_AddModuleToCanvas</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author: Jeremy Ernst</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># import statements</span>
+<span class="kn">import</span> <span class="nn">maya.cmds</span> <span class="k">as</span> <span class="nn">cmds</span>
+
+<span class="kn">import</span> <span class="nn">System.utils</span> <span class="k">as</span> <span class="nn">utils</span>
+<span class="kn">import</span> <span class="nn">System.interfaceUtils</span> <span class="k">as</span> <span class="nn">interfaceUtils</span>
+<span class="kn">from</span> <span class="nn">ThirdParty.Qt</span> <span class="k">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtWidgets</span>
+
+
+<div class="viewcode-block" id="ART_AddModuleToCanvas"><a class="viewcode-back" href="../../addModuleToPicker.html#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas">[docs]</a><span class="k">class</span> <span class="nc">ART_AddModuleToCanvas</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This tool presents a UI that lists all modules not currently on the animation picker canvas, and allows the user</span>
+<span class="sd">    to choose modules from the list to add to the animation picker canvas. This is an animator-facing tool.</span>
+
+<span class="sd">    .. image:: /images/addModuleToCanvas.png</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ART_AddModuleToCanvas.__init__"><a class="viewcode-back" href="../../addModuleToPicker.html#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">animPickerUI</span><span class="p">,</span> <span class="n">modulesToAdd</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        initialize the class, get the QSettings for the tool, and call on buildUI.</span>
+
+<span class="sd">        :param animPickerUI: the instance of the animation picker class that launched this class.</span>
+<span class="sd">        :param modulesToAdd: A list of the modules to add, which is a list of modules currently not on the animPickerUI</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ART_AddModuleToCanvas</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># get the directory path of the tools</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QSettings</span><span class="p">(</span><span class="s2">&quot;Epic Games&quot;</span><span class="p">,</span> <span class="s2">&quot;ARTv2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;toolsPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;iconPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scriptPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;scriptPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;projectPath&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span> <span class="o">=</span> <span class="n">animPickerUI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modules</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modulesToAdd</span> <span class="o">=</span> <span class="n">modulesToAdd</span>
+
+        <span class="c1"># assign close event</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeEvent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">closeWin</span>
+
+        <span class="c1"># build the UI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buildUI</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_AddModuleToCanvas.buildUI"><a class="viewcode-back" href="../../addModuleToPicker.html#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.buildUI">[docs]</a>    <span class="k">def</span> <span class="nf">buildUI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Builds the interface for the tool, showing a list of modules not currently displayed on the picker.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="s2">&quot;pyART_AddToCanvasWIN&quot;</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;pyART_AddToCanvasWIN&quot;</span><span class="p">,</span> <span class="n">wnd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># create the main window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="p">)</span>
+
+        <span class="c1"># create the main widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setCentralWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span><span class="p">)</span>
+
+        <span class="c1"># create the mainLayout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span><span class="p">)</span>
+
+        <span class="c1"># load stylesheet</span>
+        <span class="n">styleSheetFile</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span><span class="p">,</span> <span class="s2">&quot;Core/Scripts/Interfaces/StyleSheets/animPicker.qss&quot;</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">styleSheetFile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+        <span class="c1"># set qt object name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;pyART_AddToCanvasWIN&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Add Module To Canvas&quot;</span><span class="p">)</span>
+
+        <span class="c1"># label, listWidget, button</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="s2">&quot;Available Modules:&quot;</span><span class="p">)</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s2">&quot;boldFont&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="p">)</span>
+
+        <span class="c1"># add modules to listWidget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addModulesToList</span><span class="p">()</span>
+
+        <span class="c1"># create add button</span>
+        <span class="n">button</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Add Selected To Canvas&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+        <span class="n">button</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+        <span class="n">button</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addSelectedToCanvas</span><span class="p">)</span>
+
+        <span class="c1"># show ui</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_AddModuleToCanvas.addModulesToList"><a class="viewcode-back" href="../../addModuleToPicker.html#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.addModulesToList">[docs]</a>    <span class="k">def</span> <span class="nf">addModulesToList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Take the modules passed into the class, and if the modules do not already exist on the canvas, add them to</span>
+<span class="sd">        the list widget.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">existing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getExistingModules</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modulesToAdd</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">module</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">existing</span><span class="p">:</span>
+                <span class="n">modName</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.moduleName&quot;</span><span class="p">)</span>
+
+                <span class="c1"># add to listWIdget</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="o">.</span><span class="n">characterTabs</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
+                <span class="n">widget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="o">.</span><span class="n">characterTabs</span><span class="o">.</span><span class="n">widget</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+                <span class="n">characterNode</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s2">&quot;charNode&quot;</span><span class="p">)</span>
+
+                <span class="n">item</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">(</span><span class="n">modName</span><span class="p">)</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">,</span> <span class="p">[</span><span class="n">module</span><span class="p">,</span> <span class="n">characterNode</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+
+        <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+        <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+        <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+        <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+        <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_AddModuleToCanvas.addSelectedToCanvas"><a class="viewcode-back" href="../../addModuleToPicker.html#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.addSelectedToCanvas">[docs]</a>    <span class="k">def</span> <span class="nf">addSelectedToCanvas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes the selected module in the list widget and adds it to the picker canvas. The picker UI is contained in</span>
+<span class="sd">        the self.pickerUI.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">selected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">selected</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="o">.</span><span class="n">characterTabs</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
+        <span class="n">widget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="o">.</span><span class="n">characterTabs</span><span class="o">.</span><span class="n">widget</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">characterNode</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s2">&quot;charNode&quot;</span><span class="p">)</span>
+
+        <span class="c1"># get inst</span>
+        <span class="n">modType</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.moduleType&quot;</span><span class="p">)</span>
+        <span class="n">modName</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.moduleName&quot;</span><span class="p">)</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;RigModules.&quot;</span> <span class="o">+</span> <span class="n">modType</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">[</span><span class="n">modType</span><span class="p">])</span>
+        <span class="n">reload</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span>
+
+        <span class="c1"># get the class name from that module file (returns RigModules.ART_Root.ART_Root for example)</span>
+        <span class="n">moduleClass</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">className</span><span class="p">)</span>
+
+        <span class="c1"># find the instance of that module</span>
+        <span class="n">moduleInst</span> <span class="o">=</span> <span class="n">moduleClass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modName</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">moduleInst</span><span class="p">)</span>
+
+        <span class="n">scene</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentCanvasTab</span><span class="p">()</span>
+
+        <span class="c1"># find out if charNode has a namespace</span>
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">characterNode</span> <span class="o">+</span> <span class="s2">&quot;.namespace&quot;</span><span class="p">):</span>
+            <span class="n">namespace</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">characterNode</span> <span class="o">+</span> <span class="s2">&quot;.namespace&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">namespace</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># pass in the network node and the namespace</span>
+        <span class="n">picker</span> <span class="o">=</span> <span class="n">moduleInst</span><span class="o">.</span><span class="n">pickerUI</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">sceneRect</span><span class="p">()</span><span class="o">.</span><span class="n">center</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+        <span class="n">scene</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">picker</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="o">.</span><span class="n">selectionScriptJobs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">picker</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #mirror the module&#39;s pickerBorderItem if needed</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="k">if</span> <span class="n">picker</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">picker</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">setTransformOriginPoint</span><span class="p">(</span><span class="n">picker</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">()</span><span class="o">.</span><span class="n">center</span><span class="p">())</span>
+            <span class="n">picker</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">setTransform</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QTransform</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">picker</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">()</span><span class="o">.</span><span class="n">width</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+
+            <span class="n">children</span> <span class="o">=</span> <span class="n">picker</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">childItems</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">children</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mirrorChildren</span><span class="p">(</span><span class="n">children</span><span class="p">)</span>
+
+        <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span><span class="n">row</span><span class="p">)</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_AddModuleToCanvas.mirrorChildren"><a class="viewcode-back" href="../../addModuleToPicker.html#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.mirrorChildren">[docs]</a>    <span class="k">def</span> <span class="nf">mirrorChildren</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">children</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Take the passed in children and mirror the item so the text is not backwards. When a module is added to the</span>
+<span class="sd">        canvas, if it was a right side module, it will be mirrored. This then unmirrors the text.</span>
+
+<span class="sd">        :param children: List of QGraphicsSimpleTextItems that need to be mirrored.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># for mirroring text on any child items of a pickerBorderItem</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QGraphicsSimpleTextItem</span><span class="p">:</span>
+                <span class="n">child</span><span class="o">.</span><span class="n">setTransformOriginPoint</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">()</span><span class="o">.</span><span class="n">center</span><span class="p">())</span>
+                <span class="n">child</span><span class="o">.</span><span class="n">setTransform</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QTransform</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">()</span><span class="o">.</span><span class="n">width</span><span class="p">(),</span> <span class="mf">0.0</span><span class="p">))</span>
+
+            <span class="n">children</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">childItems</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">children</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mirrorChildren</span><span class="p">(</span><span class="n">children</span><span class="p">)</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+
+<div class="viewcode-block" id="ART_AddModuleToCanvas.getCurrentCanvasTab"><a class="viewcode-back" href="../../addModuleToPicker.html#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.getCurrentCanvasTab">[docs]</a>    <span class="k">def</span> <span class="nf">getCurrentCanvasTab</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the current tab of the current character of the animation picker.</span>
+<span class="sd">        :return: returns the QGraphicsScene that items can then be added to.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get the current tab index and the widget</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="o">.</span><span class="n">characterTabs</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
+        <span class="n">widget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="o">.</span><span class="n">characterTabs</span><span class="o">.</span><span class="n">widget</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="n">children</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">children</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTabWidget</span><span class="p">:</span>
+                <span class="n">tab</span> <span class="o">=</span> <span class="n">child</span>
+                <span class="n">canvasIndex</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
+                <span class="n">canvasWidget</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">widget</span><span class="p">(</span><span class="n">canvasIndex</span><span class="p">)</span>
+
+                <span class="n">canvasChildren</span> <span class="o">=</span> <span class="n">canvasWidget</span><span class="o">.</span><span class="n">children</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">canvasChild</span> <span class="ow">in</span> <span class="n">canvasChildren</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvasChild</span><span class="p">)</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QGraphicsView</span><span class="p">:</span>
+                        <span class="n">view</span> <span class="o">=</span> <span class="n">canvasChild</span>
+                        <span class="n">scene</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">scene</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">scene</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_AddModuleToCanvas.getExistingModules"><a class="viewcode-back" href="../../addModuleToPicker.html#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.getExistingModules">[docs]</a>    <span class="k">def</span> <span class="nf">getExistingModules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find all existing modules on the canvas and return those modules as a list.</span>
+<span class="sd">        :return: List of modules whose picker exists on the canvas.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get the current tab index and the widget</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="o">.</span><span class="n">characterTabs</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
+        <span class="n">widget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="o">.</span><span class="n">characterTabs</span><span class="o">.</span><span class="n">widget</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">characterNode</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s2">&quot;charNode&quot;</span><span class="p">)</span>
+        <span class="n">characterNodeModules</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listConnections</span><span class="p">(</span><span class="n">characterNode</span> <span class="o">+</span> <span class="s2">&quot;.rigModules&quot;</span><span class="p">)</span>
+
+        <span class="n">namespace</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">characterNode</span> <span class="o">+</span> <span class="s2">&quot;.namespace&quot;</span><span class="p">):</span>
+            <span class="n">namespace</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">characterNode</span> <span class="o">+</span> <span class="s2">&quot;.namespace&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span>
+
+        <span class="n">returnData</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># get the children of the current tab widget</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">children</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+
+            <span class="c1"># if we find a tab widget, search for the gfxScene</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTabWidget</span><span class="p">:</span>
+                <span class="n">tab</span> <span class="o">=</span> <span class="n">child</span>
+                <span class="n">selectedTab</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
+
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tab</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                    <span class="n">tab</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">canvasIndex</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
+                    <span class="n">canvasWidget</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">widget</span><span class="p">(</span><span class="n">canvasIndex</span><span class="p">)</span>
+                    <span class="n">canvasChildren</span> <span class="o">=</span> <span class="n">canvasWidget</span><span class="o">.</span><span class="n">children</span><span class="p">()</span>
+
+                    <span class="k">for</span> <span class="n">canvasChild</span> <span class="ow">in</span> <span class="n">canvasChildren</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvasChild</span><span class="p">)</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QGraphicsView</span><span class="p">:</span>
+                            <span class="n">view</span> <span class="o">=</span> <span class="n">canvasChild</span>
+                            <span class="n">scene</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">scene</span><span class="p">()</span>
+
+                            <span class="c1"># get all items in the gfxScene</span>
+                            <span class="n">itemsInScene</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+
+                            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">itemsInScene</span><span class="p">:</span>
+                                <span class="c1"># if we find our top level picker item (the borderItem), get it&#39;s data</span>
+                                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="n">interfaceUtils</span><span class="o">.</span><span class="n">pickerBorderItem</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                                    <span class="n">module</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+
+                                    <span class="k">if</span> <span class="n">namespace</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                                        <span class="k">if</span> <span class="n">module</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">returnData</span><span class="p">:</span>
+                                            <span class="n">returnData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+                                    <span class="k">else</span><span class="p">:</span>
+                                        <span class="k">if</span> <span class="p">(</span><span class="n">namespace</span> <span class="o">+</span> <span class="n">module</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">returnData</span><span class="p">:</span>
+                                            <span class="n">returnData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namespace</span> <span class="o">+</span> <span class="n">module</span><span class="p">)</span>
+
+                <span class="n">tab</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="n">selectedTab</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">returnData</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_AddModuleToCanvas.closeWin"><a class="viewcode-back" href="../../addModuleToPicker.html#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.closeWin">[docs]</a>    <span class="k">def</span> <span class="nf">closeWin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        deletes the UI.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;pyART_AddToCanvasWIN&quot;</span><span class="p">,</span> <span class="n">wnd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

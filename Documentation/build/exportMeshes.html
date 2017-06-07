@@ -1,0 +1,675 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ART_ExportMeshes &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Animation Tools" href="animTools.html" />
+    <link rel="prev" title="ART_EditRigUI" href="editRig.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="animTools.html" title="Animation Tools"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="editRig.html" title="ART_EditRigUI"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" accesskey="U">Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="editRig.html"
+                        title="previous chapter">ART_EditRigUI</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="animTools.html"
+                        title="next chapter">Animation Tools</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exportMeshes.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Interfaces.ART_ExportMeshes">
+<span id="art-exportmeshes"></span><h1>ART_ExportMeshes<a class="headerlink" href="#module-Interfaces.ART_ExportMeshes" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<dl class="class">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes">
+<em class="property">class </em><code class="descclassname">Interfaces.ART_ExportMeshes.</code><code class="descname">ART_ExportMeshes</code><span class="sig-paren">(</span><em>mainUI</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is used to export skeletal meshes and skeletal mesh LODs.</p>
+<p>The UI has a robust suite of tools for managing LODs, bone removal for LODs, choosing
+which meshes are associated with a LOD, where weighting from removed bones will get transferred,
+and setting/viewing LOD poses (useful if you wanted to remove finger bones for a LOD, but not have
+&#8220;paddle hands&#8221;</p>
+<blockquote>
+<div><img alt="_images/exportMeshes.png" src="_images/exportMeshes.png" />
+</div></blockquote>
+<p>A look at the LOD tools for transferring weighting and managing LOD poses:</p>
+<blockquote>
+<div><img alt="_images/lodTool.png" src="_images/lodTool.png" />
+</div></blockquote>
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>mainUI</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates the class, getting the QSettings, presenting a QMessageBox about saving the current file,
+creates a temporary file to do the export work out of (stripping out the rig and removing all connections
+from joints), set the model pose, then calls on the UI build.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mainUI</strong> &#8211; Instance of the Rig Creator interface, from which this class was called.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.buildUI(), ART_ExportMeshes.populateUI()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.addBoneToListUI_addChildren">
+<code class="descname">addBoneToListUI_addChildren</code><span class="sig-paren">(</span><em>name</em>, <em>parent</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.addBoneToListUI_addChildren"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.addBoneToListUI_addChildren" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populates the Skeleton Tree (self.tree) by recursively looking for relatives of the given name and making more
+QTreeWidgetItems using the passed in name, and parenting under the passed in parent.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The bone name, which will be used to look for children, and also as the text for the treeWidgetItem</li>
+<li><strong>parent</strong> &#8211; The parent treeWidgetItem that the created item will be a child of.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.addBoneToList_Accept">
+<code class="descname">addBoneToList_Accept</code><span class="sig-paren">(</span><em>tree</em>, <em>listWidget</em>, <em>lod</em>, <em>layout</em>, <em>viewBtn</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.addBoneToList_Accept"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.addBoneToList_Accept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called from the &#8220;Save and Close&#8221; button of the addBoneToList_UI, clears all items in the main listWidget,
+then populates that listWidget with the new bones to remove. Adds all LOD pose info to the character node as
+well as weighting transfer info for that lod.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>listWidget</strong> &#8211; The listWidget on the main LOD page on the bottom right that lists bones to remove.</li>
+<li><strong>lod</strong> &#8211; The LOD text (LOD_#) to operate on.</li>
+<li><strong>layout</strong> &#8211; The QVboxLayout to query for weighting transfer entries.</li>
+<li><strong>viewBtn</strong> &#8211; The &#8220;View LOD Pose&#8221; button instance</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.addBoneToList_UI">
+<code class="descname">addBoneToList_UI</code><span class="sig-paren">(</span><em>parent</em>, <em>label</em>, <em>listWidget</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.addBoneToList_UI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.addBoneToList_UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an interface to remove bones from a LOD, transfer weighting of those removed bones to the next viable
+parent, and handle LOD posing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parent</strong> &#8211; The instance of the main UI created by ART_ExportMeshes.buildUI()</li>
+<li><strong>label</strong> &#8211; The label for the window title to show what LOD this interface represents.</li>
+<li><strong>listWidget</strong> &#8211; The list widget on the main LOD page that lists all bones being removed.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.addBoneToList_Accept(), ART_ExportMeshes.addWeightingTransferEntry()</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.viewLodPose(), ART_ExportMeshes.resetLodPose(), ART_ExportMeshes.resetLodPose()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.addItemsToWeightXferList">
+<code class="descname">addItemsToWeightXferList</code><span class="sig-paren">(</span><em>widget</em>, <em>boneWidget</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.addItemsToWeightXferList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.addItemsToWeightXferList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the items selected in the skeleton tree (pictured below) and auto-selects and children under the
+selected items, as removing the parent will also remove the children of those parents, and then adds all of
+those items to the given widget.</p>
+<blockquote>
+<div><img alt="_images/boneTree.png" src="_images/boneTree.png" />
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget</strong> &#8211; The QListWidget in the weighting transfer entry widget showing bones to remove.</li>
+<li><strong>boneWidget</strong> &#8211; <p>The QListWidget in the weighting transfer entry widget showing bone who will receive
+weights from removed bones.</p>
+<blockquote>
+<div><img alt="_images/xferEntry.png" src="_images/xferEntry.png" />
+</div></blockquote>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.addXferBoneToList()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.addMeshLOD">
+<code class="descname">addMeshLOD</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.addMeshLOD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.addMeshLOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the current number of LOD tabs, constructs a label for the new tab, iterating the count by 1,
+and calls on createLODpage, passing in that label.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.createLODpage()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.addMeshToList_UI">
+<code class="descname">addMeshToList_UI</code><span class="sig-paren">(</span><em>parent</em>, <em>label</em>, <em>listWidget</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.addMeshToList_UI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.addMeshToList_UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a UI that lists all meshes for selection to assign meshes to a given LOD.</p>
+<blockquote>
+<div><img alt="_images/addMeshesUI.png" src="_images/addMeshesUI.png" />
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parent</strong> &#8211; The UI instance to parent this interface to</li>
+<li><strong>label</strong> &#8211; The LOD text label for this interface&#8217;s window title.</li>
+<li><strong>listWidget</strong> &#8211; <p>The listWidget on the main LOD page that will list the selected meshes</p>
+<img alt="_images/meshList.png" src="_images/meshList.png" /></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.populateRenderMeshes(), ART_ExportMeshes.addMeshesToLodList()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.addMeshesToLodList">
+<code class="descname">addMeshesToLodList</code><span class="sig-paren">(</span><em>listWidget</em>, <em>meshTree</em>, <em>mainWin</em>, <em>label</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.addMeshesToLodList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.addMeshesToLodList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the selected items in addMeshToList_UI&#8217;s treeWidget, and adds them back to the main LOD page&#8217;s
+listWidget for meshes associated with that LOD.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>listWidget</strong> &#8211; The list widget to add selected items in the treeWidget to.</li>
+<li><strong>meshTree</strong> &#8211; The treeWidget from addMeshToList_UI(), whose selection will be queried.</li>
+<li><strong>mainWin</strong> &#8211; The window instance from addMeshToList_UI()</li>
+<li><strong>label</strong> &#8211; The name of the LOD tab</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.saveMeshList()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.addWeightingTransferEntry">
+<code class="descname">addWeightingTransferEntry</code><span class="sig-paren">(</span><em>layout</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.addWeightingTransferEntry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.addWeightingTransferEntry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a Groupbox with two QListWidgets, where the left shows bones to remove, and the right shows the next
+viable parent bone to transfer the weighting to. Both lists can then be edited as well.</p>
+<p>This is what that would like like:</p>
+<blockquote>
+<div><img alt="_images/xferEntry.png" src="_images/xferEntry.png" />
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>layout</strong> &#8211; The QVboxLayout to add the QGroupbox to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">returns both QListWidgets (in memory)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.addItemsToWeightXferList(), ART_ExportMeshes.removeBonesFromList()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.addXferBoneToList">
+<code class="descname">addXferBoneToList</code><span class="sig-paren">(</span><em>widget</em>, <em>autoFind=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.addXferBoneToList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.addXferBoneToList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the selected items in the Skeleton Tree (for removal) and locates the next viable parent to transfer
+weighting to, then adds that bone to the passed in QListWidget.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget</strong> &#8211; The QListWidget to add the bone that will receive weights from removed bones.</li>
+<li><strong>autoFind</strong> &#8211; Whether or not to auto-locate the next viable parent or use the currently selected item.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.browseToFBX">
+<code class="descname">browseToFBX</code><span class="sig-paren">(</span><em>lineEdit</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.browseToFBX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.browseToFBX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls on a fileDialog for the user to browse to an FBX file for saving. Either one that exists, or creating
+a new one.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lineEdit</strong> &#8211; The QLineEdit whose text to set with the path to the FBX file.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.buildUI">
+<code class="descname">buildUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.buildUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.buildUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the main interface for the tool, which allows additions of LODs, assignment of meshes to a given LOD,
+and assignment of bones to remove per LOD (which then opens another interface/tool).</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.addBoneToList_UI(), ART_ExportMeshes.addMeshToList_UI()</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.addMeshLOD(), ART_ExportMeshes.createLODpage()</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.createExportMeshesPage(), ART_ExportMeshes.removeLodTab()</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.export()</p>
+</div>
+<p>Here is a breakdown image showing which UI elements call on which functions:</p>
+<img alt="_images/exportMeshesBreakout.png" src="_images/exportMeshesBreakout.png" />
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.closeWin">
+<code class="descname">closeWin</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.closeWin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.closeWin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gathers all information from the temp file (LOD meshes, bones to remove, etc), opens the export file,
+and applies that information to the network node in the export file. Lastly removes the temp file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.collapseBox">
+<code class="descname">collapseBox</code><span class="sig-paren">(</span><em>groupBox</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.collapseBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.collapseBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collapses the given groupBox down to 16 pixel high, or restores its original height, given the state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>groupBox</strong> &#8211; Which groupBox to operate on and manipulate the height.</li>
+<li><strong>args</strong> &#8211; What the state is of the groupBox checkBox.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.createExportMeshesPage">
+<code class="descname">createExportMeshesPage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.createExportMeshesPage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.createExportMeshesPage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the LOD0 Tab, which is a little bit unique from subsequent LOD tabs, as the Add/Remove LOD buttons
+are added, and the LOD0 tab can not be removed. It still calls on createLODpage to create the common
+elements, but this creates the framework for all of the LOD tabs.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.createLODpage()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.createLODpage">
+<code class="descname">createLODpage</code><span class="sig-paren">(</span><em>label</em>, <em>closeable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.createLODpage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.createLODpage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a tab (QFrame) for a new LOD, with the UI elements to set the output path for the FBX, to set the
+meshes assigned to the LOD, and to launch the bone removal tool for the LOD.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>label</strong> &#8211; The text label for the tab (LOD_#)</li>
+<li><strong>closeable</strong> &#8211; Whether this LOD can be removed, thus removing the tab.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.export">
+<code class="descname">export</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.export"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.export" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gathers all export data by calling on utils.findExportMeshData, parses the information, and for each LOD in
+the list, calls on utils.ExportMesh(), passing in the appropriate data.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">utils.ExportMesh(), utils.findExportMeshData()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.findTreeChildren">
+<code class="descname">findTreeChildren</code><span class="sig-paren">(</span><em>fullList</em>, <em>itemList</em>, <em>item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.findTreeChildren"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.findTreeChildren" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds any child items from selected items in the Skeleton Tree and appends them to the input lists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fullList</strong> &#8211; The full list of all items, including the original selected parent items and any child items</li>
+<li><strong>itemList</strong> &#8211; The instances in memory of the selected items in the Skeleton Tree.</li>
+<li><strong>item</strong> &#8211; The parent item in the Skeleton Tree to check for children</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_ExportMeshes.addItemsToWeightXferList()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.lodContextMenu">
+<code class="descname">lodContextMenu</code><span class="sig-paren">(</span><em>widget</em>, <em>groupBox</em>, <em>point</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.lodContextMenu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.lodContextMenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a right-click context menu for the weighting transfer entry widget:</p>
+<blockquote>
+<div><img alt="_images/xferEntry.png" src="_images/xferEntry.png" />
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widget</strong> &#8211; The parent widget the context menu will spawn from.</li>
+<li><strong>groupBox</strong> &#8211; The parent groupBox for the weighting transfer entry.</li>
+<li><strong>point</strong> &#8211; Where on the parent widget to spawn the context menu.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.populateRenderMeshes">
+<code class="descname">populateRenderMeshes</code><span class="sig-paren">(</span><em>tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.populateRenderMeshes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.populateRenderMeshes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all skinned meshes in the scene and adds them as items to the given TreeWidget.</p>
+<img alt="_images/addMeshesUI.png" src="_images/addMeshesUI.png" />
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tree</strong> &#8211; The QTreeWidget to add found meshes to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.populateUI">
+<code class="descname">populateUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.populateUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.populateUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if LOD attributes exist on the character node, and if so, builds and populates the UI based on
+those settings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.removeBonesFromList">
+<code class="descname">removeBonesFromList</code><span class="sig-paren">(</span><em>widget</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.removeBonesFromList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.removeBonesFromList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the selected items from the left QListWidget in a weighting transfer widget and attempts to remove
+them from the list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>widget</strong> &#8211; The QListWidget to check for selected items in.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.removeLodTab">
+<code class="descname">removeLodTab</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.removeLodTab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.removeLodTab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the current tab index from the tabWidget. Also removes and LOD attributes associated with this LOD
+from the character node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.removeTransferEntry">
+<code class="descname">removeTransferEntry</code><span class="sig-paren">(</span><em>groupBox</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.removeTransferEntry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.removeTransferEntry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the given groupBox, deleting a weighting transfer entry.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>groupBox</strong> &#8211; Which groupBox to remove.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.resetLodPose">
+<code class="descname">resetLodPose</code><span class="sig-paren">(</span><em>lod</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.resetLodPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.resetLodPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the LOD pose for the given LOD to the model pose.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lod</strong> &#8211; the LOD text label to operate on.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.saveFilePath">
+<code class="descname">saveFilePath</code><span class="sig-paren">(</span><em>lineEdit</em>, <em>tabText</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.saveFilePath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.saveFilePath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gathers the FBX output path for the LOD and stores that information to the character node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lineEdit</strong> &#8211; The QLineEdit which stores the output path text.</li>
+<li><strong>tabText</strong> &#8211; The LOD text to operate on (LOD_#)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.saveLodPose">
+<code class="descname">saveLodPose</code><span class="sig-paren">(</span><em>lod</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.saveLodPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.saveLodPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queries the joints in the skeleton and get the attribute values to store for the given lod.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lod</strong> &#8211; the text label of the LOD to operate on.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Suggested feature request was to have this operate on the rig controls and not just joints. That
+would mean storing both controls and joints. The desire behind this was to do all LOD posing in the
+rig file, rather than the temp file that gets created for exporting.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.saveMeshList">
+<code class="descname">saveMeshList</code><span class="sig-paren">(</span><em>listWidget</em>, <em>tabText</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.saveMeshList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.saveMeshList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gathers the associated meshes for an LOD and stores that information to the character node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>listWidget</strong> &#8211; The QListWidget of the LOD tab to search for associated meshes.</li>
+<li><strong>tabText</strong> &#8211; The LOD text to operate on (LOD_#)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ExportMeshes.ART_ExportMeshes.viewLodPose">
+<code class="descname">viewLodPose</code><span class="sig-paren">(</span><em>lod</em>, <em>button</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ExportMeshes.html#ART_ExportMeshes.viewLodPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ExportMeshes.ART_ExportMeshes.viewLodPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gather LOD pose attribute data for the given LOD and set those values on the joints.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lod</strong> &#8211; The text label for the LOD to operate on.</li>
+<li><strong>button</strong> &#8211; the &#8220;View LOD Pose&#8221; button instance</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">Suggested feature request was to have this operate on the rig controls and not just joints. That
+would mean getting data for both controls and joints. The desire behind this was to do all LOD posing
+in the rig file, rather than the temp file that gets created for exporting.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="animTools.html" title="Animation Tools"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="editRig.html" title="ART_EditRigUI"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" >Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

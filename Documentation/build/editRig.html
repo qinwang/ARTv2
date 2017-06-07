@@ -1,0 +1,261 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ART_EditRigUI &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ART_ExportMeshes" href="exportMeshes.html" />
+    <link rel="prev" title="ART_DebugRigs" href="debugRigs.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="exportMeshes.html" title="ART_ExportMeshes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="debugRigs.html" title="ART_DebugRigs"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" accesskey="U">Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="debugRigs.html"
+                        title="previous chapter">ART_DebugRigs</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="exportMeshes.html"
+                        title="next chapter">ART_ExportMeshes</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/editRig.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Interfaces.ART_EditRigUI">
+<span id="art-editrigui"></span><h1>ART_EditRigUI<a class="headerlink" href="#module-Interfaces.ART_EditRigUI" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<dl class="class">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI">
+<em class="property">class </em><code class="descclassname">Interfaces.ART_EditRigUI.</code><code class="descname">ART_EditRigUI</code><span class="sig-paren">(</span><em>edit</em>, <em>add</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class builds a tool that allows a user to Edit a Rig or Add Character for Animation. Both functions use the
+same interface. The title and button text get swapped out depending on which situation has been called for by
+the A.R.T.2.0 menu.</p>
+<blockquote>
+<div><img alt="_images/editRig.png" src="_images/editRig.png" />
+</div></blockquote>
+<dl class="method">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>edit</em>, <em>add</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates the class, getting the QSettings and building the interface.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>edit</strong> &#8211; Whether or not the operation is to edit the rig.</li>
+<li><strong>add</strong> &#8211; Whether or not the operation is to add the character for animation.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI.addSelected">
+<code class="descname">addSelected</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI.addSelected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI.addSelected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the selected character, and references that file into the currently opened scene. The path is
+constructed using the QSettings info, with any group as a subfolder, and lastly the selected asset/character
+as the last part of the path.</p>
+<p>Also handles namespaces, adding the new namespace to the network node of the added asset, and launches the
+animationUI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI.closeUI">
+<code class="descname">closeUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI.closeUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI.closeUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes and deletes the interface for the class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI.createUI">
+<code class="descname">createUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI.createUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI.createUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the UI, listing options for choosing a project and showing all assets belonging to that project for
+edit or add.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI.editSelected">
+<code class="descname">editSelected</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI.editSelected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI.editSelected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the selected character, and open that file for edit. The path is constructed using the QSettings info,
+with any group as a subfolder, and lastly the selected asset/character as the last part of the path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI.populateCharacters">
+<code class="descname">populateCharacters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI.populateCharacters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI.populateCharacters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the selected project and group, populate the QListWidget with any assets found using that information.
+The project path comes from the QSettings, the group is a subfolder of the project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI.populateGroups">
+<code class="descname">populateGroups</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI.populateGroups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI.populateGroups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the selected project, populate any groups for that project (using the project path from QSettings) and
+add them to the groups QComboBox.</p>
+<p>Then, call on populateCharacters.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_EditRigUI.populateCharacters()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI.populateIcon">
+<code class="descname">populateIcon</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI.populateIcon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI.populateIcon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the selected character, display the correct icon for that character in the UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI.populateProjects">
+<code class="descname">populateProjects</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI.populateProjects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI.populateProjects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all projects on disk (using the project path setting) and add each project to the QComboBox. Then,
+call on populateGroups.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_EditRigUI.populateGroups()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_EditRigUI.ART_EditRigUI.unsavedChanges">
+<code class="descname">unsavedChanges</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#ART_EditRigUI.unsavedChanges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.ART_EditRigUI.unsavedChanges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays a message box that warns the user of unsaved file changed and returns their response.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the user response (Save, Don&#8217;t Save, Cancel)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="Interfaces.ART_EditRigUI.getMainWindow">
+<code class="descclassname">Interfaces.ART_EditRigUI.</code><code class="descname">getMainWindow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#getMainWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.getMainWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Maya’s window as a QWidget and return the item in memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a QWidget of Maya’s window</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="Interfaces.ART_EditRigUI.run">
+<code class="descclassname">Interfaces.ART_EditRigUI.</code><code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an instance of the class for Editing a rig. The ARTv2 menu calls on this function.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Interfaces.ART_EditRigUI.runAdd">
+<code class="descclassname">Interfaces.ART_EditRigUI.</code><code class="descname">runAdd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_EditRigUI.html#runAdd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_EditRigUI.runAdd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an instance of the class for adding a rig for animation. The artv2 menu calls this function.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="exportMeshes.html" title="ART_ExportMeshes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="debugRigs.html" title="ART_DebugRigs"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" >Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

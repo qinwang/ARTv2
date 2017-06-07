@@ -1,0 +1,1205 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module Base Class &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ART_Head" href="head.html" />
+    <link rel="prev" title="Rig Modules" href="modules.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="head.html" title="ART_Head"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="Rig Modules"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Rig Modules</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Module Base Class</a><ul>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+<li><a class="reference internal" href="#class">Class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">Rig Modules</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="head.html"
+                        title="next chapter">ART_Head</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/baseclass.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-System.ART_RigModule">
+<span id="module-base-class"></span><h1>Module Base Class<a class="headerlink" href="#module-System.ART_RigModule" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<blockquote>
+<div>This is the base class from which all modules are created. When creating a new module,
+your module class should inherit from this base class. Example:</div></blockquote>
+<div class="line-block">
+<div class="line">class ART_Head(ART_RigModule)</div>
+</div>
+<blockquote>
+<div>In the __init__ of your module class, you will want to also run the base class __init__
+at the end of your module class __init__:</div></blockquote>
+<div class="line-block">
+<div class="line">ART_RigModule.__init__(self, &#8220;ART_Head_Module&#8221;, &#8220;ART_Head&#8221;, moduleUserName)</div>
+</div>
+<blockquote>
+<div>This module has two file attributes set by default. Your module class will need many more
+file attributes set. Please see another module as an example.</div></blockquote>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><strong>Module Creation Functions:</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.addAttributes" title="System.ART_RigModule.ART_RigModule.addAttributes"><code class="xref py py-func docutils literal"><span class="pre">addAttributes</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.buildNetwork" title="System.ART_RigModule.ART_RigModule.buildNetwork"><code class="xref py py-func docutils literal"><span class="pre">buildNetwork</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.createMirrorModule" title="System.ART_RigModule.ART_RigModule.createMirrorModule"><code class="xref py py-func docutils literal"><span class="pre">createMirrorModule</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.jointMover_Build" title="System.ART_RigModule.ART_RigModule.jointMover_Build"><code class="xref py py-func docutils literal"><span class="pre">jointMover_Build</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.skeletonSettings_UI" title="System.ART_RigModule.ART_RigModule.skeletonSettings_UI"><code class="xref py py-func docutils literal"><span class="pre">skeletonSettings_UI</span></code></a></div>
+<div class="line"><br /></div>
+</div>
+<div class="line"><strong>Module Update Functions:</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.applyModuleChanges" title="System.ART_RigModule.ART_RigModule.applyModuleChanges"><code class="xref py py-func docutils literal"><span class="pre">applyModuleChanges</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.checkForDependencies" title="System.ART_RigModule.ART_RigModule.checkForDependencies"><code class="xref py py-func docutils literal"><span class="pre">checkForDependencies</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.deleteModule" title="System.ART_RigModule.ART_RigModule.deleteModule"><code class="xref py py-func docutils literal"><span class="pre">deleteModule</span></code></a></div>
+<div class="line"><br /></div>
+</div>
+<div class="line"><strong>Module Settings and Interface Functions:</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.changeModuleName" title="System.ART_RigModule.ART_RigModule.changeModuleName"><code class="xref py py-func docutils literal"><span class="pre">changeModuleName</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.changeModuleParent" title="System.ART_RigModule.ART_RigModule.changeModuleParent"><code class="xref py py-func docutils literal"><span class="pre">changeModuleParent</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.copySettings" title="System.ART_RigModule.ART_RigModule.copySettings"><code class="xref py py-func docutils literal"><span class="pre">copySettings</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.pasteSettings" title="System.ART_RigModule.ART_RigModule.pasteSettings"><code class="xref py py-func docutils literal"><span class="pre">pasteSettings</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.resetSettings" title="System.ART_RigModule.ART_RigModule.resetSettings"><code class="xref py py-func docutils literal"><span class="pre">resetSettings</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.createContextMenu" title="System.ART_RigModule.ART_RigModule.createContextMenu"><code class="xref py py-func docutils literal"><span class="pre">createContextMenu</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.createMirrorOfModule_UI" title="System.ART_RigModule.ART_RigModule.createMirrorOfModule_UI"><code class="xref py py-func docutils literal"><span class="pre">createMirrorOfModule_UI</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.createScriptJob" title="System.ART_RigModule.ART_RigModule.createScriptJob"><code class="xref py py-func docutils literal"><span class="pre">createScriptJob</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.mirrorTransformations" title="System.ART_RigModule.ART_RigModule.mirrorTransformations"><code class="xref py py-func docutils literal"><span class="pre">mirrorTransformations</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.mirrorTransformations_Custom" title="System.ART_RigModule.ART_RigModule.mirrorTransformations_Custom"><code class="xref py py-func docutils literal"><span class="pre">mirrorTransformations_Custom</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.resetTransforms" title="System.ART_RigModule.ART_RigModule.resetTransforms"><code class="xref py py-func docutils literal"><span class="pre">resetTransforms</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.setMirrorModule" title="System.ART_RigModule.ART_RigModule.setMirrorModule"><code class="xref py py-func docutils literal"><span class="pre">setMirrorModule</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.updateBoneCount" title="System.ART_RigModule.ART_RigModule.updateBoneCount"><code class="xref py py-func docutils literal"><span class="pre">updateBoneCount</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.updatePreview" title="System.ART_RigModule.ART_RigModule.updatePreview"><code class="xref py py-func docutils literal"><span class="pre">updatePreview</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.updateSettingsUI" title="System.ART_RigModule.ART_RigModule.updateSettingsUI"><code class="xref py py-func docutils literal"><span class="pre">updateSettingsUI</span></code></a></div>
+<div class="line"><br /></div>
+</div>
+<div class="line"><strong>Module Joint Mover Functions:</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.addJointMoverToOutliner" title="System.ART_RigModule.ART_RigModule.addJointMoverToOutliner"><code class="xref py py-func docutils literal"><span class="pre">addJointMoverToOutliner</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.aimMode" title="System.ART_RigModule.ART_RigModule.aimMode"><code class="xref py py-func docutils literal"><span class="pre">aimMode</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.aimMode_Setup" title="System.ART_RigModule.ART_RigModule.aimMode_Setup"><code class="xref py py-func docutils literal"><span class="pre">aimMode_Setup</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.bakeOffsets" title="System.ART_RigModule.ART_RigModule.bakeOffsets"><code class="xref py py-func docutils literal"><span class="pre">bakeOffsets</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.createGlobalMoverButton" title="System.ART_RigModule.ART_RigModule.createGlobalMoverButton"><code class="xref py py-func docutils literal"><span class="pre">createGlobalMoverButton</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.createMeshMoverButton" title="System.ART_RigModule.ART_RigModule.createMeshMoverButton"><code class="xref py py-func docutils literal"><span class="pre">createMeshMoverButton</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.createOffsetMoverButton" title="System.ART_RigModule.ART_RigModule.createOffsetMoverButton"><code class="xref py py-func docutils literal"><span class="pre">createOffsetMoverButton</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.pinModule" title="System.ART_RigModule.ART_RigModule.pinModule"><code class="xref py py-func docutils literal"><span class="pre">pinModule</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.selectMover" title="System.ART_RigModule.ART_RigModule.selectMover"><code class="xref py py-func docutils literal"><span class="pre">selectMover</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.selectScriptJob" title="System.ART_RigModule.ART_RigModule.selectScriptJob"><code class="xref py py-func docutils literal"><span class="pre">selectScriptJob</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.toggleShapeVis" title="System.ART_RigModule.ART_RigModule.toggleShapeVis"><code class="xref py py-func docutils literal"><span class="pre">toggleShapeVis</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.updateOutliner" title="System.ART_RigModule.ART_RigModule.updateOutliner"><code class="xref py py-func docutils literal"><span class="pre">updateOutliner</span></code></a></div>
+<div class="line"><br /></div>
+</div>
+<div class="line"><strong>Module Publish Functions:</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.cleanUpRigPose" title="System.ART_RigModule.ART_RigModule.cleanUpRigPose"><code class="xref py py-func docutils literal"><span class="pre">cleanUpRigPose</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.createRigPoseSliderForJoint" title="System.ART_RigModule.ART_RigModule.createRigPoseSliderForJoint"><code class="xref py py-func docutils literal"><span class="pre">createRigPoseSliderForJoint</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.getReferencePose" title="System.ART_RigModule.ART_RigModule.getReferencePose"><code class="xref py py-func docutils literal"><span class="pre">getReferencePose</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.matchModelPose" title="System.ART_RigModule.ART_RigModule.matchModelPose"><code class="xref py py-func docutils literal"><span class="pre">matchModelPose</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.mirrorTransformations_RigPose" title="System.ART_RigModule.ART_RigModule.mirrorTransformations_RigPose"><code class="xref py py-func docutils literal"><span class="pre">mirrorTransformations_RigPose</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.resetRigPose" title="System.ART_RigModule.ART_RigModule.resetRigPose"><code class="xref py py-func docutils literal"><span class="pre">resetRigPose</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.resetRigPose_Part" title="System.ART_RigModule.ART_RigModule.resetRigPose_Part"><code class="xref py py-func docutils literal"><span class="pre">resetRigPose_Part</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.rigPose_UI" title="System.ART_RigModule.ART_RigModule.rigPose_UI"><code class="xref py py-func docutils literal"><span class="pre">rigPose_UI</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.setPosePercentage" title="System.ART_RigModule.ART_RigModule.setPosePercentage"><code class="xref py py-func docutils literal"><span class="pre">setPosePercentage</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.setPosePercentage_Part" title="System.ART_RigModule.ART_RigModule.setPosePercentage_Part"><code class="xref py py-func docutils literal"><span class="pre">setPosePercentage_Part</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.setReferencePose" title="System.ART_RigModule.ART_RigModule.setReferencePose"><code class="xref py py-func docutils literal"><span class="pre">setReferencePose</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.setReferencePoseSlider" title="System.ART_RigModule.ART_RigModule.setReferencePoseSlider"><code class="xref py py-func docutils literal"><span class="pre">setReferencePoseSlider</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.setSkeletonPose" title="System.ART_RigModule.ART_RigModule.setSkeletonPose"><code class="xref py py-func docutils literal"><span class="pre">setSkeletonPose</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.setupForRigPose" title="System.ART_RigModule.ART_RigModule.setupForRigPose"><code class="xref py py-func docutils literal"><span class="pre">setupForRigPose</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.setupModelPoseForRig" title="System.ART_RigModule.ART_RigModule.setupModelPoseForRig"><code class="xref py py-func docutils literal"><span class="pre">setupModelPoseForRig</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.skinProxyGeo" title="System.ART_RigModule.ART_RigModule.skinProxyGeo"><code class="xref py py-func docutils literal"><span class="pre">skinProxyGeo</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.updateRigPose" title="System.ART_RigModule.ART_RigModule.updateRigPose"><code class="xref py py-func docutils literal"><span class="pre">updateRigPose</span></code></a></div>
+<div class="line"><br /></div>
+</div>
+<div class="line"><strong>Module Rig Functions</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.buildRig" title="System.ART_RigModule.ART_RigModule.buildRig"><code class="xref py py-func docutils literal"><span class="pre">buildRig</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.buildRigCustom" title="System.ART_RigModule.ART_RigModule.buildRigCustom"><code class="xref py py-func docutils literal"><span class="pre">buildRigCustom</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.deleteRig" title="System.ART_RigModule.ART_RigModule.deleteRig"><code class="xref py py-func docutils literal"><span class="pre">deleteRig</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.getControls" title="System.ART_RigModule.ART_RigModule.getControls"><code class="xref py py-func docutils literal"><span class="pre">getControls</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.importFBX" title="System.ART_RigModule.ART_RigModule.importFBX"><code class="xref py py-func docutils literal"><span class="pre">importFBX</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.importFBX_pre" title="System.ART_RigModule.ART_RigModule.importFBX_pre"><code class="xref py py-func docutils literal"><span class="pre">importFBX_pre</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.resetRigControls" title="System.ART_RigModule.ART_RigModule.resetRigControls"><code class="xref py py-func docutils literal"><span class="pre">resetRigControls</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.selectRigControls" title="System.ART_RigModule.ART_RigModule.selectRigControls"><code class="xref py py-func docutils literal"><span class="pre">selectRigControls</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.selectionScriptJob_animUI" title="System.ART_RigModule.ART_RigModule.selectionScriptJob_animUI"><code class="xref py py-func docutils literal"><span class="pre">selectionScriptJob_animUI</span></code></a></div>
+<div class="line"><br /></div>
+</div>
+<div class="line"><strong>Module Utility Functions</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.getAllModules" title="System.ART_RigModule.ART_RigModule.getAllModules"><code class="xref py py-func docutils literal"><span class="pre">getAllModules</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.getModules" title="System.ART_RigModule.ART_RigModule.getModules"><code class="xref py py-func docutils literal"><span class="pre">getModules</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.removeSkeletalConstraints" title="System.ART_RigModule.ART_RigModule.removeSkeletalConstraints"><code class="xref py py-func docutils literal"><span class="pre">removeSkeletalConstraints</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.returnCreatedJoints" title="System.ART_RigModule.ART_RigModule.returnCreatedJoints"><code class="xref py py-func docutils literal"><span class="pre">returnCreatedJoints</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.returnJointMovers" title="System.ART_RigModule.ART_RigModule.returnJointMovers"><code class="xref py py-func docutils literal"><span class="pre">returnJointMovers</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.returnMirrorModuleInst" title="System.ART_RigModule.ART_RigModule.returnMirrorModuleInst"><code class="xref py py-func docutils literal"><span class="pre">returnMirrorModuleInst</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.returnNetworkNode" title="System.ART_RigModule.ART_RigModule.returnNetworkNode"><code class="xref py py-func docutils literal"><span class="pre">returnNetworkNode</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.returnPrefixSuffix" title="System.ART_RigModule.ART_RigModule.returnPrefixSuffix"><code class="xref py py-func docutils literal"><span class="pre">returnPrefixSuffix</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.ART_RigModule.ART_RigModule.returnRigNetworkNode" title="System.ART_RigModule.ART_RigModule.returnRigNetworkNode"><code class="xref py py-func docutils literal"><span class="pre">returnRigNetworkNode</span></code></a></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="class">
+<h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="System.ART_RigModule.ART_RigModule">
+<em class="property">class </em><code class="descclassname">System.ART_RigModule.</code><code class="descname">ART_RigModule</code><span class="sig-paren">(</span><em>moduleName</em>, <em>moduleType</em>, <em>userCreatedName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>moduleName</em>, <em>moduleType</em>, <em>userCreatedName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiate the class, taking in the instance to the interface and the user specified name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>moduleName</strong> &#8211; This is the base name of the module, specified in the rig module.</li>
+<li><strong>moduleType</strong> &#8211; This is the name of the module to create (the module class).</li>
+<li><strong>userCreatedName</strong> &#8211; This is the name specified by the user on module creation.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Instantiate the following class variables as well:</dt>
+<dd><ul class="first last simple">
+<li><strong>self.modName:</strong> Take the passed in moduleName and make it a class var</li>
+<li><strong>self.moduleType:</strong> Take the passed in moduleType and make it a class var</li>
+<li><strong>self.rootMod:</strong> The network node of the entire character asset</li>
+<li><strong>self.name:</strong> The user created name (prefix +  baseName + suffix) passed in</li>
+<li><strong>self.originalName:</strong> Also the user created name, but we want to store what the original name
+was on creation, as the user can rename the module later. This will allow us to make the link between
+what the module&#8217;s original name was and what the new name is.</li>
+<li><strong>self.outlinerControls:</strong> A list of the outliner controls created when adding module joint movers to
+the outliner.</li>
+</ul>
+</dd>
+</dl>
+<p>Also, read the QSettings to find out where needed paths are.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.addAttributes">
+<code class="descname">addAttributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.addAttributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.addAttributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add attributes to the network node that all modules need.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.addJointMoverToOutliner">
+<code class="descname">addJointMoverToOutliner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.addJointMoverToOutliner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.addJointMoverToOutliner" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.aimMode">
+<code class="descname">aimMode</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.aimMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.aimMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method toggles the aim mode state if the module can have aim mode.</p>
+<p>It then calls on each derived module&#8217;s aimMode_Setup which defines how to setup aim mode for the module.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.aimMode_Setup">
+<code class="descname">aimMode_Setup</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.aimMode_Setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.aimMode_Setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.applyModuleChanges">
+<code class="descname">applyModuleChanges</code><span class="sig-paren">(</span><em>moduleInst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.applyModuleChanges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.applyModuleChanges" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.bakeOffsets">
+<code class="descname">bakeOffsets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.bakeOffsets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.bakeOffsets" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method bakes any transforms on the offset movers up to the global movers, and then zeroes out the offset
+movers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.buildNetwork">
+<code class="descname">buildNetwork</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.buildNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.buildNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the network node for the module which will store all information needed by the module.
+Then, call on addAttributes to add the required module attributes to the network node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.buildRig">
+<code class="descname">buildRig</code><span class="sig-paren">(</span><em>textEdit</em>, <em>uiInst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.buildRig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.buildRig" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method starts building the rig for a module. It will then call on buildRigCustom, which is implemented
+in each derived module class as an override function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>textEdit</strong> &#8211; The text edit in the buildProgressUI that we output information to.</li>
+<li><strong>uiInst</strong> &#8211; passed in instance of the buildProgressUI</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.buildRigCustom">
+<code class="descname">buildRigCustom</code><span class="sig-paren">(</span><em>textEdit</em>, <em>uiInst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.buildRigCustom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.buildRigCustom" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is what truly builds the rig for each module. It is implemented in the derived module class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>textEdit</strong> &#8211; The text edit in the buildProgressUI that we output information to.</li>
+<li><strong>uiInst</strong> &#8211; passed in instance of the buildProgressUI</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.changeModuleName">
+<code class="descname">changeModuleName</code><span class="sig-paren">(</span><em>baseName</em>, <em>moduleInst</em>, <em>rigUiInst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.changeModuleName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.changeModuleName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Launch the interface that allows users to change the module name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>baseName</strong> &#8211; The module base name (head, torso, leg, etc)</li>
+<li><strong>moduleInst</strong> &#8211; The specific instance of the module</li>
+<li><strong>rigUiInst</strong> &#8211; The instance of the rig creator interface.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This will call on a separate class in Core/Interfaces called ART_ChangeModuleNameUI.py</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.changeModuleParent">
+<code class="descname">changeModuleParent</code><span class="sig-paren">(</span><em>moduleInst</em>, <em>rigUiInst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.changeModuleParent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.changeModuleParent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Launch the interface that allows users to change the module&#8217;s parent bone.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>moduleInst</strong> &#8211; The specific instance of the module</li>
+<li><strong>rigUiInst</strong> &#8211; The instance of the rig creator interface.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This will call on a separate class in Core/Interfaces called ART_ChangeModuleParentUI.py</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.checkForDependencies">
+<code class="descname">checkForDependencies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.checkForDependencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.checkForDependencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will check modules for any attached modules or children modules.</p>
+<p>This method is generally called when deleting a module or when changing a module name
+so that any connected modules are updated accordingly.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">attached modules</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.cleanUpRigPose">
+<code class="descname">cleanUpRigPose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.cleanUpRigPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.cleanUpRigPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method hides the joint movers and unconstrains the joints from the movers after setting a rig pose.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.copySettings">
+<code class="descname">copySettings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.copySettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.copySettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy the values from the network node of the module and store them in a temp file on disk.</p>
+<p>This function is used in the right-click menu of the module on the skeleton settings interface.
+Occasionally, it is called outside of the menu. For example, when creating a mirror of the module,
+the settings are copied for the source module to then be later pasted on the mirror.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.createContextMenu">
+<code class="descname">createContextMenu</code><span class="sig-paren">(</span><em>point</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.createContextMenu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.createContextMenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the right-click menu for the module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>point</strong> &#8211; Point on monitor to spawn the right-click menu.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Default menu actions created:</dt>
+<dd><ul class="first last simple">
+<li>Copy Settings</li>
+<li>Paste Settings</li>
+<li>Reset Settings</li>
+<li>Delete Module</li>
+<li>Create Mirror of this Module</li>
+<li>Mirror Transformations (only if a mirror is linked)</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.createGlobalMoverButton">
+<code class="descname">createGlobalMoverButton</code><span class="sig-paren">(</span><em>name</em>, <em>parent</em>, <em>uiInstance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.createGlobalMoverButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.createGlobalMoverButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the button in the outliner for the global mover control of a joint mover.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The name of the joint mover control.</li>
+<li><strong>parent</strong> &#8211; The outliner widget the created button will be parented to.</li>
+<li><strong>uiInstance</strong> &#8211; The Rig Creator interface instance.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.createMeshMoverButton">
+<code class="descname">createMeshMoverButton</code><span class="sig-paren">(</span><em>name</em>, <em>parent</em>, <em>uiInstance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.createMeshMoverButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.createMeshMoverButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the button in the outliner for the geometry mover control of a joint mover.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The name of the joint mover control.</li>
+<li><strong>parent</strong> &#8211; The outliner widget the created button will be parented to.</li>
+<li><strong>uiInstance</strong> &#8211; The Rig Creator interface instance.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Note: The geometry mover is purely for aesthetics and does not affect the rigging.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.createMirrorModule">
+<code class="descname">createMirrorModule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.createMirrorModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.createMirrorModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method creates the mirror of a module and is called from createMirrorOfModule_UI.</p>
+<p>To create the mirror of a module, after a few checks are done, a module of the same type is created first.
+If that module type has a left/right version of a joint mover file, the opposite version is brought in.
+All the normal steps of module creation are then gone through and lastly, mirrorTransformations is called.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.createMirrorOfModule_UI">
+<code class="descname">createMirrorOfModule_UI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.createMirrorOfModule_UI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.createMirrorOfModule_UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method builds the interface for creating a mirror of a module.</p>
+<img alt="_images/mirrorModule.png" src="_images/mirrorModule.png" />
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.createOffsetMoverButton">
+<code class="descname">createOffsetMoverButton</code><span class="sig-paren">(</span><em>name</em>, <em>parent</em>, <em>uiInstance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.createOffsetMoverButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.createOffsetMoverButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the button in the outliner for the offset mover control of a joint mover.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The name of the joint mover control.</li>
+<li><strong>parent</strong> &#8211; The outliner widget the created button will be parented to.</li>
+<li><strong>uiInstance</strong> &#8211; The Rig Creator interface instance.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.createRigPoseSliderForJoint">
+<code class="descname">createRigPoseSliderForJoint</code><span class="sig-paren">(</span><em>joint</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.createRigPoseSliderForJoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.createRigPoseSliderForJoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method creates the rig pose slider widget for the given joint. (This shows up in the advanced section of
+the rig pose UI)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>joint</strong> &#8211; The joint that the slider will control.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.createScriptJob">
+<code class="descname">createScriptJob</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.createScriptJob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.createScriptJob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the selection script job for the outliner buttons and their associated joint mover controls.</p>
+<p>This function purely creates the script job. The script job function that is run is called self.selectScriptJob.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.deleteModule">
+<code class="descname">deleteModule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.deleteModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.deleteModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the module and all associated nodes and interfaces.</p>
+<p>First, this will delete the joint mover, remove the entry from the outliner and the skeleton settings UI.
+Then, it has to deal with any connected modules or mirror modules and resolve any issues there.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.deleteRig">
+<code class="descname">deleteRig</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.deleteRig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.deleteRig" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method deletes all rigging for the module.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="System.ART_RigModule.ART_RigModule.getAllModules">
+<code class="descname">getAllModules</code><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.getAllModules" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method finds all connected rig modules to the main character network node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns a list of the rig modules</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.getControls">
+<code class="descname">getControls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.getControls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.getControls" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns a list of all the rig controls of the module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of all rig controls in the module.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="System.ART_RigModule.ART_RigModule.getModules">
+<code class="descname">getModules</code><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.getModules" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method finds the main &#8220;character&#8221; module that has connections to all of the rig modules</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns the character node.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.getReferencePose">
+<code class="descname">getReferencePose</code><span class="sig-paren">(</span><em>poseType</em>, <em>zeroPose=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.getReferencePose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.getReferencePose" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets the model pose or the rig pose (depending on poseType) and stores that data for the movers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>poseType</strong> &#8211; Whether or not to get the model pose or rig pose.</li>
+<li><strong>zeroPose</strong> &#8211; Whether or not the default rig pose should be set to zeroed rotations.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.importFBX">
+<code class="descname">importFBX</code><span class="sig-paren">(</span><em>importMethod</em>, <em>character</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.importFBX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.importFBX" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class and defines how mocap is imported onto the rig controls.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>importMethod</strong> &#8211; Whether or not the FBX is getting imported as FK, IK, Both, or None</li>
+<li><strong>character</strong> &#8211; The namespace of the rig.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.importFBX_pre">
+<code class="descname">importFBX_pre</code><span class="sig-paren">(</span><em>importMethod</em>, <em>character</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.importFBX_pre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.importFBX_pre" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method runs before an fbx is imported onto the control rig. It cuts any keys on the controls and zeroes
+the controls out before importing the fbx (which is called in the derived module class)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>importMethod</strong> &#8211; Whether or not the FBX is getting imported as FK, IK, Both, or None</li>
+<li><strong>character</strong> &#8211; The namespace of the rig.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.jointMover_Build">
+<code class="descname">jointMover_Build</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.jointMover_Build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.jointMover_Build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import the joint mover file with the given path.</p>
+<p>After importing the module&#8217;s joint mover file, rename imported nodes to use module name.
+Then, assign existing matching materials to joint mover proxy geometry, deleting the imported
+materials if they were duplicates. Then parent into the main JointMover group. Lastly, hook up
+global scaling on the joint movers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; Path of joint mover file to import</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.matchModelPose">
+<code class="descname">matchModelPose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.matchModelPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.matchModelPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.mirrorTransformations">
+<code class="descname">mirrorTransformations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.mirrorTransformations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.mirrorTransformations" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method mirrors transformations for the module&#8217;s mirror module.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.mirrorTransformations_Custom">
+<code class="descname">mirrorTransformations_Custom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.mirrorTransformations_Custom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.mirrorTransformations_Custom" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.mirrorTransformations_RigPose">
+<code class="descname">mirrorTransformations_RigPose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.mirrorTransformations_RigPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.mirrorTransformations_RigPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is used when creating rig poses for modules. If a module has a mirror, this method will mirror the
+rig pose transformations to that mirror module.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.pasteSettings">
+<code class="descname">pasteSettings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.pasteSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.pasteSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Paste the settings from the temp file on disk to the module&#8217;s network node.</p>
+<p>This function is used in the right-click menu of the module on the skeleton settings interface.
+Occasionally, it is called outside of the menu. For example, when creating a mirror of the module,
+the settings are copied for the source module to then be later pasted on the mirror.</p>
+<p>After settings are pasted, applyModuleChanges is called to update the joint mover in the scene with
+the latest values. updateSettingsUI is also called to update the outliner.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.pinModule">
+<code class="descname">pinModule</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.pinModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.pinModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.removeSkeletalConstraints">
+<code class="descname">removeSkeletalConstraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.removeSkeletalConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.removeSkeletalConstraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method removes any constraints on the joints. This tends to get called by removing rigging.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.resetRigControls">
+<code class="descname">resetRigControls</code><span class="sig-paren">(</span><em>resetAll</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.resetRigControls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.resetRigControls" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method zeroes out control attributes. If resetAll is true, then it will zero out all rig controls for
+the module. Otherwise, it will only zero out the selected controls of the module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>resetAll</strong> &#8211; Whether or not to reset only the selected controls or all controls of the module.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.resetRigPose">
+<code class="descname">resetRigPose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.resetRigPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.resetRigPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method resets the module rig pose to be the default (zeroed rotations).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.resetRigPose_Part">
+<code class="descname">resetRigPose_Part</code><span class="sig-paren">(</span><em>part</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.resetRigPose_Part"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.resetRigPose_Part" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method resets the given joint (part) rig pose to be zeroed rotations. This is for the part slider on
+the rig pose UI in the advanced section.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>part</strong> &#8211; The given joint name slider.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.resetSettings">
+<code class="descname">resetSettings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.resetSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.resetSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the settings of the module&#8217;s network node.</p>
+<p>This function is used in the right-click menu of the module on the skeleton settings interface.
+Occasionally, it is called outside of the menu.</p>
+<p>After settings are reset, applyModuleChanges is called to update the joint mover in the scene with
+the latest values. updateSettingsUI is also called to update the outliner.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.resetTransforms">
+<code class="descname">resetTransforms</code><span class="sig-paren">(</span><em>translate</em>, <em>rotate</em>, <em>scale</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.resetTransforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.resetTransforms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the given attributes of all movers in the module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>translate</strong> &#8211; Boolean of whether or not to reset translation values.</li>
+<li><strong>rotate</strong> &#8211; Boolean of whether or not to reset the rotation values.</li>
+<li><strong>scale</strong> &#8211; Boolean of whether or not to reset the scale values.</li>
+<li><strong>name</strong> &#8211; The module name. (prefix +  basename + suffix)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function is mainly called from ART_ResetModeUI.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="System.ART_RigModule.ART_RigModule.returnClassObject">
+<code class="descname">returnClassObject</code><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.returnClassObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="System.ART_RigModule.ART_RigModule.returnCreatedJoints">
+<code class="descname">returnCreatedJoints</code><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.returnCreatedJoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method loops through the Created Bones attribute on its network node and returns a list of the
+joints it will create given the current module settings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of the created bones of the module.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="System.ART_RigModule.ART_RigModule.returnJointMovers">
+<code class="descname">returnJointMovers</code><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.returnJointMovers" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method finds and returns all joint movers for the module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of all global movers, offset movers, and geo movers for the module.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="System.ART_RigModule.ART_RigModule.returnMirrorModuleInst">
+<code class="descname">returnMirrorModuleInst</code><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.returnMirrorModuleInst" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method finds and returns the instance of a module&#8217;s mirror module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a pointer in memory to the instance of the mirror module.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="System.ART_RigModule.ART_RigModule.returnNetworkNode">
+<code class="descname">returnNetworkNode</code><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.returnNetworkNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns the module&#8217;s own network node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the modules network node</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="System.ART_RigModule.ART_RigModule.returnPrefixSuffix">
+<code class="descname">returnPrefixSuffix</code><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.returnPrefixSuffix" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method splits our module name by the base name and returns the prefix and suffix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the user-defined prefix and suffix found by splitting the module name by the base name.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="System.ART_RigModule.ART_RigModule.returnRigNetworkNode">
+<code class="descname">returnRigNetworkNode</code><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.returnRigNetworkNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns the module&#8217;s own network node using the namespace on the main character
+network node. This is so that if there are multiple characters in a scene, we know which
+network node for which character we are trying to return.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns this module&#8217;s network node in a scene with references.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.rigPose_UI">
+<code class="descname">rigPose_UI</code><span class="sig-paren">(</span><em>parentWidget</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.rigPose_UI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.rigPose_UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method creates the UI widget that gets parented into the publish UI that handles rig pose creation.</p>
+<p>A slider gets created for the overall module that goes from current pose to ideal rig pose. Then a slider
+gets created for each joint in the module to allow for finer control over the rig pose creation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>parentWidget</strong> &#8211; the widget the rig pose UI (QFrame) will get parented to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.selectMover">
+<code class="descname">selectMover</code><span class="sig-paren">(</span><em>part</em>, <em>globalMover</em>, <em>offsetMover</em>, <em>geoMover</em>, <em>button</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.selectMover"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.selectMover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select the appropriate joint mover control based on the args passed in. Color the associated button white
+to show selection status.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>part</strong> &#8211; The name of the joint mover control.</li>
+<li><strong>globalMover</strong> &#8211; Boolean of whether or not given control is a global mover.</li>
+<li><strong>offsetMover</strong> &#8211; Boolean of whether or not given control is an offset mover.</li>
+<li><strong>geoMover</strong> &#8211; Boolean of whether or not given control is a mesh mover.</li>
+<li><strong>button</strong> &#8211; The button in the outliner associated with the given mover.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.selectRigControls">
+<code class="descname">selectRigControls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.selectRigControls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.selectRigControls" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calls on getControls to return a list of the controls and the selects them.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.selectScriptJob">
+<code class="descname">selectScriptJob</code><span class="sig-paren">(</span><em>info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.selectScriptJob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.selectScriptJob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change icon color of the given joint mover&#8217;s button in the outliner to show selection status.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>info</strong> &#8211; This list contains the button object, the joint mover control, and the original color icon.</td>
+</tr>
+</tbody>
+</table>
+<p>If the control given is selected, the icon is switched to a white icon. If it is not selected, the icon
+is set back to the original passed in icon.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.selectionScriptJob_animUI">
+<code class="descname">selectionScriptJob_animUI</code><span class="sig-paren">(</span><em>buttonData</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.selectionScriptJob_animUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.selectionScriptJob_animUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called from a scriptjob anytime a selection is changed. It&#8217;s sole purpose it to update the button
+color on the anim picker to show if a control is selected or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buttonData</strong> &#8211; pairings of button/control/brush. brush is the original color of the button.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.setMirrorModule">
+<code class="descname">setMirrorModule</code><span class="sig-paren">(</span><em>moduleInst</em>, <em>rigUiInst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.setMirrorModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.setMirrorModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Launch the interface that allows users to change the module&#8217;s mirror module.
+Meaning, the module that is linked as a mirror of this module. Only modules of the same
+type can be linked as mirrors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>moduleInst</strong> &#8211; The specific instance of the module</li>
+<li><strong>rigUiInst</strong> &#8211; The instance of the rig creator interface.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This will call on a separate class in Core/Interfaces called ART_SetMirrorModuleUI.py</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.setPosePercentage">
+<code class="descname">setPosePercentage</code><span class="sig-paren">(</span><em>percent</em>, <em>part</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.setPosePercentage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.setPosePercentage" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method takes the percent from setReferencePoseSlider, gets the values of the model pose and rig pose
+for the given part, then calls on setPosePercentage_Part to find and set the values on the mover that is
+the percentage between model and rig pose.</p>
+<p>Example: If the model pose is a value of 10 and the rig pose is a value of 0, and the slider is at .5, then
+the value to set is 5. (But this is done and found per attribute)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>percent</strong> &#8211; What percent of model and rig pose to set.</li>
+<li><strong>part</strong> &#8211; What joint mover to set the values on.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.setPosePercentage_Part">
+<code class="descname">setPosePercentage_Part</code><span class="sig-paren">(</span><em>percent</em>, <em>mover</em>, <em>modelPoseData</em>, <em>rigPoseData</em>, <em>poseData</em>, <em>translate</em>, <em>rotate</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.setPosePercentage_Part"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.setPosePercentage_Part" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method takes the data from setPosePercentage and figures out what values to set on the given part (mover).</p>
+<p>Example: If the model pose is a value of 10 and the rig pose is a value of 0, and the slider is at .5, then
+the value to set is 5. (But this is done and found per attribute)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>percent</strong> &#8211; the percent value of the slider. What percentage of the model and rig pose to use.</li>
+<li><strong>mover</strong> &#8211; the mover to set the values on.</li>
+<li><strong>modelPoseData</strong> &#8211; all of the data for the model pose for this mover.</li>
+<li><strong>rigPoseData</strong> &#8211; all of the data for the rig pose for this mover.</li>
+<li><strong>poseData</strong> &#8211; a list which includes the mover and its translate and rotate values.</li>
+<li><strong>translate</strong> &#8211; the translate values for the model pose</li>
+<li><strong>rotate</strong> &#8211; the rotate values for the model pose</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.setReferencePose">
+<code class="descname">setReferencePose</code><span class="sig-paren">(</span><em>poseType</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.setReferencePose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.setReferencePose" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets the data for the given pose type (rig or model) and sets the movers with those values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>poseType</strong> &#8211; Whether to set the model pose or the rig pose on the movers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.setReferencePoseSlider">
+<code class="descname">setReferencePoseSlider</code><span class="sig-paren">(</span><em>part</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.setReferencePoseSlider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.setReferencePoseSlider" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method takes the slider value of a given part and then calls on setPosePercentage, which will then find
+the values of the model pose and the rig pose and figure out based on the slider percentage what values to
+set on the mover.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>part</strong> &#8211; the joint mover which the slider is controlling.</li>
+<li><strong>args</strong> &#8211; the values from the slider</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.setSkeletonPose">
+<code class="descname">setSkeletonPose</code><span class="sig-paren">(</span><em>poseType</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.setSkeletonPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.setSkeletonPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method constrains the joints to the movers and then stores that pose data for those joints.</p>
+<p>This could be the model pose or the rig pose.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>poseType</strong> &#8211; whether to set the model pose or rig pose for the joints.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.setupForRigPose">
+<code class="descname">setupForRigPose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.setupForRigPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.setupForRigPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method unhides the movers and constrains the joints to the movers for creating the rig pose.</p>
+<p>If the user wants to create a custom rig pose (instead of using the sliders), this method sets the module
+up for that functionality.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.setupModelPoseForRig">
+<code class="descname">setupModelPoseForRig</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.setupModelPoseForRig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.setupModelPoseForRig" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.skeletonSettings_UI">
+<code class="descname">skeletonSettings_UI</code><span class="sig-paren">(</span><em>name</em>, <em>width</em>, <em>height</em>, <em>checkable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.skeletonSettings_UI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.skeletonSettings_UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the framework for the skeleton settings that all modules need.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; user given name of module (prefix + base_name + suffix)</li>
+<li><strong>width</strong> &#8211; width of the skeleton settings groupBox. 335 usually</li>
+<li><strong>height</strong> &#8211; height of the skeleton settings groupBox.</li>
+<li><strong>checkable</strong> &#8211; Whether or not the groupBox can be collapsed.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.skinProxyGeo">
+<code class="descname">skinProxyGeo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.skinProxyGeo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.skinProxyGeo" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.toggleShapeVis">
+<code class="descname">toggleShapeVis</code><span class="sig-paren">(</span><em>transform</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.toggleShapeVis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.toggleShapeVis" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method finds the shapes for the passed in transform and toggles the visibility based on the value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>transform</strong> &#8211; the transform to get the shape nodes from.</li>
+<li><strong>value</strong> &#8211; whether to show or hide the shape nodes.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.updateBoneCount">
+<code class="descname">updateBoneCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.updateBoneCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.updateBoneCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method looks at the create bones attribute of the module and gets the number of bones in that list
+and appends it onto the total bone count for the bone counter interface.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.updateOutliner">
+<code class="descname">updateOutliner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.updateOutliner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.updateOutliner" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.updatePreview">
+<code class="descname">updatePreview</code><span class="sig-paren">(</span><em>baseName</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.updatePreview"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.updatePreview" title="Permalink to this definition">¶</a></dt>
+<dd><p>This simple method updates the module preview field(QLineEdit) with the entered prefix and suffix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>baseName</strong> &#8211; base name of the module (example: arm)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.updateRigPose">
+<code class="descname">updateRigPose</code><span class="sig-paren">(</span><em>slider</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.updateRigPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.updateRigPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method updates what the stored rig pose is for a module. The default rig pose tends to be zeroed out
+rotations, but this function can essentially update what the max value on the rig pose slider sets the pose to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>slider</strong> &#8211; The rig pose slider where the min is the current model pose and the max is the rig pose.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="System.ART_RigModule.ART_RigModule.updateSettingsUI">
+<code class="descname">updateSettingsUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/ART_RigModule.html#ART_RigModule.updateSettingsUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.ART_RigModule.ART_RigModule.updateSettingsUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is implemented in the derived module class.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="head.html" title="ART_Head"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="Rig Modules"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Rig Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

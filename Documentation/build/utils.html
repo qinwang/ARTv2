@@ -1,0 +1,603 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>System.utils &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Utilities" href="utilities.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utilities.html" title="Utilities"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="utilities.html" accesskey="U">Utilities</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">System.utils</a><ul>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="utilities.html"
+                        title="previous chapter">Utilities</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/utils.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-System.utils">
+<span id="system-utils"></span><h1>System.utils<a class="headerlink" href="#module-System.utils" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><strong>Node Traversal Utilities:</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.utils.returnRigModules" title="System.utils.returnRigModules"><code class="xref py py-func docutils literal"><span class="pre">returnRigModules</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.returnCharacterModule" title="System.utils.returnCharacterModule"><code class="xref py py-func docutils literal"><span class="pre">returnCharacterModule</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.returnCharacterModules" title="System.utils.returnCharacterModules"><code class="xref py py-func docutils literal"><span class="pre">returnCharacterModules</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.returnRigModuleTypes" title="System.utils.returnRigModuleTypes"><code class="xref py py-func docutils literal"><span class="pre">returnRigModuleTypes</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.getViableParents" title="System.utils.getViableParents"><code class="xref py py-func docutils literal"><span class="pre">getViableParents</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.deleteChildren" title="System.utils.deleteChildren"><code class="xref py py-func docutils literal"><span class="pre">deleteChildren</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.find_all_incoming" title="System.utils.find_all_incoming"><code class="xref py py-func docutils literal"><span class="pre">find_all_incoming</span></code></a></div>
+<div class="line"><br /></div>
+</div>
+<div class="line"><strong>Joint Mover Utilities:</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.utils.findAndRenameOutlinerChildren" title="System.utils.findAndRenameOutlinerChildren"><code class="xref py py-func docutils literal"><span class="pre">findAndRenameOutlinerChildren</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.findAssociatedMover" title="System.utils.findAssociatedMover"><code class="xref py py-func docutils literal"><span class="pre">findAssociatedMover</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.findMoverNodeFromJointName" title="System.utils.findMoverNodeFromJointName"><code class="xref py py-func docutils literal"><span class="pre">findMoverNodeFromJointName</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.findOffsetMoverFromName" title="System.utils.findOffsetMoverFromName"><code class="xref py py-func docutils literal"><span class="pre">findOffsetMoverFromName</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.findGlobalMoverFromName" title="System.utils.findGlobalMoverFromName"><code class="xref py py-func docutils literal"><span class="pre">findGlobalMoverFromName</span></code></a></div>
+<div class="line"><br /></div>
+</div>
+<div class="line"><strong>Mesh Utilities:</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.utils.splitMesh" title="System.utils.splitMesh"><code class="xref py py-func docutils literal"><span class="pre">splitMesh</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.findAllSkinnableGeo" title="System.utils.findAllSkinnableGeo"><code class="xref py py-func docutils literal"><span class="pre">findAllSkinnableGeo</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.getLodData" title="System.utils.getLodData"><code class="xref py py-func docutils literal"><span class="pre">getLodData</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.exportMesh" title="System.utils.exportMesh"><code class="xref py py-func docutils literal"><span class="pre">exportMesh</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.findExportMeshData" title="System.utils.findExportMeshData"><code class="xref py py-func docutils literal"><span class="pre">findExportMeshData</span></code></a></div>
+<div class="line"><br /></div>
+</div>
+<div class="line"><strong>Path Utilities:</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.utils.win_path_convert" title="System.utils.win_path_convert"><code class="xref py py-func docutils literal"><span class="pre">win_path_convert</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.returnFriendlyPath" title="System.utils.returnFriendlyPath"><code class="xref py py-func docutils literal"><span class="pre">returnFriendlyPath</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.returnNicePath" title="System.utils.returnNicePath"><code class="xref py py-func docutils literal"><span class="pre">returnNicePath</span></code></a></div>
+<div class="line"><br /></div>
+</div>
+<div class="line"><strong>Misc. Utilities:</strong></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#System.utils.fitViewAndShade" title="System.utils.fitViewAndShade"><code class="xref py py-func docutils literal"><span class="pre">fitViewAndShade</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.fitSelection" title="System.utils.fitSelection"><code class="xref py py-func docutils literal"><span class="pre">fitSelection</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.get_mobject" title="System.utils.get_mobject"><code class="xref py py-func docutils literal"><span class="pre">get_mobject</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.get_namespace" title="System.utils.get_namespace"><code class="xref py py-func docutils literal"><span class="pre">get_namespace</span></code></a></div>
+<div class="line"><a class="reference internal" href="#System.utils.remove_namespace" title="System.utils.remove_namespace"><code class="xref py py-func docutils literal"><span class="pre">remove_namespace</span></code></a></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="System.utils.deleteChildren">
+<code class="descclassname">System.utils.</code><code class="descname">deleteChildren</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#deleteChildren"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.deleteChildren" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all children of the passed in transform node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> &#8211; node whose children we want to delete.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.exportMesh">
+<code class="descclassname">System.utils.</code><code class="descname">exportMesh</code><span class="sig-paren">(</span><em>mainUI</em>, <em>exportMeshes</em>, <em>exportPath</em>, <em>removeBones</em>, <em>poseDict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#exportMesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.exportMesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take the passed in information and export skeletal meshes to FBX format in the specified output path.
+Invoked from ART_ExportMeshes.py</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mainUI</strong> &#8211; instance of rig creator interface. Used to access rig creator class variables</li>
+<li><strong>exportMeshes</strong> &#8211; list of meshes to export for the given LOD</li>
+<li><strong>exportPath</strong> &#8211; output path of FBX file for the given LOD</li>
+<li><strong>removeBones</strong> &#8211; which bones, if any, to remove for the given LOD</li>
+<li><strong>poseDict</strong> &#8211; transform values for bones to be applied to given LOD before removing bones, in order to bake in a    pose.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Details:</p>
+<dl class="docutils">
+<dt>When exporting a LOD skeletal mesh, there are many steps that need to happen:</dt>
+<dd><ul class="first last simple">
+<li>First, the LOD needs to go back to the model pose. If there are any joints this LOD needs to remove, we must
+save out the skin weight information first.</li>
+<li>If there is a LOD pose to set, set the pose then while the mesh is still skinned.</li>
+<li>After setting the LOD pose, search for any connected blendshapes the meshes may have. If there are not true
+copies of the mesh in the scene, manually create new morph target copies by going through each blendshape
+attribute turning them on, one by one, duplicating the mesh each time.</li>
+<li>After checking for blendshapes, delete history on the meshes. This will bake the LOD pose in.</li>
+<li>Next, re-apply the blendshapes now that the pose is baked in and import the skin weights.</li>
+<li>If there were bones to remove, before removing the joints, transfer the weighting of those bones to the bone
+that was specified to transfer weighting to. Usually this is the first valid parent. So if removing all finger
+bones in an LOD, you would likely transfer all finger weights to the hand bone.</li>
+<li>Once the weighting is transferred, it is then safe to delete the bones that were to be removed.</li>
+<li>Now, we start building our selection of things to export. First though, we will check for any incoming
+connections to our joints that we want to export, and break those connections. These are usually connections
+to the rig, and we don&#8217;t want FBX exporting all of that stuff.</li>
+<li>Build the selection (joints and morphs) and export FBX</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.findAllSkinnableGeo">
+<code class="descclassname">System.utils.</code><code class="descname">findAllSkinnableGeo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#findAllSkinnableGeo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.findAllSkinnableGeo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all meshes in the scene, list their parents. If the parent is not part of the joint mover (proxy geo,
+lra representations, or bone representation geo) add it to the list of meshes that can be skinned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of geometry that is valid for skinning.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.findAndRenameOutlinerChildren">
+<code class="descclassname">System.utils.</code><code class="descname">findAndRenameOutlinerChildren</code><span class="sig-paren">(</span><em>widgetItem</em>, <em>partitionName</em>, <em>newName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#findAndRenameOutlinerChildren"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.findAndRenameOutlinerChildren" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all child widgets of the passed in widgetItem and set their text to the new module name. Usually invoked
+when a user wants to change the module name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>widgetItem</strong> &#8211; widget to search and replace the names of the children widgets</li>
+<li><strong>partitionName</strong> &#8211; the original module name</li>
+<li><strong>newName</strong> &#8211; the new module name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.findAssociatedMover">
+<code class="descclassname">System.utils.</code><code class="descname">findAssociatedMover</code><span class="sig-paren">(</span><em>joint</em>, <em>module</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#findAssociatedMover"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.findAssociatedMover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the global mover associated with the passed in joint and the passed in network node. Usually invoked from
+riggingUtils when creating a control from a joint mover.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>joint</strong> &#8211; name of the joint whose associated mover you wish to find.</li>
+<li><strong>module</strong> &#8211; name of the module the joint belongs to. Used to figure out if any prefixes or suffixes were used.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">name of global mover</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.findExportMeshData">
+<code class="descclassname">System.utils.</code><code class="descname">findExportMeshData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#findExportMeshData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.findExportMeshData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search through the character node LOD attributes to find out what and how to export the LOD.
+This data included the LOD pose, the bones to remove, the meshes for the LOD, the output path
+for the FBX, and the LOD name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">[output path for FBX, list of meshes to export for LOD, list of bones to remove for LOD,
+pose to put LOD in before removing bones, the LOD number]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.findGlobalMoverFromName">
+<code class="descclassname">System.utils.</code><code class="descname">findGlobalMoverFromName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#findGlobalMoverFromName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.findGlobalMoverFromName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the top-most global mover of a given module and return it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; name of the module whose top-most global mover we wish to find.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">name of the global mover of given module name.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.findMoverNodeFromJointName">
+<code class="descclassname">System.utils.</code><code class="descname">findMoverNodeFromJointName</code><span class="sig-paren">(</span><em>networkNodes</em>, <em>jointName</em>, <em>offsetMover=True</em>, <em>globalMover=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#findMoverNodeFromJointName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.findMoverNodeFromJointName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for the passed in joint name in the Created_Bones attribute of all network nodes in the scene.
+Once found, find the joint&#8217;s associated offset or global mover.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>networkNodes</strong> &#8211; list of network nodes to search for jointName in Created_Bones attribute</li>
+<li><strong>jointName</strong> &#8211; name of joint whose mover (offset or global) we are trying to find</li>
+<li><strong>offsetMover</strong> &#8211; Whether to return the offset mover</li>
+<li><strong>globalMover</strong> &#8211; Whether to return the global mover</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the name of the associated joint mover for the given joint</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.findOffsetMoverFromName">
+<code class="descclassname">System.utils.</code><code class="descname">findOffsetMoverFromName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#findOffsetMoverFromName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.findOffsetMoverFromName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the top-most offset mover of a given module and return it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; name of the module whose top-most offset mover we wish to find.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">name of the offset mover of given module name.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.find_all_incoming">
+<code class="descclassname">System.utils.</code><code class="descname">find_all_incoming</code><span class="sig-paren">(</span><em>start_nodes</em>, <em>max_depth=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#find_all_incoming"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.find_all_incoming" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively finds all unique incoming dependencies for the specified node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of dependencies associated with node.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.fitSelection">
+<code class="descclassname">System.utils.</code><code class="descname">fitSelection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#fitSelection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.fitSelection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Frame the camera up on the current selection.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.fitViewAndShade">
+<code class="descclassname">System.utils.</code><code class="descname">fitViewAndShade</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#fitViewAndShade"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.fitViewAndShade" title="Permalink to this definition">¶</a></dt>
+<dd><p>Focus the camera on what is in the scene, fitting it to the view, then turn on shaded mode.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.getLodData">
+<code class="descclassname">System.utils.</code><code class="descname">getLodData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#getLodData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.getLodData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search the character node for and LOD related attributes and return those.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of attributes on character node that contain LOD export data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.getMayaPyLoc">
+<code class="descclassname">System.utils.</code><code class="descname">getMayaPyLoc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#getMayaPyLoc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.getMayaPyLoc" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function finds the location of the mayapy interpreter for batch functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">mayapy location</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.getViableParents">
+<code class="descclassname">System.utils.</code><code class="descname">getViableParents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#getViableParents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.getViableParents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for all network nodes in the scene, and search for the Created_Bones attribute, which holds the names
+of the bones a particular module will create given its current settings. Add all created bones from all modules
+to a list to be returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of all the bone names created by the current modules in the scene.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.get_mobject">
+<code class="descclassname">System.utils.</code><code class="descname">get_mobject</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#get_mobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.get_mobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get&#8217;s MObject from given name.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.get_namespace">
+<code class="descclassname">System.utils.</code><code class="descname">get_namespace</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#get_namespace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.get_namespace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the namespace from the given name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; String to extract the namespace from.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The extracted namespace</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.remove_namespace">
+<code class="descclassname">System.utils.</code><code class="descname">remove_namespace</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#remove_namespace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.remove_namespace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the namespace from the given name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; The name with the namespace</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The name without the namesapce</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.returnCharacterModule">
+<code class="descclassname">System.utils.</code><code class="descname">returnCharacterModule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#returnCharacterModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.returnCharacterModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for all network nodes in the scene. Return the main network node that all other ART network nodes
+connect to (also known as the character node)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">character node that stores character information.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.returnCharacterModules">
+<code class="descclassname">System.utils.</code><code class="descname">returnCharacterModules</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#returnCharacterModules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.returnCharacterModules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for all network nodes in the scene. Return all character network nodes found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of character network nodes which list details about the character.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.returnFriendlyPath">
+<code class="descclassname">System.utils.</code><code class="descname">returnFriendlyPath</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#returnFriendlyPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.returnFriendlyPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take the incoming path and replace back slashes with forward slashes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; directory or file path to replace back slashes in</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a directory or file path with only forward slashes</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.returnNicePath">
+<code class="descclassname">System.utils.</code><code class="descname">returnNicePath</code><span class="sig-paren">(</span><em>toolsPath</em>, <em>imagePath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#returnNicePath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.returnNicePath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take the incoming path and file and use os.path.join to create a new file path. Then replace all
+back slashes with forward slashes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>toolsPath</strong> &#8211; the base directory path</li>
+<li><strong>imagePath</strong> &#8211; the file name to join onto the base path</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a joined path with only forward slashes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.returnRigModuleTypes">
+<code class="descclassname">System.utils.</code><code class="descname">returnRigModuleTypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#returnRigModuleTypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.returnRigModuleTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for all network nodes in the scene. Get the moduleType attribute value for any valid nodes and
+append that to our list of modules to return, giving us a list of all of the types of modules our character
+has.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of the different types of modules in our scene (ART_Arm, ART_Leg, etc)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.returnRigModules">
+<code class="descclassname">System.utils.</code><code class="descname">returnRigModules</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#returnRigModules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.returnRigModules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for all network nodes in the scene. Return network nodes that have a .parent attribute.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of network nodes that have .parent attr, signifying an ART network node</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.splitMesh">
+<code class="descclassname">System.utils.</code><code class="descname">splitMesh</code><span class="sig-paren">(</span><em>mesh</em>, <em>assetName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#splitMesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.splitMesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take the given mesh and break it into chunks based on the influence weights of each bone. For example,
+if the mesh was a leg that was skinned to a thigh bone, a calf bone, and a foot bone, this function will
+split the leg mesh into three new meshes, one for each major influence. This is sometimes known as an
+&#8220;anim mesh&#8221;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mesh</strong> &#8211; name of mesh to split up</li>
+<li><strong>assetName</strong> &#8211; name of character or rig (the name given on publish)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of the newly created meshes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="System.utils.win_path_convert">
+<code class="descclassname">System.utils.</code><code class="descname">win_path_convert</code><span class="sig-paren">(</span><em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/System/utils.html#win_path_convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#System.utils.win_path_convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts back slashes to forward slashes</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utilities.html" title="Utilities"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="utilities.html" >Utilities</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

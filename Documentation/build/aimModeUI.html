@@ -1,0 +1,176 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ART_AimModeUI &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ART_BakeOffsetsUI" href="bakeOffsets.html" />
+    <link rel="prev" title="ART_AddOrRemoveInfluences" href="addRemoveInfs.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="bakeOffsets.html" title="ART_BakeOffsetsUI"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="addRemoveInfs.html" title="ART_AddOrRemoveInfluences"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" accesskey="U">Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="addRemoveInfs.html"
+                        title="previous chapter">ART_AddOrRemoveInfluences</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="bakeOffsets.html"
+                        title="next chapter">ART_BakeOffsetsUI</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/aimModeUI.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Interfaces.ART_AimModeUI">
+<span id="art-aimmodeui"></span><h1>ART_AimModeUI<a class="headerlink" href="#module-Interfaces.ART_AimModeUI" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<dl class="class">
+<dt id="Interfaces.ART_AimModeUI.ART_AimMode">
+<em class="property">class </em><code class="descclassname">Interfaces.ART_AimModeUI.</code><code class="descname">ART_AimMode</code><span class="sig-paren">(</span><em>mainUI</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AimModeUI.html#ART_AimMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AimModeUI.ART_AimMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class creates a tool that allows a rigger to toggle aim mode for a given selection of modules. Aim mode
+ensures that the parent joints in a joint mover are always aiming at their children.</p>
+<dl class="docutils">
+<dt>This tool can be called from the toolbar on the Rig Creator UI from the following button:</dt>
+<dd><img alt="_images/aimModeButton.png" class="first last" src="_images/aimModeButton.png" />
+</dd>
+<dt>The full interface looks like this:</dt>
+<dd><img alt="_images/aimMode.png" class="first last" src="_images/aimMode.png" />
+</dd>
+</dl>
+<dl class="method">
+<dt id="Interfaces.ART_AimModeUI.ART_AimMode.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>mainUI</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AimModeUI.html#ART_AimMode.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AimModeUI.ART_AimMode.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates the class, getting the QSettings for the tool, and building the Aim Mode interface.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mainUI</strong> &#8211; The instance of the Rig Creator UI this tool was called from.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AimModeUI.ART_AimMode.aimModeUI_Toggle">
+<code class="descname">aimModeUI_Toggle</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AimModeUI.html#ART_AimMode.aimModeUI_Toggle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AimModeUI.ART_AimMode.aimModeUI_Toggle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls on each selected module&#8217;s aimMode function and sets the aimMode based on the passed in state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> &#8211; Whether to turn aim mode on or off.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AimModeUI.ART_AimMode.buildAimModeUI">
+<code class="descname">buildAimModeUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AimModeUI.html#ART_AimMode.buildAimModeUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AimModeUI.ART_AimMode.buildAimModeUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the Aim Mode interface, finding all modules that have the ability to aim, and listing those modules
+as well as their current aim status.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="bakeOffsets.html" title="ART_BakeOffsetsUI"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="addRemoveInfs.html" title="ART_AddOrRemoveInfluences"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" >Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

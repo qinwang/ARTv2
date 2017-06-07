@@ -1,0 +1,188 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ART_ChangeModuleParentUI &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ART_DebugRigs" href="debugRigs.html" />
+    <link rel="prev" title="ART_ChangeModuleNameUI" href="changeModName.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="debugRigs.html" title="ART_DebugRigs"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="changeModName.html" title="ART_ChangeModuleNameUI"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" accesskey="U">Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="changeModName.html"
+                        title="previous chapter">ART_ChangeModuleNameUI</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="debugRigs.html"
+                        title="next chapter">ART_DebugRigs</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/changeModParent.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Interfaces.ART_ChangeModuleParentUI">
+<span id="art-changemoduleparentui"></span><h1>ART_ChangeModuleParentUI<a class="headerlink" href="#module-Interfaces.ART_ChangeModuleParentUI" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<dl class="class">
+<dt id="Interfaces.ART_ChangeModuleParentUI.ART_ChangeModuleParent_UI">
+<em class="property">class </em><code class="descclassname">Interfaces.ART_ChangeModuleParentUI.</code><code class="descname">ART_ChangeModuleParent_UI</code><span class="sig-paren">(</span><em>currentParent</em>, <em>moduleInst</em>, <em>rigUiInst</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ChangeModuleParentUI.html#ART_ChangeModuleParent_UI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ChangeModuleParentUI.ART_ChangeModuleParent_UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class allows the user to change the parent module bone of a given module. It is found within the
+skeletonSettingsUI of an individual module in the Rig Creator.</p>
+<blockquote>
+<div><img alt="_images/changeModParent.png" src="_images/changeModParent.png" />
+</div></blockquote>
+<dl class="method">
+<dt id="Interfaces.ART_ChangeModuleParentUI.ART_ChangeModuleParent_UI.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>currentParent</em>, <em>moduleInst</em>, <em>rigUiInst</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ChangeModuleParentUI.html#ART_ChangeModuleParent_UI.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ChangeModuleParentUI.ART_ChangeModuleParent_UI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates the class, taking in current module information, and builds the interface.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>currentParent</strong> &#8211; The current module parent bone of this module.</li>
+<li><strong>moduleInst</strong> &#8211; The instance in memory of the module whose name is to change.</li>
+<li><strong>rigUiInst</strong> &#8211; The instance in memory of the Rig Creator UI from which this class was called.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ChangeModuleParentUI.ART_ChangeModuleParent_UI.applyModuleParentChange">
+<code class="descname">applyModuleParentChange</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ChangeModuleParentUI.html#ART_ChangeModuleParent_UI.applyModuleParentChange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ChangeModuleParentUI.ART_ChangeModuleParent_UI.applyModuleParentChange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the new parent from the selected ListWidgetItem text and then checks to make sure the selected parent
+isn&#8217;t a bone that is part of the module we&#8217;re trying to change the parent on. Then updates text and attribute
+values where needed.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>The following things get updated:</dt>
+<dd><ul class="first last simple">
+<li>Current Parent text item in the Skeleton Settings UI</li>
+<li>Network Node .parentModuleBone attribute</li>
+<li>Constrains nodes based on new parenting relationship</li>
+</ul>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_ChangeModuleParentUI.ART_ChangeModuleParent_UI.searchList">
+<code class="descname">searchList</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ChangeModuleParentUI.html#ART_ChangeModuleParent_UI.searchList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ChangeModuleParentUI.ART_ChangeModuleParent_UI.searchList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the text in the QLineEdit and searches the list widget for any items containing the search text,
+hiding all listWidgetItems that do not contain the search text.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="Interfaces.ART_ChangeModuleParentUI.getMainWindow">
+<code class="descclassname">Interfaces.ART_ChangeModuleParentUI.</code><code class="descname">getMainWindow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_ChangeModuleParentUI.html#getMainWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_ChangeModuleParentUI.getMainWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a pointer to Maya&#8217;s window as a QWidget.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="debugRigs.html" title="ART_DebugRigs"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="changeModName.html" title="ART_ChangeModuleNameUI"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" >Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

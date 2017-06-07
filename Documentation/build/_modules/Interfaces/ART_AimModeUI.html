@@ -1,0 +1,326 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Interfaces.ART_AimModeUI &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Interfaces.ART_AimModeUI</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author: Jeremy Ernst</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+
+<span class="kn">import</span> <span class="nn">maya.cmds</span> <span class="k">as</span> <span class="nn">cmds</span>
+
+<span class="kn">import</span> <span class="nn">System.utils</span> <span class="k">as</span> <span class="nn">utils</span>
+<span class="kn">from</span> <span class="nn">ThirdParty.Qt</span> <span class="k">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtWidgets</span>
+
+
+<div class="viewcode-block" id="ART_AimMode"><a class="viewcode-back" href="../../aimModeUI.html#Interfaces.ART_AimModeUI.ART_AimMode">[docs]</a><span class="k">class</span> <span class="nc">ART_AimMode</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class creates a tool that allows a rigger to toggle aim mode for a given selection of modules. Aim mode</span>
+<span class="sd">    ensures that the parent joints in a joint mover are always aiming at their children.</span>
+
+<span class="sd">    This tool can be called from the toolbar on the Rig Creator UI from the following button:</span>
+<span class="sd">        .. image:: /images/aimModeButton.png</span>
+
+<span class="sd">    The full interface looks like this:</span>
+<span class="sd">        .. image:: /images/aimMode.png</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ART_AimMode.__init__"><a class="viewcode-back" href="../../aimModeUI.html#Interfaces.ART_AimModeUI.ART_AimMode.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mainUI</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiates the class, getting the QSettings for the tool, and building the Aim Mode interface.</span>
+
+<span class="sd">        :param mainUI: The instance of the Rig Creator UI this tool was called from.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get the directory path of the tools</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QSettings</span><span class="p">(</span><span class="s2">&quot;Epic Games&quot;</span><span class="p">,</span> <span class="s2">&quot;ARTv2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;toolsPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;iconPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainUI</span> <span class="o">=</span> <span class="n">mainUI</span>
+
+        <span class="c1"># build the UI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buildAimModeUI</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_AimMode.buildAimModeUI"><a class="viewcode-back" href="../../aimModeUI.html#Interfaces.ART_AimModeUI.ART_AimMode.buildAimModeUI">[docs]</a>    <span class="k">def</span> <span class="nf">buildAimModeUI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Builds the Aim Mode interface, finding all modules that have the ability to aim, and listing those modules</span>
+<span class="sd">        as well as their current aim status.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="s2">&quot;ART_AimModeWin&quot;</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;ART_AimModeWin&quot;</span><span class="p">,</span> <span class="n">wnd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># launch a UI to get the name information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainUI</span><span class="p">)</span>
+
+        <span class="c1"># load stylesheet</span>
+        <span class="n">styleSheetFile</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span><span class="p">,</span> <span class="s2">&quot;Core/Scripts/Interfaces/StyleSheets/mainScheme.qss&quot;</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">styleSheetFile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">)</span>
+
+        <span class="c1"># size policies</span>
+        <span class="n">mainSizePolicy</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">)</span>
+
+        <span class="c1"># create the main widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_mainWidget</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin</span><span class="o">.</span><span class="n">setCentralWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_mainWidget</span><span class="p">)</span>
+
+        <span class="c1"># set qt object name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;ART_AimModeWin&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Aim Mode&quot;</span><span class="p">)</span>
+
+        <span class="c1"># create the mainLayout for the rig creator UI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_mainLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_mainWidget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_mainLayout</span><span class="o">.</span><span class="n">setContentsMargins</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin</span><span class="o">.</span><span class="n">setSizePolicy</span><span class="p">(</span><span class="n">mainSizePolicy</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
+
+        <span class="c1"># create the background image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_frame</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_mainLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_frame</span><span class="p">)</span>
+
+        <span class="c1"># create the layout for the widgets</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_widgetLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_widgetLayout</span><span class="o">.</span><span class="n">setContentsMargins</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="c1"># add the QListWidget Frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleListFrame</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleListFrame</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">275</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleListFrame</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">275</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleListFrame</span><span class="o">.</span><span class="n">setContentsMargins</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># create the list widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleList</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleListFrame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_widgetLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleListFrame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleList</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">265</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleList</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">265</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleList</span><span class="o">.</span><span class="n">setSelectionMode</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">MultiSelection</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleList</span><span class="o">.</span><span class="n">setSpacing</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="c1"># add the layout for the buttons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_buttonLayoutAll</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_widgetLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_buttonLayoutAll</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_buttonLayoutAll</span><span class="o">.</span><span class="n">setContentsMargins</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+        <span class="c1"># add the selection buttons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectionButtonLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_buttonLayoutAll</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectionButtonLayout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectAllButton</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Select All&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectAllButton</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">115</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectAllButton</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">115</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectionButtonLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectAllButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectAllButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleList</span><span class="o">.</span><span class="n">selectAll</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectAllButton</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectNoneButton</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Clear Selection&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectNoneButton</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">115</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectNoneButton</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">115</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectionButtonLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectNoneButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectNoneButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleList</span><span class="o">.</span><span class="n">clearSelection</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectNoneButton</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+
+        <span class="c1"># spacer</span>
+        <span class="n">spacerItem</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSpacerItem</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Minimum</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Expanding</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectionButtonLayout</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">spacerItem</span><span class="p">)</span>
+
+        <span class="c1"># add the buttons for reset settings and reset transforms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOnAim</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;On&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOnAim</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">115</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOnAim</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">115</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectionButtonLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOnAim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOnAim</span><span class="o">.</span><span class="n">setToolTip</span><span class="p">(</span><span class="s2">&quot;Turn on Aim Mode for selected modules.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOnAim</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeUI_Toggle</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOnAim</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOffAim</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Off&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOffAim</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">115</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOffAim</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">115</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_selectionButtonLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOffAim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOffAim</span><span class="o">.</span><span class="n">setToolTip</span><span class="p">(</span><span class="s2">&quot;Turn off Aim Mode for selected modules.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOffAim</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimModeUI_Toggle</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_turnOffAim</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+
+        <span class="c1"># populate the list widget</span>
+        <span class="n">modules</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnRigModules</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">modules</span><span class="p">:</span>
+            <span class="c1"># get module name</span>
+            <span class="n">moduleName</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.moduleName&quot;</span><span class="p">)</span>
+
+            <span class="c1"># figure out if the module supports aimMode</span>
+            <span class="n">canAim</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.canAim&quot;</span><span class="p">):</span>
+                <span class="n">canAim</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.canAim&quot;</span><span class="p">)</span>
+
+                <span class="c1"># see if it is currently in aimMode</span>
+                <span class="n">aimMode</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.aimMode&quot;</span><span class="p">)</span>
+
+            <span class="c1"># if it does, add it to the listwidget</span>
+            <span class="k">if</span> <span class="n">canAim</span><span class="p">:</span>
+
+                <span class="c1"># font</span>
+                <span class="n">headerFont</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QFont</span><span class="p">()</span>
+                <span class="n">headerFont</span><span class="o">.</span><span class="n">setPointSize</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+                <span class="n">headerFont</span><span class="o">.</span><span class="n">setBold</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="c1"># create the listWidgetItem</span>
+                <span class="n">pixmap</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QPixmap</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+                <span class="n">pixmap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QColor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                <span class="n">icon</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">(</span><span class="n">pixmap</span><span class="p">)</span>
+
+                <span class="n">pixmapOff</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QPixmap</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+                <span class="n">pixmapOff</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QColor</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                <span class="n">iconOff</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">(</span><span class="n">pixmapOff</span><span class="p">)</span>
+
+                <span class="n">item</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">(</span><span class="n">iconOff</span><span class="p">,</span> <span class="n">moduleName</span><span class="p">)</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">headerFont</span><span class="p">)</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">,</span> <span class="p">[</span><span class="n">icon</span><span class="p">,</span> <span class="n">iconOff</span><span class="p">])</span>
+
+                <span class="k">if</span> <span class="n">aimMode</span><span class="p">:</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">icon</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="c1"># show the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_AimMode.aimModeUI_Toggle"><a class="viewcode-back" href="../../aimModeUI.html#Interfaces.ART_AimModeUI.ART_AimMode.aimModeUI_Toggle">[docs]</a>    <span class="k">def</span> <span class="nf">aimModeUI_Toggle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calls on each selected module&#39;s aimMode function and sets the aimMode based on the passed in state.</span>
+
+<span class="sd">        :param state: Whether to turn aim mode on or off.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">selected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleList</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">state</span><span class="p">:</span>
+                <span class="n">each</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">each</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">state</span><span class="p">:</span>
+                <span class="n">each</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">each</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># call on each selected module&#39;s aimMode function</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainUI</span><span class="o">.</span><span class="n">moduleInstances</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">each</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                <span class="n">each</span><span class="o">.</span><span class="n">aimMode</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+        <span class="c1"># clear selection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aimModeWin_moduleList</span><span class="o">.</span><span class="n">clearSelection</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1255 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>System.utils &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for System.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author: Jeremy Ernst</span>
+
+<span class="sd">########</span>
+<span class="sd">Contents</span>
+<span class="sd">########</span>
+
+<span class="sd">|   **Node Traversal Utilities:**</span>
+<span class="sd">|       :func:`returnRigModules &lt;System.utils.returnRigModules&gt;`</span>
+<span class="sd">|       :func:`returnCharacterModule &lt;System.utils.returnCharacterModule&gt;`</span>
+<span class="sd">|       :func:`returnCharacterModules &lt;System.utils.returnCharacterModules&gt;`</span>
+<span class="sd">|       :func:`returnRigModuleTypes &lt;System.utils.returnRigModuleTypes&gt;`</span>
+<span class="sd">|       :func:`getViableParents &lt;System.utils.getViableParents&gt;`</span>
+<span class="sd">|       :func:`deleteChildren &lt;System.utils.deleteChildren&gt;`</span>
+<span class="sd">|       :func:`find_all_incoming &lt;System.utils.find_all_incoming&gt;`</span>
+<span class="sd">|</span>
+<span class="sd">|   **Joint Mover Utilities:**</span>
+<span class="sd">|       :func:`findAndRenameOutlinerChildren &lt;System.utils.findAndRenameOutlinerChildren&gt;`</span>
+<span class="sd">|       :func:`findAssociatedMover &lt;System.utils.findAssociatedMover&gt;`</span>
+<span class="sd">|       :func:`findMoverNodeFromJointName &lt;System.utils.findMoverNodeFromJointName&gt;`</span>
+<span class="sd">|       :func:`findOffsetMoverFromName &lt;System.utils.findOffsetMoverFromName&gt;`</span>
+<span class="sd">|       :func:`findGlobalMoverFromName &lt;System.utils.findGlobalMoverFromName&gt;`</span>
+<span class="sd">|</span>
+<span class="sd">|   **Mesh Utilities:**</span>
+<span class="sd">|       :func:`splitMesh &lt;System.utils.splitMesh&gt;`</span>
+<span class="sd">|       :func:`findAllSkinnableGeo &lt;System.utils.findAllSkinnableGeo&gt;`</span>
+<span class="sd">|       :func:`getLodData &lt;System.utils.getLodData&gt;`</span>
+<span class="sd">|       :func:`exportMesh &lt;System.utils.exportMesh&gt;`</span>
+<span class="sd">|       :func:`findExportMeshData &lt;System.utils.findExportMeshData&gt;`</span>
+<span class="sd">|</span>
+<span class="sd">|   **Path Utilities:**</span>
+<span class="sd">|       :func:`win_path_convert &lt;System.utils.win_path_convert&gt;`</span>
+<span class="sd">|       :func:`returnFriendlyPath &lt;System.utils.returnFriendlyPath&gt;`</span>
+<span class="sd">|       :func:`returnNicePath &lt;System.utils.returnNicePath&gt;`</span>
+<span class="sd">|</span>
+<span class="sd">|   **Misc. Utilities:**</span>
+<span class="sd">|       :func:`fitViewAndShade &lt;System.utils.fitViewAndShade&gt;`</span>
+<span class="sd">|       :func:`fitSelection &lt;System.utils.fitSelection&gt;`</span>
+<span class="sd">|       :func:`get_mobject &lt;System.utils.get_mobject&gt;`</span>
+<span class="sd">|       :func:`get_namespace &lt;System.utils.get_namespace&gt;`</span>
+<span class="sd">|       :func:`remove_namespace &lt;System.utils.remove_namespace&gt;`</span>
+<span class="sd">|</span>
+<span class="sd">|</span>
+
+<span class="sd">#########</span>
+<span class="sd">Functions</span>
+<span class="sd">#########</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">maya.cmds</span> <span class="k">as</span> <span class="nn">cmds</span>
+<span class="kn">import</span> <span class="nn">maya.mel</span> <span class="k">as</span> <span class="nn">mel</span>
+<span class="kn">from</span> <span class="nn">maya</span> <span class="k">import</span> <span class="n">OpenMaya</span><span class="p">,</span> <span class="n">OpenMayaAnim</span>
+
+<span class="kn">import</span> <span class="nn">interfaceUtils</span> <span class="k">as</span> <span class="nn">interfaceUtils</span>
+<span class="kn">import</span> <span class="nn">riggingUtils</span> <span class="k">as</span> <span class="nn">riggingUtils</span>
+<span class="kn">from</span> <span class="nn">ThirdParty.Qt</span> <span class="k">import</span> <span class="n">QtWidgets</span>
+
+<span class="c1"># maya 2016&lt; maya2017&gt; compatability</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">shiboken</span> <span class="k">as</span> <span class="nn">shiboken</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">shiboken2</span> <span class="k">as</span> <span class="nn">shiboken</span>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="returnRigModules"><a class="viewcode-back" href="../../utils.html#System.utils.returnRigModules">[docs]</a><span class="k">def</span> <span class="nf">returnRigModules</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Look for all network nodes in the scene. Return network nodes that have a .parent attribute.</span>
+
+<span class="sd">    :return: list of network nodes that have .parent attr, signifying an ART network node</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">modules</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">networkNodes</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;network&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;ART_Root_Module&quot;</span> <span class="ow">in</span> <span class="n">networkNodes</span><span class="p">:</span>
+        <span class="n">modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;ART_Root_Module&quot;</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">networkNodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;ART_Root_Module&quot;</span><span class="p">)</span>
+        <span class="n">networkNodes</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">networkNodes</span><span class="p">:</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listAttr</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;parent&quot;</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="n">modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">modules</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="returnCharacterModule"><a class="viewcode-back" href="../../utils.html#System.utils.returnCharacterModule">[docs]</a><span class="k">def</span> <span class="nf">returnCharacterModule</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Look for all network nodes in the scene. Return the main network node that all other ART network nodes</span>
+<span class="sd">    connect to (also known as the character node)</span>
+
+<span class="sd">    :return: character node that stores character information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">networkNodes</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;network&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">networkNodes</span><span class="p">:</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listAttr</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;parent&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="returnCharacterModules"><a class="viewcode-back" href="../../utils.html#System.utils.returnCharacterModules">[docs]</a><span class="k">def</span> <span class="nf">returnCharacterModules</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Look for all network nodes in the scene. Return all character network nodes found.</span>
+
+<span class="sd">    :return: list of character network nodes which list details about the character.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">modules</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">networkNodes</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;network&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">networkNodes</span><span class="p">:</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listAttr</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;parent&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="n">modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">modules</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="returnRigModuleTypes"><a class="viewcode-back" href="../../utils.html#System.utils.returnRigModuleTypes">[docs]</a><span class="k">def</span> <span class="nf">returnRigModuleTypes</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Look for all network nodes in the scene. Get the moduleType attribute value for any valid nodes and</span>
+<span class="sd">    append that to our list of modules to return, giving us a list of all of the types of modules our character</span>
+<span class="sd">    has.</span>
+
+<span class="sd">    :return: list of the different types of modules in our scene (ART_Arm, ART_Leg, etc)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">modTypes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">networkNodes</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;network&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">networkNodes</span><span class="p">:</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listAttr</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;parent&quot;</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="n">modType</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s2">&quot;.moduleType&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">modType</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">modTypes</span><span class="p">:</span>
+                <span class="n">modTypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">modType</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">modTypes</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="getViableParents"><a class="viewcode-back" href="../../utils.html#System.utils.getViableParents">[docs]</a><span class="k">def</span> <span class="nf">getViableParents</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Look for all network nodes in the scene, and search for the Created_Bones attribute, which holds the names</span>
+<span class="sd">    of the bones a particular module will create given its current settings. Add all created bones from all modules</span>
+<span class="sd">    to a list to be returned.</span>
+
+<span class="sd">    :return: list of all the bone names created by the current modules in the scene.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># look through the node network and find created bone lists</span>
+    <span class="n">modules</span> <span class="o">=</span> <span class="n">returnRigModules</span><span class="p">()</span>
+
+    <span class="n">bonesList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">modules</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.Created_Bones&quot;</span><span class="p">):</span>
+            <span class="n">bonesList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.Created_Bones&quot;</span><span class="p">))</span>
+
+    <span class="c1"># now we have a long string of all of the created bones. we need to split them up into individual items</span>
+    <span class="n">parents</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">bone</span> <span class="ow">in</span> <span class="n">bonesList</span><span class="p">:</span>
+        <span class="n">bones</span> <span class="o">=</span> <span class="n">bone</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;::&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">bone</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">bones</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">bone</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">parents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bone</span><span class="p">)</span>
+
+    <span class="c1"># once done, add each one to the comboBox</span>
+    <span class="k">return</span> <span class="n">parents</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="findMoverNodeFromJointName"><a class="viewcode-back" href="../../utils.html#System.utils.findMoverNodeFromJointName">[docs]</a><span class="k">def</span> <span class="nf">findMoverNodeFromJointName</span><span class="p">(</span><span class="n">networkNodes</span><span class="p">,</span> <span class="n">jointName</span><span class="p">,</span> <span class="n">offsetMover</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">globalMover</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Look for the passed in joint name in the Created_Bones attribute of all network nodes in the scene.</span>
+<span class="sd">    Once found, find the joint&#39;s associated offset or global mover.</span>
+
+<span class="sd">    :param networkNodes: list of network nodes to search for jointName in Created_Bones attribute</span>
+<span class="sd">    :param jointName: name of joint whose mover (offset or global) we are trying to find</span>
+<span class="sd">    :param offsetMover: Whether to return the offset mover</span>
+<span class="sd">    :param globalMover: Whether to return the global mover</span>
+<span class="sd">    :return: the name of the associated joint mover for the given joint</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># take the passed in list, and if there is a created_Bones attribute, search it for the jointName</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">networkNodes</span><span class="p">:</span>
+        <span class="n">boneList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s2">&quot;.Created_Bones&quot;</span><span class="p">):</span>
+            <span class="n">boneList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s2">&quot;.Created_Bones&quot;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">bone</span> <span class="ow">in</span> <span class="n">boneList</span><span class="p">:</span>
+            <span class="n">splitBones</span> <span class="o">=</span> <span class="n">bone</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;::&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">splitBones</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">joint</span> <span class="o">==</span> <span class="n">jointName</span><span class="p">:</span>
+                    <span class="c1"># get the module name and module class</span>
+                    <span class="n">moduleName</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s2">&quot;.moduleName&quot;</span><span class="p">)</span>
+                    <span class="n">moduleClass</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s2">&quot;.moduleType&quot;</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">node</span> <span class="o">!=</span> <span class="s2">&quot;ART_Root_Module&quot;</span><span class="p">:</span>
+                        <span class="n">basename</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s2">&quot;.baseName&quot;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">basename</span> <span class="o">=</span> <span class="n">moduleName</span>
+
+                    <span class="c1"># start building up the mover name we need and return it</span>
+                    <span class="k">if</span> <span class="n">offsetMover</span><span class="p">:</span>
+                        <span class="n">moverName</span> <span class="o">=</span> <span class="n">jointName</span> <span class="o">+</span> <span class="s2">&quot;_mover_offset&quot;</span>
+                    <span class="k">if</span> <span class="n">globalMover</span><span class="p">:</span>
+                        <span class="n">moverName</span> <span class="o">=</span> <span class="n">jointName</span> <span class="o">+</span> <span class="s2">&quot;_mover&quot;</span>
+
+                    <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">moverName</span><span class="p">):</span>
+                        <span class="k">return</span> <span class="n">moverName</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">offsetMover</span><span class="p">:</span>
+                            <span class="n">moverName</span> <span class="o">=</span> <span class="n">jointName</span> <span class="o">+</span> <span class="s2">&quot;_mover_offset&quot;</span>
+                        <span class="k">if</span> <span class="n">globalMover</span><span class="p">:</span>
+                            <span class="n">moverName</span> <span class="o">=</span> <span class="n">jointName</span> <span class="o">+</span> <span class="s2">&quot;_mover&quot;</span>
+
+                        <span class="c1"># comparing basename and moduleName, get prefix and suffix</span>
+                        <span class="n">prefix</span> <span class="o">=</span> <span class="n">moduleName</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">basename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">suffix</span> <span class="o">=</span> <span class="n">moduleName</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">basename</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+
+                        <span class="c1"># make sure not partitioning on an empty separator</span>
+                        <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                            <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;&amp;&amp;&quot;</span>
+                        <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                            <span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;$$&quot;</span>
+
+                        <span class="n">noPrefix</span> <span class="o">=</span> <span class="n">jointName</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">prefix</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">noPrefix</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                            <span class="n">moverName</span> <span class="o">=</span> <span class="n">noPrefix</span>
+                        <span class="n">noSuffix</span> <span class="o">=</span> <span class="n">moverName</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="n">suffix</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">noSuffix</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                            <span class="n">moverName</span> <span class="o">=</span> <span class="n">noSuffix</span>
+
+                        <span class="c1"># construct mover name.</span>
+                        <span class="k">if</span> <span class="n">offsetMover</span><span class="p">:</span>
+                            <span class="n">moverName</span> <span class="o">=</span> <span class="n">moduleName</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">moverName</span>
+
+                            <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">moverName</span><span class="p">):</span>
+                                <span class="k">if</span> <span class="n">moverName</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;_mover&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                                    <span class="k">return</span> <span class="n">moverName</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">moverName</span> <span class="o">+=</span> <span class="s2">&quot;_mover_offset&quot;</span>
+
+                                <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">moverName</span><span class="p">):</span>
+                                    <span class="k">return</span> <span class="n">moverName</span>
+
+                        <span class="k">if</span> <span class="n">globalMover</span><span class="p">:</span>
+                            <span class="n">moverName</span> <span class="o">=</span> <span class="n">moduleName</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">moverName</span>
+
+                            <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">moverName</span><span class="p">):</span>
+                                <span class="k">if</span> <span class="n">moverName</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;_mover&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                                    <span class="k">return</span> <span class="n">moverName</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">moverName</span> <span class="o">+=</span> <span class="s2">&quot;_mover&quot;</span>
+
+                                <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">moverName</span><span class="p">):</span>
+                                    <span class="k">return</span> <span class="n">moverName</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="findOffsetMoverFromName"><a class="viewcode-back" href="../../utils.html#System.utils.findOffsetMoverFromName">[docs]</a><span class="k">def</span> <span class="nf">findOffsetMoverFromName</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the top-most offset mover of a given module and return it.</span>
+
+<span class="sd">    :param name: name of the module whose top-most offset mover we wish to find.</span>
+<span class="sd">    :return: name of the offset mover of given module name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">grp</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_mover_grp&quot;</span>
+    <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">grp</span><span class="p">):</span>
+        <span class="n">topLevelGrp</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">grp</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">topLevelGrp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">globalMover</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">topLevelGrp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">children</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;transform&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">globalMover</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">offsetMover</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">globalMover</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">children</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;transform&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">offsetMover</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">offsetMover</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="findGlobalMoverFromName"><a class="viewcode-back" href="../../utils.html#System.utils.findGlobalMoverFromName">[docs]</a><span class="k">def</span> <span class="nf">findGlobalMoverFromName</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the top-most global mover of a given module and return it.</span>
+
+<span class="sd">    :param name: name of the module whose top-most global mover we wish to find.</span>
+<span class="sd">    :return: name of the global mover of given module name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">grp</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_mover_grp&quot;</span>
+
+    <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">grp</span><span class="p">):</span>
+        <span class="n">topLevelGrp</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">grp</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">topLevelGrp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">topLevelGrp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;mover&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">topLevelGrp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;offset&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">topLevelGrp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;grp&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">topLevelGrp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">globalMover</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">topLevelGrp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">children</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;transform&quot;</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">globalMover</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="n">globalMover</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">globalMover</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">topLevelGrp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">children</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;transform&quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">globalMover</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">globalMover</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="fitViewAndShade"><a class="viewcode-back" href="../../utils.html#System.utils.fitViewAndShade">[docs]</a><span class="k">def</span> <span class="nf">fitViewAndShade</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Focus the camera on what is in the scene, fitting it to the view, then turn on shaded mode.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># clear selection and fit view</span>
+    <span class="n">previousSelection</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">sl</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cmds</span><span class="o">.</span><span class="n">viewFit</span><span class="p">()</span>
+    <span class="n">panels</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getPanel</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;modelPanel&#39;</span><span class="p">)</span>
+
+    <span class="c1"># turn on smooth shading</span>
+    <span class="k">for</span> <span class="n">panel</span> <span class="ow">in</span> <span class="n">panels</span><span class="p">:</span>
+        <span class="n">editor</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">modelPanel</span><span class="p">(</span><span class="n">panel</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">modelEditor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">modelEditor</span><span class="p">(</span><span class="n">editor</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">displayAppearance</span><span class="o">=</span><span class="s2">&quot;smoothShaded&quot;</span><span class="p">,</span> <span class="n">backfaceCulling</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">previousSelection</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">previousSelection</span><span class="p">)</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="fitSelection"><a class="viewcode-back" href="../../utils.html#System.utils.fitSelection">[docs]</a><span class="k">def</span> <span class="nf">fitSelection</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Frame the camera up on the current selection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FrameSelected;&quot;</span><span class="p">)</span>
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;fitPanel -selected;&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="findAndRenameOutlinerChildren"><a class="viewcode-back" href="../../utils.html#System.utils.findAndRenameOutlinerChildren">[docs]</a><span class="k">def</span> <span class="nf">findAndRenameOutlinerChildren</span><span class="p">(</span><span class="n">widgetItem</span><span class="p">,</span> <span class="n">partitionName</span><span class="p">,</span> <span class="n">newName</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find all child widgets of the passed in widgetItem and set their text to the new module name. Usually invoked</span>
+<span class="sd">    when a user wants to change the module name.</span>
+
+<span class="sd">    :param widgetItem: widget to search and replace the names of the children widgets</span>
+<span class="sd">    :param partitionName: the original module name</span>
+<span class="sd">    :param newName: the new module name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">children</span> <span class="o">=</span> <span class="n">widgetItem</span><span class="o">.</span><span class="n">childCount</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">children</span><span class="p">):</span>
+        <span class="n">child</span> <span class="o">=</span> <span class="n">widgetItem</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">mover</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">partitionName</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">child</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">newName</span> <span class="o">+</span> <span class="n">mover</span><span class="p">)</span>
+        <span class="n">findAndRenameOutlinerChildren</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">partitionName</span><span class="p">,</span> <span class="n">newName</span><span class="p">)</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="deleteChildren"><a class="viewcode-back" href="../../utils.html#System.utils.deleteChildren">[docs]</a><span class="k">def</span> <span class="nf">deleteChildren</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Delete all children of the passed in transform node.</span>
+
+<span class="sd">    :param node: node whose children we want to delete.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">relatives</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">relatives</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">relatives</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">nodeType</span><span class="p">(</span><span class="n">each</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;transform&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">each</span><span class="p">):</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">each</span><span class="p">)</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="findAssociatedMover"><a class="viewcode-back" href="../../utils.html#System.utils.findAssociatedMover">[docs]</a><span class="k">def</span> <span class="nf">findAssociatedMover</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the global mover associated with the passed in joint and the passed in network node. Usually invoked from</span>
+<span class="sd">    riggingUtils when creating a control from a joint mover.</span>
+
+<span class="sd">    :param joint: name of the joint whose associated mover you wish to find.</span>
+<span class="sd">    :param module: name of the module the joint belongs to. Used to figure out if any prefixes or suffixes were used.</span>
+<span class="sd">    :return: name of global mover</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">module</span> <span class="o">==</span> <span class="s2">&quot;ART_Root_Module&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;root_mover&quot;</span>
+
+    <span class="c1"># figure out the name</span>
+    <span class="n">moduleName</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.moduleName&quot;</span><span class="p">)</span>
+    <span class="n">baseName</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">module</span> <span class="o">+</span> <span class="s2">&quot;.baseName&quot;</span><span class="p">)</span>
+
+    <span class="n">moverName</span> <span class="o">=</span> <span class="n">joint</span> <span class="o">+</span> <span class="s2">&quot;_mover&quot;</span>
+
+    <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">moverName</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">moverName</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># find prefix/suffix if available</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">moduleName</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">baseName</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">moduleName</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">baseName</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">prefixSeparator</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prefixSeparator</span> <span class="o">=</span> <span class="n">prefix</span>
+
+        <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">suffixSeparator</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">suffixSeparator</span> <span class="o">=</span> <span class="n">suffix</span>
+
+        <span class="c1"># get the bone name (for example, thigh)</span>
+        <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">boneName</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">suffixSeparator</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">boneName</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">prefixSeparator</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">suffixSeparator</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># get the mover node</span>
+        <span class="n">mover</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">baseName</span> <span class="o">+</span> <span class="n">suffix</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">boneName</span> <span class="o">+</span> <span class="s2">&quot;_mover&quot;</span>
+        <span class="n">mover</span> <span class="o">=</span> <span class="n">mover</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">mover</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">mover</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="find_all_incoming"><a class="viewcode-back" href="../../utils.html#System.utils.find_all_incoming">[docs]</a><span class="k">def</span> <span class="nf">find_all_incoming</span><span class="p">(</span><span class="n">start_nodes</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively finds all unique incoming dependencies for the specified node.</span>
+
+<span class="sd">    :return: list of dependencies associated with node.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dependencies</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">_find_all_incoming</span><span class="p">(</span><span class="n">start_nodes</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">dependencies</span><span class="p">)</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="k">def</span> <span class="nf">_find_all_incoming</span><span class="p">(</span><span class="n">start_nodes</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">depth</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively finds all unique incoming dependencies for the specified node.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">max_depth</span> <span class="ow">and</span> <span class="n">depth</span> <span class="o">&gt;</span> <span class="n">max_depth</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">incoming</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listConnections</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">start_nodes</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">incoming</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">non_visitied</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">incoming</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">dependencies</span><span class="p">)</span>
+    <span class="n">dependencies</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">non_visitied</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">non_visitied</span><span class="p">:</span>
+        <span class="n">_find_all_incoming</span><span class="p">(</span><span class="n">non_visitied</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="get_mobject"><a class="viewcode-back" href="../../utils.html#System.utils.get_mobject">[docs]</a><span class="k">def</span> <span class="nf">get_mobject</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get&#39;s MObject from given name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">selection_list</span> <span class="o">=</span> <span class="n">OpenMaya</span><span class="o">.</span><span class="n">MSelectionList</span><span class="p">()</span>
+    <span class="n">selection_list</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">mobject</span> <span class="o">=</span> <span class="n">OpenMaya</span><span class="o">.</span><span class="n">MObject</span><span class="p">()</span>
+    <span class="n">selection_list</span><span class="o">.</span><span class="n">getDependNode</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mobject</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mobject</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="get_namespace"><a class="viewcode-back" href="../../utils.html#System.utils.get_namespace">[docs]</a><span class="k">def</span> <span class="nf">get_namespace</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets the namespace from the given name.</span>
+
+<span class="sd">    :param name: String to extract the namespace from.</span>
+<span class="sd">    :return: The extracted namespace</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">namespace</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;[_0-9a-zA-Z]+(?=:)(:[_0-9a-zA-Z]+(?=:))*&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">namespace</span><span class="p">:</span>
+        <span class="n">namespace</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">:&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">namespace</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">namespace</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="remove_namespace"><a class="viewcode-back" href="../../utils.html#System.utils.remove_namespace">[docs]</a><span class="k">def</span> <span class="nf">remove_namespace</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Removes the namespace from the given name</span>
+
+<span class="sd">    :param name: The name with the namespace</span>
+<span class="sd">    :return: The name without the namesapce</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">namespace</span> <span class="o">=</span> <span class="n">get_namespace</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">namespace</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;^</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">namespace</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">name</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="win_path_convert"><a class="viewcode-back" href="../../utils.html#System.utils.win_path_convert">[docs]</a><span class="k">def</span> <span class="nf">win_path_convert</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts back slashes to forward slashes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">separator</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span>
+    <span class="k">if</span> <span class="n">separator</span> <span class="o">!=</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="exportMesh"><a class="viewcode-back" href="../../utils.html#System.utils.exportMesh">[docs]</a><span class="k">def</span> <span class="nf">exportMesh</span><span class="p">(</span><span class="n">mainUI</span><span class="p">,</span> <span class="n">exportMeshes</span><span class="p">,</span> <span class="n">exportPath</span><span class="p">,</span> <span class="n">removeBones</span><span class="p">,</span> <span class="n">poseDict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Take the passed in information and export skeletal meshes to FBX format in the specified output path.</span>
+<span class="sd">    Invoked from ART_ExportMeshes.py</span>
+
+<span class="sd">    :param mainUI: instance of rig creator interface. Used to access rig creator class variables</span>
+<span class="sd">    :param exportMeshes: list of meshes to export for the given LOD</span>
+<span class="sd">    :param exportPath: output path of FBX file for the given LOD</span>
+<span class="sd">    :param removeBones: which bones, if any, to remove for the given LOD</span>
+<span class="sd">    :param poseDict: transform values for bones to be applied to given LOD before removing bones, in order to bake in a\</span>
+<span class="sd">    pose.</span>
+
+
+<span class="sd">    Details:</span>
+
+<span class="sd">    When exporting a LOD skeletal mesh, there are many steps that need to happen:</span>
+<span class="sd">        * First, the LOD needs to go back to the model pose. If there are any joints this LOD needs to remove, we must</span>
+<span class="sd">          save out the skin weight information first.</span>
+<span class="sd">        * If there is a LOD pose to set, set the pose then while the mesh is still skinned.</span>
+<span class="sd">        * After setting the LOD pose, search for any connected blendshapes the meshes may have. If there are not true</span>
+<span class="sd">          copies of the mesh in the scene, manually create new morph target copies by going through each blendshape</span>
+<span class="sd">          attribute turning them on, one by one, duplicating the mesh each time.</span>
+<span class="sd">        * After checking for blendshapes, delete history on the meshes. This will bake the LOD pose in.</span>
+<span class="sd">        * Next, re-apply the blendshapes now that the pose is baked in and import the skin weights.</span>
+<span class="sd">        * If there were bones to remove, before removing the joints, transfer the weighting of those bones to the bone</span>
+<span class="sd">          that was specified to transfer weighting to. Usually this is the first valid parent. So if removing all finger</span>
+<span class="sd">          bones in an LOD, you would likely transfer all finger weights to the hand bone.</span>
+<span class="sd">        * Once the weighting is transferred, it is then safe to delete the bones that were to be removed.</span>
+<span class="sd">        * Now, we start building our selection of things to export. First though, we will check for any incoming</span>
+<span class="sd">          connections to our joints that we want to export, and break those connections. These are usually connections</span>
+<span class="sd">          to the rig, and we don&#39;t want FBX exporting all of that stuff.</span>
+<span class="sd">        * Build the selection (joints and morphs) and export FBX</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># before starting this function, the file should be saved (by whichever function is calling this function)</span>
+
+    <span class="c1"># make sure fbx plugin is loaded</span>
+    <span class="n">cmds</span><span class="o">.</span><span class="n">loadPlugin</span><span class="p">(</span><span class="s2">&quot;fbxmaya&quot;</span><span class="p">)</span>
+
+    <span class="c1"># set FBX settings</span>
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FBXExportSmoothingGroups -v 1&quot;</span><span class="p">)</span>
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FBXExportSmoothMesh -v 0&quot;</span><span class="p">)</span>
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FBXExportTangents -v 1&quot;</span><span class="p">)</span>
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FBXExportUpAxis Z&quot;</span><span class="p">)</span>
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FBXExportCameras -v 0&quot;</span><span class="p">)</span>
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FBXExportConstraints -v 0&quot;</span><span class="p">)</span>
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FBXExportShapes -v 1&quot;</span><span class="p">)</span>
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FBXExportSkins -v 1&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create a progress bar</span>
+    <span class="n">exportFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">exportPath</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">exportFileName</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">progBar</span> <span class="o">=</span> <span class="n">interfaceUtils</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setTextVisible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># find the value range</span>
+    <span class="n">maxVal</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">exportMeshes</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">poseDict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">maxVal</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">removeBones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">maxVal</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">exportMeshes</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span>
+
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxVal</span><span class="p">)</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># go to model pose</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;Setting Model Pose on Modules..&quot;</span><span class="p">)</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">mainUI</span><span class="o">.</span><span class="n">moduleInstances</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">setupForRigPose</span><span class="p">()</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">setReferencePose</span><span class="p">(</span><span class="s2">&quot;modelPose&quot;</span><span class="p">)</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">cleanUpRigPose</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="c1"># if joints to remove, save out skinning</span>
+    <span class="kn">import</span> <span class="nn">System.riggingUtils</span> <span class="k">as</span> <span class="nn">riggingUtils</span>
+
+    <span class="n">weightFiles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">exportMeshes</span> <span class="ow">and</span> <span class="n">removeBones</span> <span class="ow">or</span> <span class="n">removeBones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">exportMeshes</span><span class="p">:</span>
+            <span class="n">skinCluster</span> <span class="o">=</span> <span class="n">riggingUtils</span><span class="o">.</span><span class="n">findRelatedSkinCluster</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+
+            <span class="c1"># find a temporary place to save the weights out to</span>
+            <span class="n">fullPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">internalVar</span><span class="p">(</span><span class="n">uwd</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="s2">&quot;artv2&quot;</span><span class="p">)</span>
+            <span class="n">fullPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fullPath</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">fullPath</span><span class="p">)</span>
+
+            <span class="n">meshCheck</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># do a check to make sure we don&#39;t have naming conflicts</span>
+            <span class="k">if</span> <span class="n">mesh</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">shortName</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;*&quot;</span> <span class="o">+</span> <span class="n">shortName</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span><span class="p">)</span>
+                <span class="n">selection</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">sl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">transforms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shapes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                    <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
+                        <span class="n">string</span> <span class="o">+=</span> <span class="n">each</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+                    <span class="c1"># launch a message box informing of the issue</span>
+                    <span class="n">msgBox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
+                    <span class="n">msgBox</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Naming Conflict&quot;</span><span class="p">)</span>
+                    <span class="n">msgBox</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span>
+                        <span class="s2">&quot;More than one object shares the same name. Names should be unique.</span><span class="se">\</span>
+<span class="s2">                        Please fix and try the operation again.&quot;</span><span class="p">)</span>
+                    <span class="n">msgBox</span><span class="o">.</span><span class="n">setInformativeText</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+                    <span class="n">msgBox</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Critical</span><span class="p">)</span>
+                    <span class="n">ret</span> <span class="o">=</span> <span class="n">msgBox</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+                    <span class="c1"># clean up</span>
+                    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">weightFiles</span><span class="p">:</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+                    <span class="k">return</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">meshCheck</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">meshCheck</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="n">meshCheck</span><span class="p">:</span>
+                <span class="n">fullPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">mesh</span> <span class="o">+</span> <span class="s2">&quot;.weights&quot;</span><span class="p">)</span>
+                <span class="n">fullPath</span> <span class="o">=</span> <span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">fullPath</span><span class="p">)</span>
+
+                <span class="c1"># add file to our list so we can delete later</span>
+                <span class="n">weightFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fullPath</span><span class="p">)</span>
+
+                <span class="c1"># create skin class instance and save weights to location</span>
+                <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;Exporting Skin Weights..&quot;</span><span class="p">)</span>
+                <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">skin</span> <span class="o">=</span> <span class="n">riggingUtils</span><span class="o">.</span><span class="n">export_skin_weights</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">mesh</span><span class="p">)</span>
+                <span class="nb">print</span> <span class="n">skin</span>
+                <span class="n">skin</span><span class="o">.</span><span class="n">exportSkinWeights</span><span class="p">(</span><span class="n">fullPath</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">exportMeshes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">msgBox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
+        <span class="n">msgBox</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Export Error&quot;</span><span class="p">)</span>
+        <span class="n">msgBox</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;No meshes assigned to this LOD.&quot;</span><span class="p">)</span>
+        <span class="n">msgBox</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Critical</span><span class="p">)</span>
+        <span class="n">msgBox</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="c1"># if LOD pose exists, set LOD pose (meshes are still weighted)</span>
+    <span class="k">if</span> <span class="n">poseDict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;Setting LOD Pose..&quot;</span><span class="p">)</span>
+        <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">poseDict</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">poseDict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                    <span class="c1"># translate, rotate, scale</span>
+                    <span class="k">if</span> <span class="n">each</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;.translateX&quot;</span><span class="p">,</span> <span class="n">each</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;.translateY&quot;</span><span class="p">,</span> <span class="n">each</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;.translateZ&quot;</span><span class="p">,</span> <span class="n">each</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+                    <span class="k">if</span> <span class="n">each</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;.rotateX&quot;</span><span class="p">,</span> <span class="n">each</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;.rotateY&quot;</span><span class="p">,</span> <span class="n">each</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;.rotateZ&quot;</span><span class="p">,</span> <span class="n">each</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+                    <span class="k">if</span> <span class="n">each</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;.scaleX&quot;</span><span class="p">,</span> <span class="n">each</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;.scaleY&quot;</span><span class="p">,</span> <span class="n">each</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;.scaleZ&quot;</span><span class="p">,</span> <span class="n">each</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="c1"># delete the history on the meshes after setting the pose</span>
+    <span class="k">if</span> <span class="n">exportMeshes</span> <span class="ow">and</span> <span class="n">removeBones</span> <span class="ow">or</span> <span class="n">removeBones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">exportMeshes</span><span class="p">:</span>
+
+            <span class="n">blendshapeList</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">deleteShapes</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># find blendshapes</span>
+            <span class="n">blendshapes</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;blendShape&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">blendshape</span> <span class="ow">in</span> <span class="n">blendshapes</span><span class="p">:</span>
+                <span class="n">geo</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">blendShape</span><span class="p">(</span><span class="n">blendshape</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">geo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">geo</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">geo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">mesh</span><span class="p">:</span>
+                            <span class="n">attrs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listAttr</span><span class="p">(</span><span class="n">blendshape</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">attrs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+                                    <span class="c1"># if not, manually create shapes by toggling attrs and duplicating mesh</span>
+                                    <span class="k">if</span> <span class="ow">not</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+                                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">blendshape</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">attr</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                                        <span class="n">dupe</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">duplicate</span><span class="p">(</span><span class="n">mesh</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+                                        <span class="c1"># parent to world</span>
+                                        <span class="n">parent</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">dupe</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                                        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                            <span class="n">cmds</span><span class="o">.</span><span class="n">parent</span><span class="p">(</span><span class="n">dupe</span><span class="p">,</span> <span class="n">world</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                                        <span class="c1"># rename the duplicate mesh to the blendshape name</span>
+                                        <span class="n">cmds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">dupe</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+                                        <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">blendshape</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">attr</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                                        <span class="n">deleteShapes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+                                <span class="c1"># add the blendshape node name and its attrs to the master blendshape list</span>
+                                <span class="n">blendshapeList</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">blendshape</span><span class="p">,</span> <span class="n">attrs</span><span class="p">])</span>
+
+            <span class="c1"># delete history</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">ch</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># reapply blendshapes</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">blendshapeList</span><span class="p">:</span>
+                <span class="n">bshapeName</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">shapeList</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapeList</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">bshapeName</span><span class="p">):</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">blendShape</span><span class="p">(</span><span class="n">bshapeName</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="n">shape</span><span class="p">,</span> <span class="n">mesh</span><span class="p">],</span> <span class="n">r</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">blendShape</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">bshapeName</span><span class="p">)</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">deleteShapes</span><span class="p">:</span>
+                <span class="n">cmds</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+        <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;Deleting Mesh History..&quot;</span><span class="p">)</span>
+        <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># go back to model pose</span>
+    <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">mainUI</span><span class="o">.</span><span class="n">moduleInstances</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">setupForRigPose</span><span class="p">()</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">setReferencePose</span><span class="p">(</span><span class="s2">&quot;modelPose&quot;</span><span class="p">)</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">cleanUpRigPose</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="c1"># import skin weights</span>
+    <span class="k">if</span> <span class="n">exportMeshes</span> <span class="ow">and</span> <span class="n">removeBones</span> <span class="ow">or</span> <span class="n">removeBones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">exportMeshes</span><span class="p">:</span>
+            <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;Importing Skin Weights&quot;</span><span class="p">)</span>
+            <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">fullPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">internalVar</span><span class="p">(</span><span class="n">uwd</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="s2">&quot;artv2&quot;</span><span class="p">)</span>
+            <span class="n">fullPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">)</span>
+            <span class="n">fullPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">mesh</span> <span class="o">+</span> <span class="s2">&quot;.weights&quot;</span><span class="p">)</span>
+            <span class="n">fullPath</span> <span class="o">=</span> <span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">fullPath</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fullPath</span><span class="p">):</span>
+                <span class="n">riggingUtils</span><span class="o">.</span><span class="n">import_skin_weights</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">weightFiles</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># transfer weighting information</span>
+    <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">exportMeshes</span><span class="p">:</span>
+        <span class="n">skinCluster</span> <span class="o">=</span> <span class="n">riggingUtils</span><span class="o">.</span><span class="n">findRelatedSkinCluster</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+
+        <span class="c1"># prune weights</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">skinPercent</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">prw</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+        <span class="c1"># remove unused influences</span>
+        <span class="n">weightedInfs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">skinCluster</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">weightedInfluence</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">allInfs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">skinCluster</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">inf</span> <span class="ow">in</span> <span class="n">allInfs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">inf</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">weightedInfs</span><span class="p">:</span>
+                <span class="n">cmds</span><span class="o">.</span><span class="n">skinCluster</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ri</span><span class="o">=</span><span class="n">inf</span><span class="p">)</span>
+
+        <span class="c1"># get mesh influences</span>
+        <span class="n">meshInfluences</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">skinCluster</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wi</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># transfer weighting</span>
+        <span class="k">if</span> <span class="n">removeBones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">removeBones</span><span class="p">:</span>
+                <span class="n">transferBone</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">deleteBones</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">deleteBones</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">meshInfluences</span><span class="p">:</span>
+
+                        <span class="n">currentInfluences</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">skinCluster</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">transferBone</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">currentInfluences</span><span class="p">:</span>
+                            <span class="n">cmds</span><span class="o">.</span><span class="n">skinCluster</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ai</span><span class="o">=</span><span class="n">transferBone</span><span class="p">)</span>
+
+                        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">polyEvaluate</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+                            <span class="n">value</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">skinPercent</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="p">(</span><span class="n">mesh</span> <span class="o">+</span> <span class="s2">&quot;.vtx[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">),</span> <span class="n">t</span><span class="o">=</span><span class="n">joint</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">cmds</span><span class="o">.</span><span class="n">skinPercent</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="p">(</span><span class="n">mesh</span> <span class="o">+</span> <span class="s2">&quot;.vtx[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">),</span>
+                                                 <span class="n">tmw</span><span class="o">=</span><span class="p">[</span><span class="n">joint</span><span class="p">,</span> <span class="n">transferBone</span><span class="p">])</span>
+        <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;Transferring Weighting..&quot;</span><span class="p">)</span>
+        <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># delete joints to remove</span>
+    <span class="k">if</span> <span class="n">removeBones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;Deleting Chosen Bones..&quot;</span><span class="p">)</span>
+        <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">removeBones</span><span class="p">:</span>
+            <span class="n">deleteBones</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">bone</span> <span class="ow">in</span> <span class="n">deleteBones</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">bone</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span> <span class="s2">&quot;Unable to remove joint: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">bone</span><span class="p">)</span>
+                    <span class="nb">print</span> <span class="n">e</span>
+
+    <span class="c1"># handle morph targets</span>
+    <span class="n">blendShapeNodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">blendShapeMeshes</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">exportMeshes</span><span class="p">:</span>
+        <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;Checking for Morph Targets..&quot;</span><span class="p">)</span>
+        <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">blendshapes</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;blendShape&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">blendshape</span> <span class="ow">in</span> <span class="n">blendshapes</span><span class="p">:</span>
+            <span class="n">geo</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">blendShape</span><span class="p">(</span><span class="n">blendshape</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">geo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">geo</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">geo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+                    <span class="k">if</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">mesh</span><span class="p">:</span>
+                        <span class="n">blendShapeNodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">blendshape</span><span class="p">)</span>
+                        <span class="c1"># get blendshapes</span>
+                        <span class="n">attrs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listAttr</span><span class="p">(</span><span class="n">blendshape</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">attrs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+                                    <span class="n">blendShapeMeshes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+    <span class="c1"># before building selection, remove any connections from our skeleton</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;Removing Connections on Skeleton..&quot;</span><span class="p">)</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;root&quot;</span><span class="p">,</span> <span class="n">hi</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">selection</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">sl</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
+        <span class="n">connT</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">connectionInfo</span><span class="p">(</span><span class="n">each</span> <span class="o">+</span> <span class="s2">&quot;.translate&quot;</span><span class="p">,</span> <span class="n">sourceFromDestination</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">connT</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">disconnectAttr</span><span class="p">(</span><span class="n">connT</span><span class="p">,</span> <span class="n">each</span> <span class="o">+</span> <span class="s2">&quot;.translate&quot;</span><span class="p">)</span>
+        <span class="n">connR</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">connectionInfo</span><span class="p">(</span><span class="n">each</span> <span class="o">+</span> <span class="s2">&quot;.rotate&quot;</span><span class="p">,</span> <span class="n">sourceFromDestination</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">connR</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">disconnectAttr</span><span class="p">(</span><span class="n">connR</span><span class="p">,</span> <span class="n">each</span> <span class="o">+</span> <span class="s2">&quot;.rotate&quot;</span><span class="p">)</span>
+        <span class="n">connS</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">connectionInfo</span><span class="p">(</span><span class="n">each</span> <span class="o">+</span> <span class="s2">&quot;.scale&quot;</span><span class="p">,</span> <span class="n">sourceFromDestination</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">connS</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">disconnectAttr</span><span class="p">(</span><span class="n">connS</span><span class="p">,</span> <span class="n">each</span> <span class="o">+</span> <span class="s2">&quot;.scale&quot;</span><span class="p">)</span>
+
+    <span class="c1"># export (select root, geometry, and any morphs)</span>
+    <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># build selection</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;Building Selection For Export..&quot;</span><span class="p">)</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">exportMeshes</span><span class="p">:</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;root&quot;</span><span class="p">,</span> <span class="n">add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">bShapeMesh</span> <span class="ow">in</span> <span class="n">blendShapeMeshes</span><span class="p">:</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">bShapeMesh</span><span class="p">,</span> <span class="n">add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="s2">&quot;FBX Exporting...&quot;</span><span class="p">)</span>
+    <span class="n">progBar</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">progBar</span><span class="o">.</span><span class="n">maximum</span><span class="p">())</span>
+
+    <span class="n">selection</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">sl</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">mel</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FBXExport -f </span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">exportPath</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2"> -s&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="findExportMeshData"><a class="viewcode-back" href="../../utils.html#System.utils.findExportMeshData">[docs]</a><span class="k">def</span> <span class="nf">findExportMeshData</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Search through the character node LOD attributes to find out what and how to export the LOD.</span>
+<span class="sd">    This data included the LOD pose, the bones to remove, the meshes for the LOD, the output path</span>
+<span class="sd">    for the FBX, and the LOD name.</span>
+
+<span class="sd">    :return: [output path for FBX, list of meshes to export for LOD, list of bones to remove for LOD,</span>
+<span class="sd">             pose to put LOD in before removing bones, the LOD number]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">lodAttrs</span> <span class="o">=</span> <span class="n">getLodData</span><span class="p">()</span>
+    <span class="n">characterNode</span> <span class="o">=</span> <span class="n">returnCharacterModule</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">lodAttrs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># get json data from attribute</span>
+        <span class="n">lodData</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_Pose&quot;</span><span class="p">,</span> <span class="s2">&quot;_Bones&quot;</span><span class="p">,</span> <span class="s2">&quot;_Meshes&quot;</span><span class="p">,</span> <span class="s2">&quot;_FilePath&quot;</span><span class="p">,</span> <span class="s2">&quot;LOD&quot;</span><span class="p">]</span>
+
+    <span class="n">returnData</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">lodAttrs</span><span class="p">:</span>
+
+        <span class="n">meshValue</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">boneValue</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">pathValue</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">poseData</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">lodNumber</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">lodData</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">characterNode</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">attr</span> <span class="o">+</span> <span class="n">entry</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">entry</span> <span class="o">==</span> <span class="s2">&quot;_Bones&quot;</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">boneValue</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">characterNode</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">attr</span> <span class="o">+</span> <span class="n">entry</span><span class="p">))</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                <span class="k">if</span> <span class="n">entry</span> <span class="o">==</span> <span class="s2">&quot;_Meshes&quot;</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">meshValue</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listConnections</span><span class="p">(</span><span class="n">characterNode</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">attr</span> <span class="o">+</span> <span class="n">entry</span><span class="p">)</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No meshes assigned to this LOD.&quot;</span><span class="p">)</span>
+                        <span class="k">pass</span>
+                <span class="k">if</span> <span class="n">entry</span> <span class="o">==</span> <span class="s2">&quot;_FilePath&quot;</span><span class="p">:</span>
+                    <span class="n">pathValue</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">characterNode</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">attr</span> <span class="o">+</span> <span class="n">entry</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">entry</span> <span class="o">==</span> <span class="s2">&quot;_Pose&quot;</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">poseData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">characterNode</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">attr</span> <span class="o">+</span> <span class="n">entry</span><span class="p">))</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">entry</span> <span class="o">==</span> <span class="s2">&quot;LOD&quot;</span><span class="p">:</span>
+                    <span class="n">lodNumber</span> <span class="o">=</span> <span class="n">attr</span>
+
+        <span class="c1"># append to return data</span>
+        <span class="n">returnData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">pathValue</span><span class="p">,</span> <span class="n">meshValue</span><span class="p">,</span> <span class="n">boneValue</span><span class="p">,</span> <span class="n">poseData</span><span class="p">,</span> <span class="n">lodNumber</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">returnData</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="getLodData"><a class="viewcode-back" href="../../utils.html#System.utils.getLodData">[docs]</a><span class="k">def</span> <span class="nf">getLodData</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Search the character node for and LOD related attributes and return those.</span>
+
+<span class="sd">    :return: list of attributes on character node that contain LOD export data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get mesh info from character node</span>
+    <span class="n">characterNode</span> <span class="o">=</span> <span class="n">returnCharacterModule</span><span class="p">()</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listAttr</span><span class="p">(</span><span class="n">characterNode</span><span class="p">,</span> <span class="n">ud</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s2">&quot;LOD_*_FilePath&quot;</span><span class="p">)</span>
+
+    <span class="n">lodAttrs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">attrs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="n">lodAttrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;_FilePath&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">lodAttrs</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="returnFriendlyPath"><a class="viewcode-back" href="../../utils.html#System.utils.returnFriendlyPath">[docs]</a><span class="k">def</span> <span class="nf">returnFriendlyPath</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Take the incoming path and replace back slashes with forward slashes</span>
+
+<span class="sd">    :param path: directory or file path to replace back slashes in</span>
+<span class="sd">    :return: a directory or file path with only forward slashes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">nicePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nicePath</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">nicePath</span> <span class="o">=</span> <span class="n">nicePath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nicePath</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="returnNicePath"><a class="viewcode-back" href="../../utils.html#System.utils.returnNicePath">[docs]</a><span class="k">def</span> <span class="nf">returnNicePath</span><span class="p">(</span><span class="n">toolsPath</span><span class="p">,</span> <span class="n">imagePath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Take the incoming path and file and use os.path.join to create a new file path. Then replace all</span>
+<span class="sd">    back slashes with forward slashes.</span>
+
+<span class="sd">    :param toolsPath: the base directory path</span>
+<span class="sd">    :param imagePath: the file name to join onto the base path</span>
+<span class="sd">    :return: a joined path with only forward slashes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">toolsPath</span><span class="p">,</span> <span class="n">imagePath</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">image</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="splitMesh"><a class="viewcode-back" href="../../utils.html#System.utils.splitMesh">[docs]</a><span class="k">def</span> <span class="nf">splitMesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">assetName</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Take the given mesh and break it into chunks based on the influence weights of each bone. For example,</span>
+<span class="sd">    if the mesh was a leg that was skinned to a thigh bone, a calf bone, and a foot bone, this function will</span>
+<span class="sd">    split the leg mesh into three new meshes, one for each major influence. This is sometimes known as an</span>
+<span class="sd">    &quot;anim mesh&quot;</span>
+
+<span class="sd">    :param mesh: name of mesh to split up</span>
+<span class="sd">    :param assetName: name of character or rig (the name given on publish)</span>
+<span class="sd">    :return: a list of the newly created meshes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get mesh&#39;s skinCluster</span>
+    <span class="n">skinCluster</span> <span class="o">=</span> <span class="n">riggingUtils</span><span class="o">.</span><span class="n">findRelatedSkinCluster</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+
+    <span class="c1"># get the influences in that skinCluster</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">skinCluster</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># create a group if it doesn&#39;t exist</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">assetName</span> <span class="o">+</span> <span class="s2">&quot;_animMeshGrp&quot;</span><span class="p">):</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="n">empty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">assetName</span> <span class="o">+</span> <span class="s2">&quot;_animMeshGrp&quot;</span><span class="p">)</span>
+
+    <span class="n">newMeshes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># loop through each influence, creating a mesh for that influnece is applicable</span>
+    <span class="k">for</span> <span class="n">influence</span> <span class="ow">in</span> <span class="n">influences</span><span class="p">:</span>
+        <span class="c1"># create a new mesh</span>
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">mesh</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">influence</span><span class="p">):</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Mesh with name: &quot;</span> <span class="o">+</span> <span class="n">mesh</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">influence</span> <span class="o">+</span> <span class="s2">&quot; already exists. Skipping.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">newMesh</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">duplicate</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">mesh</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">influence</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># unlock attrs so we can add a constraint later</span>
+            <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;.tx&quot;</span><span class="p">,</span> <span class="s2">&quot;.ty&quot;</span><span class="p">,</span> <span class="s2">&quot;.tz&quot;</span><span class="p">,</span> <span class="s2">&quot;.rx&quot;</span><span class="p">,</span> <span class="s2">&quot;.ry&quot;</span><span class="p">,</span> <span class="s2">&quot;.rz&quot;</span><span class="p">]:</span>
+                <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">newMesh</span> <span class="o">+</span> <span class="n">attr</span><span class="p">,</span> <span class="n">lock</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="c1"># if there is only 1 influence, constrain the entire mesh as is</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">cmds</span><span class="o">.</span><span class="n">parentConstraint</span><span class="p">(</span><span class="n">influence</span><span class="p">,</span> <span class="n">newMesh</span><span class="p">,</span> <span class="n">mo</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># otherwise, loop through each influence getting the components affected by that influence</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">verts</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">notWeighted</span> <span class="o">=</span> <span class="p">[]</span>
+
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">polyEvaluate</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">skinPercent</span><span class="p">(</span><span class="n">skinCluster</span><span class="p">,</span> <span class="n">mesh</span> <span class="o">+</span> <span class="s2">&quot;.vtx[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">influence</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+                        <span class="n">verts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newMesh</span> <span class="o">+</span> <span class="s2">&quot;.vtx[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">)</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">notWeighted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newMesh</span> <span class="o">+</span> <span class="s2">&quot;.vtx[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">)</span>
+
+                <span class="c1"># if the amount of non-weighted verts is the same as the number of verts in the mesh, delete the mesh.</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">notWeighted</span><span class="p">)</span> <span class="o">==</span> <span class="n">cmds</span><span class="o">.</span><span class="n">polyEvaluate</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">newMesh</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">verts</span><span class="p">:</span>
+                    <span class="c1"># select all verts</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">newMesh</span> <span class="o">+</span> <span class="s2">&quot;.vtx[*]&quot;</span><span class="p">)</span>
+
+                    <span class="c1"># Convert the selection to contained faces</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">verts</span><span class="p">)</span> <span class="o">!=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">polyEvaluate</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                        <span class="c1"># unselect the verts we want to keep, convert remaining to faces and delete</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">tgl</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">polyListComponentConversion</span><span class="p">(</span><span class="n">fv</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">internal</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+                    <span class="c1"># constrain mesh to influence, parent mesh to group</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">parentConstraint</span><span class="p">(</span><span class="n">influence</span><span class="p">,</span> <span class="n">newMesh</span><span class="p">,</span> <span class="n">mo</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">parent</span><span class="p">(</span><span class="n">newMesh</span><span class="p">,</span> <span class="n">assetName</span> <span class="o">+</span> <span class="s2">&quot;_animMeshGrp&quot;</span><span class="p">)</span>
+
+                    <span class="c1"># fill holes, triangulate, and smooth normals</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">polyCloseBorder</span><span class="p">(</span><span class="n">newMesh</span><span class="p">,</span> <span class="n">ch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">polyTriangulate</span><span class="p">(</span><span class="n">newMesh</span><span class="p">,</span> <span class="n">ch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">polySoftEdge</span><span class="p">(</span><span class="n">newMesh</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">ch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">newMeshes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newMesh</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">newMeshes</span><span class="p">)</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="findAllSkinnableGeo"><a class="viewcode-back" href="../../utils.html#System.utils.findAllSkinnableGeo">[docs]</a><span class="k">def</span> <span class="nf">findAllSkinnableGeo</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find all meshes in the scene, list their parents. If the parent is not part of the joint mover (proxy geo,</span>
+<span class="sd">    lra representations, or bone representation geo) add it to the list of meshes that can be skinned.</span>
+
+<span class="sd">    :return: a list of geometry that is valid for skinning.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">meshes</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;mesh&quot;</span><span class="p">)</span>
+    <span class="n">skinnableGeo</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">meshes</span><span class="p">:</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;transform&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;proxy_geo&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;lra&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;bone_geo&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">skinnableGeo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;proxy_geo&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># get that parent</span>
+                <span class="n">transformParent</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listRelatives</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">transformParent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">transformParent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;skinned&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">skinnableGeo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+
+    <span class="n">skinnableGeo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">skinnableGeo</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">skinnableGeo</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="getMayaPyLoc"><a class="viewcode-back" href="../../utils.html#System.utils.getMayaPyLoc">[docs]</a><span class="k">def</span> <span class="nf">getMayaPyLoc</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function finds the location of the mayapy interpreter for batch functions.</span>
+
+<span class="sd">    :return: mayapy location</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">operatingSystem</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">about</span><span class="p">(</span><span class="n">operatingSystem</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">windows</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;win64&quot;</span><span class="p">,</span> <span class="s2">&quot;nt&quot;</span><span class="p">]</span>
+    <span class="n">linux</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;linux&quot;</span><span class="p">,</span> <span class="s2">&quot;linux64&quot;</span><span class="p">]</span>
+    <span class="n">mac</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mac&quot;</span><span class="p">]</span>
+
+    <span class="n">mayaLoc</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">mayapy</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;MAYA_LOCATION&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">mayaLoc</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">operatingSystem</span> <span class="ow">in</span> <span class="n">windows</span><span class="p">:</span>
+        <span class="n">mayapy</span> <span class="o">=</span> <span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mayaLoc</span><span class="p">,</span> <span class="s2">&quot;bin&quot;</span><span class="p">))</span>
+        <span class="n">mayapy</span> <span class="o">=</span> <span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mayapy</span><span class="p">,</span> <span class="s2">&quot;mayapy.exe&quot;</span><span class="p">))</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># need to confirm this works on Linux and Mac OS</span>
+        <span class="n">mayapy</span> <span class="o">=</span> <span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mayaLoc</span><span class="p">,</span> <span class="s2">&quot;bin&quot;</span><span class="p">))</span>
+        <span class="n">mayapy</span> <span class="o">=</span> <span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mayapy</span><span class="p">,</span> <span class="s2">&quot;mayapy&quot;</span><span class="p">))</span>
+
+
+    <span class="k">return</span> <span class="n">mayapy</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

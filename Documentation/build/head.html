@@ -1,0 +1,387 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ART_Head &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Rigging Tools" href="rigTools.html" />
+    <link rel="prev" title="Module Base Class" href="baseclass.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rigTools.html" title="Rigging Tools"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="baseclass.html" title="Module Base Class"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Rig Modules</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ART_Head</a><ul>
+<li><a class="reference internal" href="#file-attributes">File Attributes</a></li>
+<li><a class="reference internal" href="#class">Class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="baseclass.html"
+                        title="previous chapter">Module Base Class</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="rigTools.html"
+                        title="next chapter">Rigging Tools</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/head.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-RigModules.ART_Head">
+<span id="art-head"></span><h1>ART_Head<a class="headerlink" href="#module-RigModules.ART_Head" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<div class="section" id="file-attributes">
+<h2>File Attributes<a class="headerlink" href="#file-attributes" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><p class="first"><strong>icon:</strong> This is the image file (125x75 .png) that gets used in the RigCreatorUI</p>
+</li>
+<li><p class="first"><strong>hoverIcon:</strong> When you hover over the module in the module list, it will swap to this icon
+(background changes to orange). There are .psd template files for these.</p>
+</li>
+<li><p class="first"><strong>search:</strong> These are search terms that are accepted when searching the list of modules in the
+RigCreatorUI</p>
+</li>
+<li><p class="first"><strong>class name:</strong> The name of the class.</p>
+</li>
+<li><p class="first"><strong>jointMover:</strong> The relative path to the joint mover file. Relative to the ARTv2 root directory.</p>
+</li>
+<li><p class="first"><strong>baseName:</strong> The default name the module will get created with. Users can then add a prefix and/or
+suffix to the base name.</p>
+</li>
+<li><p class="first"><strong>rigs:</strong> This is a simple list of what rigs this module can build. This feature isn&#8217;t implemented yet,
+but the plan is to query this list and present these options to the user for them to select what rigs
+they want to build for the module. Right now, it will build all rigs.</p>
+</li>
+<li><p class="first"><strong>fbxImport:</strong> This is a list that will show the options for the module in the import mocap interface.
+Normally, this list will have at least None and FK.</p>
+</li>
+<li><p class="first"><strong>matchData:</strong> This is a list of options that will be presented for the module in a comboBox in the
+match over frame range interface. First argument is  a bool as to whether the module can or can&#8217;t
+match. The second arg is a list of strings to display for the match options. For example:
+matchData = [True, [&#8220;Match FK to IK&#8221;, &#8220;Match IK to FK&#8221;]]</p>
+</li>
+<li><p class="first"><strong>controlTypes:</strong> This is a list of lists, where each item in the main list is a list comprised of the
+name of the attribute that gets added to the network node that contains the control information.
+The second arg in each list entry is a control type, like FK or IK. This is used in the select
+rig controls interface for filtering out which controls on each module you want to select. On
+this module, the values are: controlTypes = [[&#8220;fkControls&#8221;, &#8220;FK&#8221;]], which means that the
+attribute that holds the control info is called fkControls, and those controls are of type FK.</p>
+<blockquote>
+<div><img alt="_images/selectRigControls.png" src="_images/selectRigControls.png" />
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="class">
+<h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="RigModules.ART_Head.ART_Head">
+<em class="property">class </em><code class="descclassname">RigModules.ART_Head.</code><code class="descname">ART_Head</code><span class="sig-paren">(</span><em>rigUiInst</em>, <em>moduleUserName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="baseclass.html#System.ART_RigModule.ART_RigModule" title="System.ART_RigModule.ART_RigModule"><code class="xref py py-class docutils literal"><span class="pre">System.ART_RigModule.ART_RigModule</span></code></a></p>
+<p>This class creates the head module</p>
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>rigUiInst</em>, <em>moduleUserName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiate the class, taking in the instance to the interface and the user specified name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rigUiInst</strong> &#8211; This is the rig creator interface instance being passed in.</li>
+<li><strong>moduleUserName</strong> &#8211; This is the name specified by the user on module creation.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Instantiate the following class variables as well:</dt>
+<dd><ul class="first last simple">
+<li><strong>self.rigUiInst:</strong> take the passed in interface instance and make it a class var</li>
+<li><strong>self.moduleUserName:</strong> take the passed in moduleUserName and make it a class var</li>
+<li><strong>self.outlinerWidget:</strong> an empty list that will hold all of the widgets added to the outliner</li>
+</ul>
+</dd>
+</dl>
+<p>Also, read the QSettings to find out where needed paths are.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.addAttributes">
+<code class="descname">addAttributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.addAttributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.addAttributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add custom attributes this module needs to the network node.</p>
+<p>Always calls on base class function first, then extends with any attributes unique to the class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.addJointMoverToOutliner">
+<code class="descname">addJointMoverToOutliner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.addJointMoverToOutliner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.addJointMoverToOutliner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the joint movers for this module to the outliner.</p>
+<p>Depending on the module settings, different joint movers may or may not be added. Also, each &#8220;joint&#8221; usually
+has three movers: global, offset, and geo. However, not all joints do, so this method is also used to specify
+which joint movers for each joint are added to the outliner.</p>
+<img alt="_images/outliner.png" src="_images/outliner.png" />
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.applyModuleChanges">
+<code class="descname">applyModuleChanges</code><span class="sig-paren">(</span><em>moduleInst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.applyModuleChanges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.applyModuleChanges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the scene after the settings are changed in the skeleton settings UI.</p>
+<p>This means also updating the created_bones attr, updating the joint mover if needed,
+running self.updateNeck, updating the outliner, and updating the bone count.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>moduleInst</strong> &#8211; self (usually, but there are cases like templates where an inst on disc is passed in.)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.buildRigCustom">
+<code class="descname">buildRigCustom</code><span class="sig-paren">(</span><em>textEdit</em>, <em>uiInst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.buildRigCustom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.buildRigCustom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the rigs for this module.</p>
+<p>This method defines what rigs are built and how they are built when the asset is published. It posts any build
+info to the passed in textEdit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>textEdit</strong> &#8211; passed in text edit that the rig build can post updates to</li>
+<li><strong>uiInst</strong> &#8211; passed in instance of the buildProgressUI</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.importFBX">
+<code class="descname">importFBX</code><span class="sig-paren">(</span><em>importMethod</em>, <em>character</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.importFBX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.importFBX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import FBX motion onto this module&#8217;s rig controls.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>importMethod</strong> &#8211; The import method to be used (options defined in the file attributes)</li>
+<li><strong>character</strong> &#8211; the namespace of the character</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Each module has to define what import methods it offers (at the very top of the module file) and then define
+how motion is imported using those methods.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.pickerUI">
+<code class="descname">pickerUI</code><span class="sig-paren">(</span><em>center</em>, <em>animUI</em>, <em>networkNode</em>, <em>namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.pickerUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.pickerUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the animation picker for the module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>center</strong> &#8211; the center of the QGraphicsScene</li>
+<li><strong>animUI</strong> &#8211; the instance of the AnimationUI</li>
+<li><strong>networkNode</strong> &#8211; the module&#8217;s network node</li>
+<li><strong>namespace</strong> &#8211; the namespace of the character</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.pinModule">
+<code class="descname">pinModule</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.pinModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.pinModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pin the module in place so the parent does not move the module. Each module has to define how it needs to be
+pinned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.skeletonSettings_UI">
+<code class="descname">skeletonSettings_UI</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.skeletonSettings_UI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.skeletonSettings_UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the UI for the module that has all of the configuration settings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; user given name of module (prefix + base_name + suffix)</li>
+<li><strong>width</strong> &#8211; width of the skeleton settings groupBox. 335 usually</li>
+<li><strong>height</strong> &#8211; height of the skeleton settings groupBox.</li>
+<li><strong>checkable</strong> &#8211; Whether or not the groupBox can be collapsed.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Build the groupBox that contains all of the settings for this module. Parent the groupBox
+into the main skeletonSettingsUI layout.
+Lastly, call on updateSettingsUI to populate the UI based off of the network node values.</p>
+<img alt="_images/skeletonSettings.png" src="_images/skeletonSettings.png" />
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.skinProxyGeo">
+<code class="descname">skinProxyGeo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.skinProxyGeo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.skinProxyGeo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Skin the proxy geo brought in by the module. Each module has to define how it wants to skin its proxy geo.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.toggleButtonState">
+<code class="descname">toggleButtonState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.toggleButtonState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.toggleButtonState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the state of the Apply Changes button.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.updateNeck">
+<code class="descname">updateNeck</code><span class="sig-paren">(</span><em>attachedModules</em>, <em>oldNum</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.updateNeck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.updateNeck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take the number of neck bones value and rebuild the joint mover.</p>
+<p>The head module has 3 joint mover files, 1 for each possible neck number. When the number of neck bones is
+changed, the current module has its information stored (placement, etc), the module is then deleted,
+the new joint mover path is constructed and brought in, and lastly it resolves any dependency issues.
+(Like if there was a leaf joint as a child of a neck bone that no longer exists)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attachedModules</strong> &#8211; self.checkForDependencies()</li>
+<li><strong>oldNum</strong> &#8211; the existing amount  of neck bones prior to the update</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.updateOutliner">
+<code class="descname">updateOutliner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.updateOutliner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.updateOutliner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whenever changes are made to the module settings, update the outliner to show the new or removed movers</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RigModules.ART_Head.ART_Head.updateSettingsUI">
+<code class="descname">updateSettingsUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RigModules/ART_Head.html#ART_Head.updateSettingsUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RigModules.ART_Head.ART_Head.updateSettingsUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the skeleton settings UI based on the network node values for this module.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rigTools.html" title="Rigging Tools"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="baseclass.html" title="Module Base Class"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Rig Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

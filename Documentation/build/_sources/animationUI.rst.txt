@@ -1,0 +1,6 @@
+===============
+ART_AnimationUI
+===============
+
+.. automodule:: Interfaces.ART_AnimationUI
+    :members:

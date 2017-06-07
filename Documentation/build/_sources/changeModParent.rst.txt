@@ -1,0 +1,6 @@
+========================
+ART_ChangeModuleParentUI
+========================
+
+.. automodule:: Interfaces.ART_ChangeModuleParentUI
+    :members:

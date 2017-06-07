@@ -1,0 +1,610 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ART_AnimationUI &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Misc. Tools" href="miscTools.html" />
+    <link rel="prev" title="ART_AddModuleToCanvas" href="addModuleToPicker.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="miscTools.html" title="Misc. Tools"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="addModuleToPicker.html" title="ART_AddModuleToCanvas"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="animTools.html" accesskey="U">Animation Tools</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="addModuleToPicker.html"
+                        title="previous chapter">ART_AddModuleToCanvas</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="miscTools.html"
+                        title="next chapter">Misc. Tools</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/animationUI.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Interfaces.ART_AnimationUI">
+<span id="art-animationui"></span><h1>ART_AnimationUI<a class="headerlink" href="#module-Interfaces.ART_AnimationUI" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<dl class="class">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI">
+<em class="property">class </em><code class="descclassname">Interfaces.ART_AnimationUI.</code><code class="descname">ART_AnimationUI</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class creates the main animation interface that houses the control picker and the buttons for the animation
+tools. This is the main interface that animators will interact with.</p>
+<blockquote>
+<div><img alt="_images/animationUI.png" src="_images/animationUI.png" />
+</div></blockquote>
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates the class, getting the QSettings, writing the stylesheets, and calling on the method to build
+the interface.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.addModuleToPickerUI">
+<code class="descname">addModuleToPickerUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.addModuleToPickerUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.addModuleToPickerUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an instance of ART_AddModuleToCanvas to bring up that tool, passing in modules valid to add.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.addTab">
+<code class="descname">addTab</code><span class="sig-paren">(</span><em>tabWidget</em>, <em>bypass=False</em>, <em>tabName=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.addTab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.addTab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a tab to the QTabWidget for a given character to add more module control pickers to. These are sometimes
+referred to as &#8220;canvases&#8221;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tabWidget</strong> &#8211; The QTabWidget to add a tab to.</li>
+<li><strong>bypass</strong> &#8211; If not creating the &#8220;Main&#8221; tab or loading a picker from file, a tab name must be entered.</li>
+<li><strong>tabName</strong> &#8211; If creating the &#8220;Main&#8221; tab or loading a picker from file, the name given to the tab that
+will be created.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Index of the created tab in the QTabWidget.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.backgroundBrowse">
+<code class="descname">backgroundBrowse</code><span class="sig-paren">(</span><em>field</em>, <em>gfxView</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.backgroundBrowse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.backgroundBrowse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens a file browser to select a valid .png background image and then apply it to the specified QGraphicsScene.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>field</strong> &#8211; QLineEdit for the path name to be displayed.</li>
+<li><strong>gfxView</strong> &#8211; QGraphicsView to add the background image to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.buildUI">
+<code class="descname">buildUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.buildUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.buildUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the animation UI that houses the area for control pickers and a sidebar for animation tools.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.changeBackground">
+<code class="descname">changeBackground</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.changeBackground"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.changeBackground" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an interface allowing a user to change the background image of a picker with these dimensions: (442 x
+600)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.clearBackground">
+<code class="descname">clearBackground</code><span class="sig-paren">(</span><em>gfxView</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.clearBackground"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.clearBackground" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the background image from the given QGraphicsView.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gfxView</strong> &#8211; The QGraphicsView whose background image to remove.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_AnimationUI.changeBackground</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.closeEvent">
+<code class="descname">closeEvent</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.closeEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.closeEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the interface.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.comparePickerToRig">
+<code class="descname">comparePickerToRig</code><span class="sig-paren">(</span><em>unused</em>, <em>used</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.comparePickerToRig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.comparePickerToRig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares the modules that are on the picker to all modules that make up the character.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>unused</strong> &#8211; Whether or not we want a list returned of modules that are not on the picker yet.</li>
+<li><strong>used</strong> &#8211; Whether or not we want a list returned of modules that are on the picker.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns a list of the modules based on either used or unused args.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.createNewPicker">
+<code class="descname">createNewPicker</code><span class="sig-paren">(</span><em>bypass=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.createNewPicker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.createNewPicker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new control picker for the given character tab. This will remove the help gif and replace it with a
+blank canvas that module pickers can be added to (using ART_AddModuleToCanvas).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bypass</strong> &#8211; Whether or not to bypass the QMessageBox confirming the creation of a new picker.
+This is used when loading a picker from file. bypass will be set to True.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">returns the QTabWidget for this character&#8217;s picker.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_AddModuleToCanvas</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.editPicker">
+<code class="descname">editPicker</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.editPicker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.editPicker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes all picker items editable again, making them selectable, movable, scalable, and rotatable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.exportMotion">
+<code class="descname">exportMotion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.exportMotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.exportMotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates ART_ExportMotionUI to bring up the tool for exporting animation out to various file formats.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.findAllPickerItems">
+<code class="descname">findAllPickerItems</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.findAllPickerItems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.findAllPickerItems" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all modules on the picker. Used mostly be the load picker function.
+:return: Returns a list of picker data that includes for each item, the module the picker is for, the item in
+memory, and the nice name.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_AnimationUI.loadPicker</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.findCharacters">
+<code class="descname">findCharacters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.findCharacters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.findCharacters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all assets in the scene built with ARTv2, and creates a picker tab for each one in the animation UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.getButtonColors">
+<code class="descname">getButtonColors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.getButtonColors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.getButtonColors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets joint module picker button colors, which can be edited by the user.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently, only the joint module supports users being able to change the button color.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A list of lists where the inner list contains the following data for each joint module found:</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return [0]:</th><td class="field-body">The name of the module this picker interfaces with.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return [1]:</th><td class="field-body">The color of the picker button.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return [2]:</th><td class="field-body">The name of the control this button selects.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.getComments">
+<code class="descname">getComments</code><span class="sig-paren">(</span><em>saving=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.getComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.getComments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets any comment boxes that were created on any picker tabs and returns a list of those items.
+:param saving: Whether or not this function is being called from savePicker, in which case, it will disable
+edits.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A list of lists where the inner list contains the following data for each comment box found:</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return [0]:</th><td class="field-body">The QRect of the comment box, which contains the box dimensions and the x/y coordinates.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return [1]:</th><td class="field-body">The color of the comment box</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return [2]:</th><td class="field-body">The name of the tab the comment box is under.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return [3]:</th><td class="field-body">The text label of the comment box.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.getCurrentScene">
+<code class="descname">getCurrentScene</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.getCurrentScene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.getCurrentScene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the QGraphicsScene of the current QGraphicsView, which is gotten by calling on self.getCurrentView.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the QGraphicsScene under the current QGraphicsView.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_AnimationUI.getCurrentView</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.getCurrentView">
+<code class="descname">getCurrentView</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.getCurrentView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.getCurrentView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the current QGraphicsView based on the currently selected character tab, and the currently selected
+picker tab of said character.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the QGraphicsView that is currently active.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.getModuleInst">
+<code class="descname">getModuleInst</code><span class="sig-paren">(</span><em>module</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.getModuleInst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.getModuleInst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the given module and instantiates it, returning the memory address for the created instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>module</strong> &#8211; The name of the module to instantiate.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The instance of the instantiated module in memory.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.getPickerTabs">
+<code class="descname">getPickerTabs</code><span class="sig-paren">(</span><em>saving</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.getPickerTabs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.getPickerTabs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds and returns all picker item data, like transforms, scale, x/y coordinates, mirrored status, parent tab,
+and controlled module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>saving</strong> &#8211; Whether or not this function is being called by savePicker, in which case if it is, it will then
+make sure that the picker items are no longer editable.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A list of lists, where each inner list has the following data for a picker item:</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return [0]:</th><td class="field-body">Name of tab the picker item belongs to</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return [1]:</th><td class="field-body">Picker item transforms</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return [2]:</th><td class="field-body">Name of module picker belongs to (which module controls it interfaces with)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return [3]:</th><td class="field-body">Whether or not the picker item is mirrored.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return [4]:</th><td class="field-body">Whether or not the picker is a sub-picker, like fingers or toes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return [5]:</th><td class="field-body">And if not saving, the memory address of the picker item.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.gfxViewMouseMove">
+<code class="descname">gfxViewMouseMove</code><span class="sig-paren">(</span><em>view</em>, <em>event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.gfxViewMouseMove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.gfxViewMouseMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override event that captures a mouse move when in the passed in QGraphicsView and changes the
+displayed size of the QRubberBand based on the origin position and the current position, drawing a QRect (if
+in drag select or comment box mode.). It also finds any items inside of that QRect (picker buttons, etc).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>view</strong> &#8211; the QGraphicsView to detect mouse move events in and check for items in.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.gfxViewMousePress">
+<code class="descname">gfxViewMousePress</code><span class="sig-paren">(</span><em>view</em>, <em>event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.gfxViewMousePress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.gfxViewMousePress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override event that captures a mouse press when in the passed in QGraphicsView and displays the QRubberBand
+if in drag select or comment box mode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>view</strong> &#8211; the QGraphicsView to detect mouse press events in.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.gfxViewMouseRelease">
+<code class="descname">gfxViewMouseRelease</code><span class="sig-paren">(</span><em>view</em>, <em>event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.gfxViewMouseRelease"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.gfxViewMouseRelease" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override event that captures a mouse release when in the passed in QGraphicsView and hides the QRubberBand
+if it was visible. If in comment box mode, this release event will also create the comment box with the
+dimensions and position of the start point of the mouse press, and the QRect from the mouse move.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>view</strong> &#8211; the QGraphicsView to detect mouse release events and to add comment boxes to.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.importMotion">
+<code class="descname">importMotion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.importMotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.importMotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates ART_ImportMotionUI to bring up the tool for importing FBX animation onto the rig.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.loadPicker">
+<code class="descname">loadPicker</code><span class="sig-paren">(</span><em>filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.loadPicker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.loadPicker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a .picker file and builds the picker according to the file data.
+:param filename: The path of the picker file to gather data from.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.matchOverRange">
+<code class="descname">matchOverRange</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.matchOverRange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.matchOverRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates ART_MatchOverRangeUI to bring up the tool for matching different rig type over a frame range for
+selected modules.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>Matching the IK leg rig controls to the Fk leg rig controls over a frame range of 0-30.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.mirrorChildTextItems">
+<code class="descname">mirrorChildTextItems</code><span class="sig-paren">(</span><em>children</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.mirrorChildTextItems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.mirrorChildTextItems" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mirrors any QGraphicsSimpleTextItems text if the parent picker was mirrored, so that the text is correct.
+:param children: List of child items (QGraphicsSimpleTextItems) of a pickerBorderItem or a pickerButton.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.movePickerToTab">
+<code class="descname">movePickerToTab</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.movePickerToTab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.movePickerToTab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an instance of the ART_MovePickerToTabUI tool, passing in all valid module pickers that could be moved.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.pickerTabChange">
+<code class="descname">pickerTabChange</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.pickerTabChange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.pickerTabChange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on when a tab is changed on a given character&#8217;s picker, if the remove modules from canvas UI is open,
+it will be closed.</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">This function could eventually be changed to simply refresh that UI with the new information.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.removeModuleFromPickerUI">
+<code class="descname">removeModuleFromPickerUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.removeModuleFromPickerUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.removeModuleFromPickerUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an instance of the ART_RemoveModuleFromCanvas tool, passing in modules valid to remove.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.resetRigCtrls">
+<code class="descname">resetRigCtrls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.resetRigCtrls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.resetRigCtrls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates ART_ResetModulesUI to bring up the tool for resetting transformations on a selected modules.
+Also known as &#8220;zeroing out&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.savePicker">
+<code class="descname">savePicker</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.savePicker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.savePicker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the picker data to a .picker file. The main picker data is actually gathered by self.getPickerTabs,
+self.getComments, and self.getButtonColors.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_AnimationUI.getPickerTabs, ART_AnimationUI.getComments, ART_AnimationUI.getButtonColors</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.selectAllCtrls">
+<code class="descname">selectAllCtrls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.selectAllCtrls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.selectAllCtrls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates ART_SelectControlsUI to bring up the tool for selecting specified rig controls for selected
+modules.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.setButtonIcon">
+<code class="descname">setButtonIcon</code><span class="sig-paren">(</span><em>movie</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.setButtonIcon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.setButtonIcon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the icon of the matchRangeBtn to the next frame in the passed in movie. Note: This was a test function
+to see if animated gifs could be used as buttons.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>movie</strong> &#8211; The movie whose frame to change.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AnimationUI.ART_AnimationUI.toggleDragState">
+<code class="descname">toggleDragState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#ART_AnimationUI.toggleDragState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.ART_AnimationUI.toggleDragState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggles selection interaction modes within the QGraphicsScene. The three different modes are normal select,
+drag select, and comment box mode. This will set the dragMode of the QGraphicsView to the currently selected
+state, along with switching icons to show selection status.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="Interfaces.ART_AnimationUI.getMainWindow">
+<code class="descclassname">Interfaces.ART_AnimationUI.</code><code class="descname">getMainWindow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#getMainWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.getMainWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Maya&#8217;s window as a QWidget and return the item in memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a QWidget of Maya&#8217;s window</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="Interfaces.ART_AnimationUI.run">
+<code class="descclassname">Interfaces.ART_AnimationUI.</code><code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AnimationUI.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AnimationUI.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate the ART_AnimationUI class to build the main interface the animators will interact with.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">instance of the ART_AnimationUI in memory.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="miscTools.html" title="Misc. Tools"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="addModuleToPicker.html" title="ART_AddModuleToCanvas"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="animTools.html" >Animation Tools</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

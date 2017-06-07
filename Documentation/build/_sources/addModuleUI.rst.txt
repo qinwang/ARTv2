@@ -1,0 +1,6 @@
+===============
+ART_AddModuleUI
+===============
+
+.. automodule:: Interfaces.ART_AddModuleUI
+    :members:

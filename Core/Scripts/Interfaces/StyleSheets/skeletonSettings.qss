@@ -1,0 +1,404 @@
+
+QWidget
+{
+    background: transparent;
+}
+
+QFrame
+{
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/field_background.png);
+}
+
+
+QGroupBox
+{
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/field_background.png);
+    border: 2px solid rgb(15,107,162);
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font: bold 12px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 0 3px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #FFOECE, stop: 1 #FFFFFF);
+    font: bold 12px;
+}
+
+QGroupBox::indicator:unchecked
+{
+    image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/upArrow.png);
+}
+
+QGroupBox::indicator:checked
+{
+    image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/downArrow.png);
+}
+
+
+/*                  */
+/* GRAY QPUSHBUTTON */
+/*                  */
+
+QPushButton
+{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(80,80,80), stop:1 rgb(30,30,30));
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/blue_field_background.png);
+    color: white;
+    border: 2px solid rgb(9,10,12);
+    shadow: rgb(9,10,12);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font: 12px;
+    border-radius: 5px;
+}
+
+
+QPushButton:enabled:hover
+{
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/blue_field_background_hover.png);
+}
+
+
+QPushButton:pressed
+{
+    margin-top: 2px;
+}
+
+
+QPushButton:checked
+{
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/blue_field_background_hover.png);
+    color: white;
+}
+
+QPushButton:disabled
+{
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/grey_field_background.png);
+    color: white;
+}
+
+
+QPushButton:enabled
+{
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/blue_field_background.png);
+    color: white;
+}
+
+
+/*                  */
+/* BLUE QPUSHBUTTON */
+/*                  */
+
+QPushButton#blueButton
+{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(25,175,255), stop:1 rgb(12,63,91));
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/blue_field_background.png);
+    color: rgb(255,255,255);
+    border-radius: 5px;
+    border: 2px solid rgb(9,10,12);
+    shadow: rgb(9,10,12);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font: 12px;
+}
+
+
+QPushButton:hover#blueButton
+{
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/blue_field_background_hover.png);
+}
+
+
+QPushButton:pressed#blueButton
+{
+    margin-top: 2px;
+}
+
+
+
+
+QPushButton:checked#blueButton
+{
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/blue_field_background_hover.png);
+}
+
+
+
+/*                  */
+/* QCHECKBOX        */
+/*                  */
+
+QCheckBox
+{
+    spacing: 5px;
+    margin-top: 2px;
+    color: rgb white;
+    font: 12px;
+    background-color: transparent;
+    background: transparent;
+}
+
+QCheckBox::hover
+{
+    color: rgb(255,255,255);
+}
+
+QCheckBox::indicator:unchecked
+{
+    background-color: white;
+    border: 2px solid black;
+}
+
+QCheckBox::indicator:checked
+{
+    image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/checked.png);
+}
+
+
+
+
+
+
+
+/*                  */
+/* QLISTWIDGET      */
+/*                  */
+
+QListView
+{
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(60,60,60), stop:1 rgb(30,30,30));
+    background-image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/light_epic_background.png);
+    border-radius: 5px;
+    border: 2px solid rgb(9,10,12);
+    shadow: rgb(9,10,12);
+    font: bold 12px;
+}
+
+QListView::item:selected
+{
+    border: 1px solid rgb(30,30,30);
+}
+
+
+QListView::item:selected:active
+{
+    background: rgb(25,175,255);
+    color: rgb(30,30,30);
+}
+
+QListView::item:hover
+{
+    background: rgb(80,80,80);
+    border: 1px solid rgb(30,30,30);
+}
+
+
+
+
+
+
+
+
+/*                  */
+/* QSPINBOX         */
+/*                  */
+
+QSpinBox
+{
+    padding-right: 15px;
+    border: 2px solid rgb(9,10,12);
+    border-radius: 5px;
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(80,80,80), stop:1 rgb(60,60,60));
+    font: bold 12px;
+    selection-background-color: rgb(25,175,255);
+}
+
+QSpinBox::enabled
+{
+    padding-right: 15px;
+    border: 2px solid rgb(9,10,12);
+    border-radius: 5px;
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(80,80,80), stop:1 rgb(60,60,60));
+    font: bold 12px;
+    selection-background-color: rgb(25,175,255);
+}
+
+
+QSpinBox::disabled
+{
+    padding-right: 15px;
+    border: 2px solid rgb(9,10,12);
+    border-radius: 5px;
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(80,80,80), stop:1 rgb(60,60,60));
+    font: bold 12px;
+    selection-background-color: rgb(25,175,255);
+}
+
+
+
+
+
+
+QTabBar::tab
+{
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(60, 60, 60, 255), stop:1 rgba(30, 30, 30, 255));
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
+QTabBar::tab:selected
+{
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(120,120,120, 255), stop:1 rgba(60,60,60, 255));
+}
+
+QTabBar::tab:hover
+{
+    background: rgb(180,180,180);
+    color: black;
+}
+
+QTabBar::tab:!selected
+{
+    margin-top: 1px;
+}
+
+
+
+
+
+/*                  */
+/* QLINEEDIT        */
+/*                  */
+
+
+QLineEdit
+{
+    border: 2px solid rgb(0,0,0);
+    border-radius: 5px;
+    background-color: rgb(80,80,80);
+    font: bold 12px;
+    selection-background-color: black;
+}
+
+QLineEdit::focus
+{
+    border: 1px solid rgb(25,175,255);
+
+}
+
+
+
+
+
+
+
+/*                  */
+/* QCOMBOBOX        */
+/*                  */
+
+QComboBox
+{
+    border: 2px solid black;
+    border-radius: 4px;
+    background-color: rgb(80,80,80);
+
+}
+
+
+QComboBox:on
+{
+    padding-top: 3px;
+    padding-left: 4px;
+}
+
+
+QComboBox:editable
+{
+    background: rgb(60,60,60);
+}
+
+
+QComboBox QAbstractItemView
+{
+    border: 2px solid black;
+    selection-background-color: rgb(25,175,255);
+    border-width: 2px;
+}
+
+
+QComboBox::down-arrow
+{
+    image: url(C:/Users/jeremy/Documents/BitBucket/ARTv2/ARTv2/Core/Icons/System/downArrow.png);
+}
+
+
+
+
+
+
+
+/*                  */
+/* QRADIOBUTTON     */
+/*                  */
+
+
+QRadioButton
+{
+    spacing: 5px;
+    margin-top: 2px;
+    color: rgb(255,255,255);
+    padding: 2px;
+    border-radius: 10px;
+    background: transparent;
+}
+
+QRadioButton::hover
+{
+    color: rgb(25,175,255);
+}
+
+QRadioButton::indicator
+{
+    background-color: rgb(80,80,80);
+    border-radius: 10px;
+    border: 2px solid black;
+}
+
+QRadioButton::indicator:checked
+{
+    background-color: rgb(25,175,255);
+
+}
+
+QRadioButton::indicator:unchecked:hover
+{
+    background-color: rgb(120,120,120);
+
+}
+
+
+
+
+/*                  */
+/* QLABEL           */
+/*                  */
+
+QLabel
+{
+    background-color: transparent;
+}
+
+
+
+
+
+/* styleSheetFile = utils.returnNicePath(self.toolsPath, "Core/Scripts/Interfaces/StyleSheets/mainScheme.qss")
+        with open(styleSheetFile, "r") as f:
+            self.groupBox.setStyleSheet(f.read()) */

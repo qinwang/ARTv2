@@ -1,0 +1,281 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ART_BuildProgressUI &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ART_ChangeModuleNameUI" href="changeModName.html" />
+    <link rel="prev" title="ART_BoneCounter" href="boneCounter.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="changeModName.html" title="ART_ChangeModuleNameUI"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="boneCounter.html" title="ART_BoneCounter"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" accesskey="U">Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="boneCounter.html"
+                        title="previous chapter">ART_BoneCounter</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="changeModName.html"
+                        title="next chapter">ART_ChangeModuleNameUI</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/buildProgress.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Interfaces.ART_BuildProgressUI">
+<span id="art-buildprogressui"></span><h1>ART_BuildProgressUI<a class="headerlink" href="#module-Interfaces.ART_BuildProgressUI" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<dl class="class">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI">
+<em class="property">class </em><code class="descclassname">Interfaces.ART_BuildProgressUI.</code><code class="descname">ART_BuildProgress_UI</code><span class="sig-paren">(</span><em>mainUI</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class kicks off building all of the rigs for the modules. It displays an interface that shows progress and
+displays information about the rig build.</p>
+<p>It exports skin weights, rebuilds the skeleton in rig pose, imports skin weights, runs any pre-script,
+calls on each module&#8217;s rig building code, sets up rig parenting and hierarchy, and finally runs any post-script.</p>
+<blockquote>
+<div><img alt="_images/buildProgress.gif" src="_images/buildProgress.gif" />
+</div></blockquote>
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>mainUI</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates the class, getting the QSettings and then calling on the function to build the UI for the tool.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mainUI</strong> &#8211; The instance of the Rig Creator UI that this class was called from.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_BuildProgressUI.buildUI</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.buildRigs">
+<code class="descname">buildRigs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.buildRigs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.buildRigs" title="Permalink to this definition">¶</a></dt>
+<dd><p>First, create a driver skeleton which the rig will build upon, then calls on each module&#8217;s buildCustomRig
+function, which will build the rig for that module, then sets up rig parenting and hiearchy once all modules
+are built.</p>
+<p>Lastly, calls on the function to execute a post script if one was given during publish.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">riggingUtils.createDriverSkeleton(), ART_BuildProgressUI.postScript()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.buildUI">
+<code class="descname">buildUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.buildUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.buildUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the interface, which doesn&#8217;t really have any user-interaction, but is there to display information
+about the progress of the rig build. There are two QProgressBars that show current module build progress and
+total build progress, then a QTextEdit which outputs information about what the build process is currently
+working on.</p>
+<p>After the interface is built, it sets the rig pose on the joints of each module.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.completeBuild">
+<code class="descname">completeBuild</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.completeBuild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.completeBuild" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locks down all network nodes, saves the scene, and alerts user that the rig build is complete.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.executeScript">
+<code class="descname">executeScript</code><span class="sig-paren">(</span><em>scriptPath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.executeScript"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.executeScript" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a given script (mel or python) and runs it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scriptPath</strong> &#8211; location of the script to be evaluated and ran.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Whether or not the execution of the script failed or not.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_BuildProgressUI.preScript(), ART_BuildProgressUI.postScript()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.exportWeights">
+<code class="descname">exportWeights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.exportWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.exportWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exports all skin weights of meshes that have skinClusters to a .weights file (JSON). It also has
+functionality to deal with morph targets, making sure they are preserved when history on the meshes is deleted.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">riggingUtils.export_skin_weights()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.importWeights">
+<code class="descname">importWeights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.importWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.importWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports skin weights back onto the asset geometry after having rebuilt the skeleton in rig pose. Then calls
+on ART_BuildProgressUI.preScript().</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_BuildProgressUI.preScript()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.postScript">
+<code class="descname">postScript</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.postScript"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.postScript" title="Permalink to this definition">¶</a></dt>
+<dd><p>If there is a post-script to run, this will call on ART_BuildProgressUI.executeScript() to run the post-script.
+Then it will call on ART_BuildProgressUI.completeBuild() which wraps up the build process and alerts the user
+the build is done.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Post-Scipts are used if you ever want to do something to your character after the rig gets built.
+An example usage would be adding custom rigging to joints or controls in the scene, setting up custom
+relationships or set-driven keys, etc.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_BuildProgressUI.executeScript(), ART_BuildProgressUI.completeBuild()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.preScript">
+<code class="descname">preScript</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.preScript"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.preScript" title="Permalink to this definition">¶</a></dt>
+<dd><p>If there is a pre-script to run, this will call on ART_BuildProgressUI.executeScript() to run the pre-script.
+Then it will call on ART_BuildProgressUI.buildRigs() to build each module&#8217;s rigs.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pre-Scipts are used if you ever want to do something to your character before the rig gets built.
+An example usage would be adding IK joints for UE4 in a pre-script, as you don&#8217;t want or need
+controls for those IK joints, and setting up those constraints.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">ART_BuildProgressUI.executeScript(), ART_BuildProgressUI.buildRigs()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.rebuildSkeleton">
+<code class="descname">rebuildSkeleton</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.rebuildSkeleton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.rebuildSkeleton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rebuilds the skeleton in rig pose, meaning that all joint rotations will be zeroed in rig pose rather than
+model pose. This ensures clean rigging.</p>
+<p>Lastly, calls on ART_BuildProgressUI.importWeights() to reimport weighting back onto the meshes.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">riggingUtils.buildSkeleton(), ART_BuildProgressUI.importWeights()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.setRigPose">
+<code class="descname">setRigPose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_BuildProgressUI.html#ART_BuildProgress_UI.setRigPose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_BuildProgressUI.ART_BuildProgress_UI.setRigPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the rig pose on each module&#8217;s joints. Lastly, calls on ART_BuildProgressUI.exportWeights()</p>
+<p>..seealso :: ART_BuildProgressUI.exportWeights()</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="changeModName.html" title="ART_ChangeModuleNameUI"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="boneCounter.html" title="ART_BoneCounter"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" >Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+=============
+ART_AimModeUI
+=============
+
+.. automodule:: Interfaces.ART_AimModeUI
+    :members:

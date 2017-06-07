@@ -1,0 +1,6 @@
+======================
+ART_ChangeModuleNameUI
+======================
+
+.. automodule:: Interfaces.ART_ChangeModuleNameUI
+    :members:

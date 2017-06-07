@@ -1,0 +1,9 @@
+QPushButton:hover
+{
+    margin-top: -2px;
+}
+
+QPushButton:pressed
+{
+    margin-top: 2px;
+}

@@ -1,0 +1,298 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Interfaces.ART_DebugRigs &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Interfaces.ART_DebugRigs</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author: Jeremy Ernst</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+
+<span class="kn">import</span> <span class="nn">System.riggingUtils</span> <span class="k">as</span> <span class="nn">riggingUtils</span>
+<span class="kn">import</span> <span class="nn">System.utils</span> <span class="k">as</span> <span class="nn">utils</span>
+<span class="kn">import</span> <span class="nn">maya.cmds</span> <span class="k">as</span> <span class="nn">cmds</span>
+<span class="kn">from</span> <span class="nn">ThirdParty.Qt</span> <span class="k">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtWidgets</span>
+
+
+<div class="viewcode-block" id="ART_DebugRigs"><a class="viewcode-back" href="../../debugRigs.html#Interfaces.ART_DebugRigs.ART_DebugRigs">[docs]</a><span class="k">class</span> <span class="nc">ART_DebugRigs</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class is used in developing rigs for modules and quickly testing them without having to go</span>
+<span class="sd">    through the entire build/publish process.</span>
+
+<span class="sd">        .. image:: /images/debugRigs.png</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ART_DebugRigs.__init__"><a class="viewcode-back" href="../../debugRigs.html#Interfaces.ART_DebugRigs.ART_DebugRigs.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mainUI</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiate the class, getting the QSettings, and building the interface.</span>
+
+<span class="sd">        :param mainUI: The instance of the Rig Creator UI from which this class was called.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get the directory path of the tools</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QSettings</span><span class="p">(</span><span class="s2">&quot;Epic Games&quot;</span><span class="p">,</span> <span class="s2">&quot;ARTv2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;toolsPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;iconPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;projectPath&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainUI</span> <span class="o">=</span> <span class="n">mainUI</span>
+
+        <span class="c1"># images</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imageBkgrd</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/toolbar_background.png&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imageBtnBkrd</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/blue_field_background.png&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frameBackground</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/field_background.png&quot;</span><span class="p">))</span>
+
+        <span class="c1"># build the UI</span>
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="s2">&quot;ART_DebugRigsWin&quot;</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;ART_DebugRigsWin&quot;</span><span class="p">,</span> <span class="n">wnd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">buildUI</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_DebugRigs.buildUI"><a class="viewcode-back" href="../../debugRigs.html#Interfaces.ART_DebugRigs.ART_DebugRigs.buildUI">[docs]</a>    <span class="k">def</span> <span class="nf">buildUI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the UI, listing all modules in the scene that make up the asset for the user to select and build rigs</span>
+<span class="sd">        for the selected.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># create the main window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainUI</span><span class="p">)</span>
+
+        <span class="c1"># load stylesheet</span>
+        <span class="n">styleSheetFile</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span><span class="p">,</span> <span class="s2">&quot;Core/Scripts/Interfaces/StyleSheets/mainScheme.qss&quot;</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">styleSheetFile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">)</span>
+
+        <span class="c1"># create the main widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setCentralWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span><span class="p">)</span>
+
+        <span class="c1"># set qt object name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;ART_DebugRigsWin&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Build Rigs&quot;</span><span class="p">)</span>
+
+        <span class="c1"># font</span>
+        <span class="n">headerFont</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QFont</span><span class="p">()</span>
+        <span class="n">headerFont</span><span class="o">.</span><span class="n">setPointSize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">headerFont</span><span class="o">.</span><span class="n">setBold</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># set size policy</span>
+        <span class="n">mainSizePolicy</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">)</span>
+
+        <span class="c1"># create the mainLayout for the rig creator UI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setSizePolicy</span><span class="p">(</span><span class="n">mainSizePolicy</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+
+        <span class="c1"># create the QFrame for this page</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;mid&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">background</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">background</span><span class="p">)</span>
+
+        <span class="c1"># create the list on the left and add the modules to the list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">mod</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainUI</span><span class="o">.</span><span class="n">moduleInstances</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">,</span> <span class="n">mod</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="c1"># create our buttons on the right</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rightLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rightLayout</span><span class="p">)</span>
+
+        <span class="n">infoText</span> <span class="o">=</span> <span class="s2">&quot;This tool is only for testing rigs in development. &quot;</span>
+        <span class="n">infoText</span> <span class="o">+=</span> <span class="s2">&quot;It will leave behind nodes in your scene that you do NOT want to publish with. &quot;</span>
+        <span class="n">infoText</span> <span class="o">+=</span> <span class="s2">&quot;When using this tool, it is advised to open a clean scene to publish your final asset.&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLabel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rightLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">setWordWrap</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">125</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">125</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">infoText</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rightLayout</span><span class="o">.</span><span class="n">addSpacerItem</span><span class="p">(</span>
+            <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSpacerItem</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Expanding</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">buildButton</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Build Rigs For Selected&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buildButton</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rightLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buildButton</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buildButton</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buildButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildRigs</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">deleteButton</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Remove Selected Rigs&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deleteButton</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rightLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deleteButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deleteButton</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deleteButton</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deleteButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deleteRig</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Close&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rightLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_DebugRigs.buildRigs"><a class="viewcode-back" href="../../debugRigs.html#Interfaces.ART_DebugRigs.ART_DebugRigs.buildRigs">[docs]</a>    <span class="k">def</span> <span class="nf">buildRigs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Builds the rigs for the selected module by calling on that module&#39;s buildRig function.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+
+        <span class="c1"># call on inst build rigs functions</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="s2">&quot;driver_root&quot;</span><span class="p">):</span>
+            <span class="n">riggingUtils</span><span class="o">.</span><span class="n">createDriverSkeleton</span><span class="p">()</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">buildRig</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainUI</span><span class="p">)</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_DebugRigs.deleteRig"><a class="viewcode-back" href="../../debugRigs.html#Interfaces.ART_DebugRigs.ART_DebugRigs.deleteRig">[docs]</a>    <span class="k">def</span> <span class="nf">deleteRig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deletes the rigs for the selected module by calling on that module&#39;s deleteRig function.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moduleList</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">deleteRig</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_DebugRigs.close"><a class="viewcode-back" href="../../debugRigs.html#Interfaces.ART_DebugRigs.ART_DebugRigs.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Close the interface and delete the window.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="s2">&quot;ART_DebugRigsWin&quot;</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;ART_DebugRigsWin&quot;</span><span class="p">,</span> <span class="n">wnd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

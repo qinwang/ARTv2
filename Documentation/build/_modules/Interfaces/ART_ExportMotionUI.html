@@ -1,0 +1,1302 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Interfaces.ART_ExportMotionUI &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Interfaces.ART_ExportMotionUI</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author: Jeremy Ernst</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># import statements</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+
+<span class="kn">import</span> <span class="nn">System.interfaceUtils</span> <span class="k">as</span> <span class="nn">interfaceUtils</span>
+<span class="kn">import</span> <span class="nn">System.utils</span> <span class="k">as</span> <span class="nn">utils</span>
+<span class="kn">import</span> <span class="nn">maya.cmds</span> <span class="k">as</span> <span class="nn">cmds</span>
+<span class="kn">from</span> <span class="nn">ThirdParty.Qt</span> <span class="k">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtWidgets</span>
+
+
+<div class="viewcode-block" id="ART_ExportMotion"><a class="viewcode-back" href="../../exportMotion.html#Interfaces.ART_ExportMotionUI.ART_ExportMotion">[docs]</a><span class="k">class</span> <span class="nc">ART_ExportMotion</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class is used to export FBX animation from the rig to Unreal Engine. It supports morph targets,</span>
+<span class="sd">    custom attribute curves, and pre/post scripts.</span>
+
+<span class="sd">    It can be found on the animation sidebar with this icon:</span>
+<span class="sd">        .. image:: /images/exportMotionButton.png</span>
+
+<span class="sd">    .. todo:: Add the ability to export alembic and animation curve data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ART_ExportMotion.__init__"><a class="viewcode-back" href="../../exportMotion.html#Interfaces.ART_ExportMotionUI.ART_ExportMotion.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">animPickerUI</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ART_ExportMotion</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># get the directory path of the tools</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QSettings</span><span class="p">(</span><span class="s2">&quot;Epic Games&quot;</span><span class="p">,</span> <span class="s2">&quot;ARTv2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;toolsPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;iconPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scriptPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;scriptPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;projectPath&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span> <span class="o">=</span> <span class="n">animPickerUI</span>
+
+        <span class="c1"># write out qss based on user settings</span>
+        <span class="n">stylesheetDir</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scriptPath</span><span class="p">,</span> <span class="s2">&quot;Interfaces/StyleSheets/&quot;</span><span class="p">)</span>
+        <span class="n">stylesheets</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">stylesheetDir</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="n">stylesheets</span><span class="p">:</span>
+            <span class="n">interfaceUtils</span><span class="o">.</span><span class="n">writeQSS</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stylesheetDir</span><span class="p">,</span> <span class="n">sheet</span><span class="p">))</span>
+
+        <span class="c1"># build the UI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buildUI</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">buildUI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="s2">&quot;pyART_ExportMotionWIN&quot;</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;pyART_ExportMotionWIN&quot;</span><span class="p">,</span> <span class="n">wnd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># create the main window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pickerUI</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">resizeEvent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">windowResized</span>
+
+        <span class="c1"># create the main widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setCentralWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span><span class="p">)</span>
+
+        <span class="c1"># create the mainLayout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span><span class="p">)</span>
+
+        <span class="c1"># load stylesheet</span>
+        <span class="n">styleSheetFile</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span><span class="p">,</span> <span class="s2">&quot;Core/Scripts/Interfaces/StyleSheets/animPicker.qss&quot;</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">styleSheetFile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">470</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">470</span><span class="p">,</span> <span class="mi">900</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">470</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+
+        <span class="c1"># set qt object name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;pyART_ExportMotionWIN&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Export Motion&quot;</span><span class="p">)</span>
+
+        <span class="c1"># tabs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportTabs</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTabWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportTabs</span><span class="p">)</span>
+
+        <span class="c1"># style sheet</span>
+        <span class="n">stylesheet</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        QTabBar::tab</span>
+<span class="s2">        {</span>
+<span class="s2">            background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(19,132,183), stop:1 rgb(30,30,30));</span>
+<span class="s2">            width: 100px;</span>
+<span class="s2">            padding-left: -10px;</span>
+<span class="s2">        }</span>
+<span class="s2">        QTabBar::tab:selected</span>
+<span class="s2">        {</span>
+<span class="s2">            background-color: rgb(14,100,143);</span>
+<span class="s2">            border: 2px solid black;</span>
+<span class="s2">        }</span>
+<span class="s2">        QTabBar::tab:hover</span>
+<span class="s2">        {</span>
+<span class="s2">            background: rgb(19,132,183);</span>
+<span class="s2">        }</span>
+<span class="s2">        QTabBar::tab:!selected</span>
+<span class="s2">        {</span>
+<span class="s2">            margin-top: 5px;</span>
+<span class="s2">            border: 2px solid black;</span>
+<span class="s2">        }</span>
+<span class="s2">        QTabWidget::pane</span>
+<span class="s2">        {</span>
+<span class="s2">            border-top: 2px solid rgb(19,132,183);</span>
+<span class="s2">            border-left: 2px solid rgb(19,132,183);</span>
+<span class="s2">            border-right: 2px solid rgb(19,132,183);</span>
+<span class="s2">            border-bottom: 2px solid rgb(19,132,183);</span>
+<span class="s2">        }</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="n">stylesheet2</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        QTabBar::tab</span>
+<span class="s2">        {</span>
+<span class="s2">            background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(19,132,183), stop:1 rgb(30,30,30));</span>
+<span class="s2">            width: 140px;</span>
+<span class="s2">            padding-left: -10px;</span>
+<span class="s2">        }</span>
+<span class="s2">        QTabBar::tab:selected</span>
+<span class="s2">        {</span>
+<span class="s2">            background-color: rgb(14,100,143);</span>
+<span class="s2">            border: 2px solid black;</span>
+<span class="s2">        }</span>
+<span class="s2">        QTabBar::tab:hover</span>
+<span class="s2">        {</span>
+<span class="s2">            background: rgb(19,132,183);</span>
+<span class="s2">        }</span>
+<span class="s2">        QTabBar::tab:!selected</span>
+<span class="s2">        {</span>
+<span class="s2">            margin-top: 5px;</span>
+<span class="s2">        }</span>
+<span class="s2">        QTabWidget::pane</span>
+<span class="s2">        {</span>
+<span class="s2">            border-top: 2px solid rgb(255,175,25);</span>
+<span class="s2">            border-left: 0px solid rgb(19,132,183);</span>
+<span class="s2">            border-right: 0px solid rgb(19,132,183);</span>
+<span class="s2">            border-bottom: 2px solid rgb(255,175,25);</span>
+<span class="s2">        }</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportTabs</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="n">stylesheet</span><span class="p">)</span>
+
+        <span class="c1"># FBX Tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxExportTab</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportTabs</span><span class="o">.</span><span class="n">addTab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbxExportTab</span><span class="p">,</span> <span class="s2">&quot;FBX&quot;</span><span class="p">)</span>
+
+        <span class="c1"># ABC Tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abcExportTab</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportTabs</span><span class="o">.</span><span class="n">addTab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">abcExportTab</span><span class="p">,</span> <span class="s2">&quot;ABC&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Anim Curve Tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">animExportTab</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportTabs</span><span class="o">.</span><span class="n">addTab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animExportTab</span><span class="p">,</span> <span class="s2">&quot;Animation&quot;</span><span class="p">)</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #FBX TAB</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabLayoutFrame</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbxExportTab</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabLayoutFrame</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;dark&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabLayoutFrame</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">410</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabLayoutFrame</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">900</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabLayoutFrame</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbxTabLayoutFrame</span><span class="p">)</span>
+
+        <span class="c1"># FBX Export Tabs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabs</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTabWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbxTabs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabs</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="n">stylesheet2</span><span class="p">)</span>
+
+        <span class="c1"># Settings Tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportSettings</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabs</span><span class="o">.</span><span class="n">addTab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportSettings</span><span class="p">,</span> <span class="s2">&quot;Export Settings&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsTabLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportSettings</span><span class="p">)</span>
+
+        <span class="c1"># Anim Curve Tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequencesTab</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabs</span><span class="o">.</span><span class="n">addTab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequencesTab</span><span class="p">,</span> <span class="s2">&quot;Sequences&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequenceTabLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequencesTab</span><span class="p">)</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># # Export Settings</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportSettings</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportSettings</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;dark&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportSettings</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">415</span><span class="p">,</span> <span class="mi">330</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportSettings</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">415</span><span class="p">,</span> <span class="mi">900</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsTabLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportSettings</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportSettings</span><span class="p">)</span>
+
+        <span class="c1"># export meshes checkbox</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">(</span><span class="s2">&quot;Export Meshes&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># horizontal layout for morphs and custom attr curves</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings_cb_layout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings_cb_layout</span><span class="p">)</span>
+
+        <span class="c1"># export morphs and custom attr curves checkboxes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphsCB</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">(</span><span class="s2">&quot;Export Morph Targets&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings_cb_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportMorphsCB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphsCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportCustomAttrsCB</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">(</span><span class="s2">&quot;Export Custom Attribute Curves&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings_cb_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportCustomAttrsCB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportCustomAttrsCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># horizontal layout for list widgets (morphs and custom attrs)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings_list_layout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings_list_layout</span><span class="p">)</span>
+
+        <span class="c1"># list widgets for listing morphs and custom attr curves</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">185</span><span class="p">,</span> <span class="mi">150</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">185</span><span class="p">,</span> <span class="mi">150</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings_list_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="o">.</span><span class="n">setSelectionMode</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">ExtendedSelection</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">185</span><span class="p">,</span> <span class="mi">150</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">185</span><span class="p">,</span> <span class="mi">150</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings_list_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span><span class="o">.</span><span class="n">setSelectionMode</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">ExtendedSelection</span><span class="p">)</span>
+
+        <span class="c1"># signal slots for checkboxes and lists</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphsCB</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disableWidget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphsCB</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportCustomAttrsCB</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+            <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disableWidget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportCustomAttrsCB</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphsCB</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportMorphsCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">)</span>
+
+        <span class="c1"># horizontal layout for pre-script</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preScript_layout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preScript_layout</span><span class="p">)</span>
+
+        <span class="c1"># pre-script checkbox, lineEdit, and button</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preScriptCB</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">(</span><span class="s2">&quot;Pre-Script: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preScript_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preScriptCB</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">preScript_path</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLineEdit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preScript_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preScript_path</span><span class="p">)</span>
+
+        <span class="n">ps_browseBtn</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">()</span>
+        <span class="n">ps_browseBtn</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="n">ps_browseBtn</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="n">icon</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/fileBrowse.png&quot;</span><span class="p">))</span>
+        <span class="n">ps_browseBtn</span><span class="o">.</span><span class="n">setIconSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="n">ps_browseBtn</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">icon</span><span class="p">)</span>
+        <span class="n">ps_browseBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fileBrowse_script</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">preScript_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">preScriptCB</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preScript_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">ps_browseBtn</span><span class="p">)</span>
+
+        <span class="c1"># horizontal layout for post-script</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">postScript_layout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">postScript_layout</span><span class="p">)</span>
+
+        <span class="c1"># pre-script checkbox, lineEdit, and button</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">postScriptCB</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">(</span><span class="s2">&quot;Post-Script: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">postScript_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">postScriptCB</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">postScript_path</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLineEdit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">postScript_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">postScript_path</span><span class="p">)</span>
+
+        <span class="n">pps_browseBtn</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">()</span>
+        <span class="n">pps_browseBtn</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="n">pps_browseBtn</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="n">icon</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/fileBrowse.png&quot;</span><span class="p">))</span>
+        <span class="n">pps_browseBtn</span><span class="o">.</span><span class="n">setIconSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="n">pps_browseBtn</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">icon</span><span class="p">)</span>
+        <span class="n">pps_browseBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fileBrowse_script</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">postScript_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">postScriptCB</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">postScript_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">pps_browseBtn</span><span class="p">)</span>
+
+        <span class="c1"># save settings button</span>
+        <span class="n">button</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Save Export Settings&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+        <span class="n">button</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_saveExportData</span><span class="p">)</span>
+
+        <span class="c1"># spacer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsLayout</span><span class="o">.</span><span class="n">addSpacerItem</span><span class="p">(</span>
+            <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSpacerItem</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Expanding</span><span class="p">))</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># # FBX Sequences</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># =======================================================================</span>
+
+        <span class="c1"># # Add Sequence</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addFbxAnimSequence</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Add Sequence&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addFbxAnimSequence</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">415</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addFbxAnimSequence</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">415</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addFbxAnimSequence</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addFbxAnimSequence</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_addSequence</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequenceTabLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addFbxAnimSequence</span><span class="p">)</span>
+
+        <span class="c1"># #Main Export Section</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxAnimSequenceFrame</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxAnimSequenceFrame</span><span class="o">.</span><span class="n">setMinimumWidth</span><span class="p">(</span><span class="mi">415</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxAnimSequenceFrame</span><span class="o">.</span><span class="n">setMaximumWidth</span><span class="p">(</span><span class="mi">415</span><span class="p">)</span>
+        <span class="n">scrollSizePolicy</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Expanding</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxAnimSequenceFrame</span><span class="o">.</span><span class="n">setSizePolicy</span><span class="p">(</span><span class="n">scrollSizePolicy</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxAnimSequenceFrame</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;dark&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxMainScroll</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QScrollArea</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequenceTabLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbxMainScroll</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxMainScroll</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">415</span><span class="p">,</span> <span class="mi">280</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxMainScroll</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">415</span><span class="p">,</span> <span class="mi">900</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxMainScroll</span><span class="o">.</span><span class="n">setWidgetResizable</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxMainScroll</span><span class="o">.</span><span class="n">setVerticalScrollBarPolicy</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ScrollBarAlwaysOn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxMainScroll</span><span class="o">.</span><span class="n">setHorizontalScrollBarPolicy</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ScrollBarAlwaysOff</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxMainScroll</span><span class="o">.</span><span class="n">setWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbxAnimSequenceFrame</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxSequenceLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbxAnimSequenceFrame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxSequenceLayout</span><span class="o">.</span><span class="n">addSpacerItem</span><span class="p">(</span>
+            <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSpacerItem</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Expanding</span><span class="p">))</span>
+
+        <span class="c1"># spacer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequenceTabLayout</span><span class="o">.</span><span class="n">addSpacerItem</span><span class="p">(</span>
+            <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSpacerItem</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Expanding</span><span class="p">))</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #export button</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doFbxExportBtn</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Export&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">doFbxExportBtn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doFbxExportBtn</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doFbxExportBtn</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">430</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doFbxExportBtn</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">430</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doFbxExportBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_export</span><span class="p">)</span>
+
+        <span class="c1"># show window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabs</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># find morphs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">findMorphs</span><span class="p">()</span>
+
+        <span class="c1"># find custom curves</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">findCustomCurves</span><span class="p">()</span>
+
+        <span class="c1"># populate UI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbx_populateUI</span><span class="p">()</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_checkExportMesh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphsCB</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_populateUI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refresh</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+
+        <span class="c1"># remove existing animation sequences</span>
+        <span class="n">widgetsToRemove</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbxSequenceLayout</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fbxSequenceLayout</span><span class="o">.</span><span class="n">itemAt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">widget</span><span class="p">())</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QGroupBox</span><span class="p">:</span>
+                    <span class="n">widgetsToRemove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">widget</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">widget</span> <span class="ow">in</span> <span class="n">widgetsToRemove</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fbx_removeAnimSequence</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+
+        <span class="c1"># get characters in scene</span>
+        <span class="n">characters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">characterInfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findCharacters</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">characterInfo</span><span class="p">:</span>
+            <span class="n">characters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># check character nodes for fbxAnimData</span>
+        <span class="k">for</span> <span class="n">currentChar</span> <span class="ow">in</span> <span class="n">characters</span><span class="p">:</span>
+            <span class="c1"># loop through data, adding sequences and setting settings</span>
+            <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">currentChar</span> <span class="o">+</span> <span class="s2">&quot;:ART_RIG_ROOT.fbxAnimData&quot;</span><span class="p">):</span>
+                <span class="n">fbxData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">currentChar</span> <span class="o">+</span> <span class="s2">&quot;:ART_RIG_ROOT.fbxAnimData&quot;</span><span class="p">))</span>
+
+                <span class="c1"># each entry in the fbxData list is a sequence with all the needed information</span>
+                <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">fbxData</span><span class="p">:</span>
+
+                    <span class="c1"># first, set export settings</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphsCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">exportCustomAttrsCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+                    <span class="c1"># select morphs and curves to export in the lists if they exist</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                        <span class="n">bShape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                        <span class="n">text</span> <span class="o">=</span> <span class="n">bShape</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
+                            <span class="n">bShape</span><span class="o">.</span><span class="n">setSelected</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                        <span class="n">cCurve</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                        <span class="n">text</span> <span class="o">=</span> <span class="n">cCurve</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span>
+                            <span class="n">cCurve</span><span class="o">.</span><span class="n">setSelected</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+                    <span class="c1"># set pre/post script info</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">preScriptCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">preScript_path</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">postScriptCB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">postScript_path</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+                    <span class="c1"># add anim sequence</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">fbx_addSequence</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_addSequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="c1"># get number of children of fbxSequenceLayout</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fbxSequenceLayout</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">children</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="c1"># contained groupBox for each sequence</span>
+        <span class="n">groupBox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QGroupBox</span><span class="p">()</span>
+        <span class="n">groupBox</span><span class="o">.</span><span class="n">setCheckable</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">groupBox</span><span class="o">.</span><span class="n">setMaximumHeight</span><span class="p">(</span><span class="mi">260</span><span class="p">)</span>
+        <span class="n">groupBox</span><span class="o">.</span><span class="n">setMaximumWidth</span><span class="p">(</span><span class="mi">380</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxSequenceLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">groupBox</span><span class="p">)</span>
+
+        <span class="c1"># set context menu policy on groupbox</span>
+        <span class="n">groupBox</span><span class="o">.</span><span class="n">setContextMenuPolicy</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">CustomContextMenu</span><span class="p">)</span>
+        <span class="n">groupBox</span><span class="o">.</span><span class="n">customContextMenuRequested</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_createContextMenu</span><span class="p">,</span> <span class="n">groupBox</span><span class="p">))</span>
+
+        <span class="c1"># add frame layout to groupbox</span>
+        <span class="n">frameLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="n">groupBox</span><span class="p">)</span>
+
+        <span class="c1"># add frame to groupbox</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">()</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;light&quot;</span><span class="p">)</span>
+        <span class="n">frameLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+        <span class="n">vLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">vLayout</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;vLayout&quot;</span><span class="p">)</span>
+
+        <span class="c1"># signal slot for groupbox checkbox</span>
+        <span class="n">QtCore</span><span class="o">.</span><span class="n">QObject</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">groupBox</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s2">&quot;toggled(bool)&quot;</span><span class="p">),</span> <span class="n">frame</span><span class="o">.</span><span class="n">setVisible</span><span class="p">)</span>
+        <span class="n">groupBox</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #portrait and character combo box</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="n">characterLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="n">characterLayout</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;charLayout&quot;</span><span class="p">)</span>
+        <span class="n">vLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="n">characterLayout</span><span class="p">)</span>
+
+        <span class="n">portrait</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLabel</span><span class="p">()</span>
+        <span class="n">portrait</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;charPortrait&quot;</span><span class="p">)</span>
+        <span class="n">portrait</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+        <span class="n">portrait</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+        <span class="n">characterLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">portrait</span><span class="p">)</span>
+
+        <span class="n">characterComboBox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QComboBox</span><span class="p">()</span>
+        <span class="n">characterComboBox</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;charComboBox&quot;</span><span class="p">)</span>
+        <span class="n">characterComboBox</span><span class="o">.</span><span class="n">setMinimumHeight</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">characterComboBox</span><span class="o">.</span><span class="n">setMaximumHeight</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">characterLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">characterComboBox</span><span class="p">)</span>
+
+        <span class="c1"># populate combo box</span>
+        <span class="n">characters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findCharacters</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">characters</span><span class="p">:</span>
+            <span class="n">characterName</span> <span class="o">=</span> <span class="n">character</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">characterComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">characterName</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateIcon</span><span class="p">(</span><span class="n">characterComboBox</span><span class="p">,</span> <span class="n">portrait</span><span class="p">,</span> <span class="n">characters</span><span class="p">)</span>
+        <span class="n">characterComboBox</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateIcon</span><span class="p">,</span> <span class="n">characterComboBox</span><span class="p">,</span> <span class="n">portrait</span><span class="p">,</span> <span class="n">characters</span><span class="p">))</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #Checkbox, path, and browse button</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="n">pathLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="n">pathLayout</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;pathLayout&quot;</span><span class="p">)</span>
+        <span class="n">vLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="n">pathLayout</span><span class="p">)</span>
+
+        <span class="n">checkBox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">()</span>
+        <span class="n">checkBox</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;exportCheckBox&quot;</span><span class="p">)</span>
+        <span class="n">checkBox</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">pathLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">checkBox</span><span class="p">)</span>
+
+        <span class="n">pathField</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLineEdit</span><span class="p">()</span>
+        <span class="n">pathField</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;exportPath&quot;</span><span class="p">)</span>
+        <span class="n">pathLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">pathField</span><span class="p">)</span>
+        <span class="n">pathField</span><span class="o">.</span><span class="n">setMinimumWidth</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+
+        <span class="n">browseBtn</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">()</span>
+        <span class="n">browseBtn</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="n">browseBtn</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="n">pathLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">browseBtn</span><span class="p">)</span>
+        <span class="n">icon</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/fileBrowse.png&quot;</span><span class="p">))</span>
+        <span class="n">browseBtn</span><span class="o">.</span><span class="n">setIconSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+        <span class="n">browseBtn</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">icon</span><span class="p">)</span>
+        <span class="n">browseBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fileBrowse_export</span><span class="p">,</span> <span class="n">pathField</span><span class="p">))</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #frame range, and frame rate</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="n">optionLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="n">vLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="n">optionLayout</span><span class="p">)</span>
+        <span class="n">optionLayout</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;optionLayout&quot;</span><span class="p">)</span>
+
+        <span class="n">label1</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="s2">&quot;Start Frame: &quot;</span><span class="p">)</span>
+        <span class="n">optionLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">label1</span><span class="p">)</span>
+        <span class="n">label1</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="s2">&quot;background: transparent;&quot;</span><span class="p">)</span>
+
+        <span class="n">startFrame</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSpinBox</span><span class="p">()</span>
+        <span class="n">startFrame</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;startFrame&quot;</span><span class="p">)</span>
+        <span class="n">optionLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">startFrame</span><span class="p">)</span>
+        <span class="n">startFrame</span><span class="o">.</span><span class="n">setButtonSymbols</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QAbstractSpinBox</span><span class="o">.</span><span class="n">NoButtons</span><span class="p">)</span>
+        <span class="n">startFrame</span><span class="o">.</span><span class="n">setRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+        <span class="n">label2</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="s2">&quot; End Frame: &quot;</span><span class="p">)</span>
+        <span class="n">optionLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">label2</span><span class="p">)</span>
+        <span class="n">label2</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="s2">&quot;background: transparent;&quot;</span><span class="p">)</span>
+        <span class="n">label2</span><span class="o">.</span><span class="n">setAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span>
+
+        <span class="n">endFrame</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSpinBox</span><span class="p">()</span>
+        <span class="n">endFrame</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;endFrame&quot;</span><span class="p">)</span>
+        <span class="n">optionLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">endFrame</span><span class="p">)</span>
+        <span class="n">endFrame</span><span class="o">.</span><span class="n">setButtonSymbols</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QAbstractSpinBox</span><span class="o">.</span><span class="n">NoButtons</span><span class="p">)</span>
+        <span class="n">endFrame</span><span class="o">.</span><span class="n">setRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+        <span class="c1"># set frame range by default based on current timeline</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">playbackOptions</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">playbackOptions</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">startFrame</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+        <span class="n">endFrame</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+
+        <span class="n">frameRate</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QComboBox</span><span class="p">()</span>
+        <span class="n">frameRate</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;frameRate&quot;</span><span class="p">)</span>
+        <span class="n">optionLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">frameRate</span><span class="p">)</span>
+        <span class="n">frameRate</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+
+        <span class="c1"># add items to frame rate</span>
+        <span class="n">frameRate</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&quot;ntsc&quot;</span><span class="p">)</span>
+        <span class="n">frameRate</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&quot;ntscf&quot;</span><span class="p">)</span>
+        <span class="n">frameRate</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&quot;film&quot;</span><span class="p">)</span>
+
+        <span class="c1"># set the FPS to the current scene setting</span>
+        <span class="n">fps</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">currentUnit</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fps</span> <span class="o">==</span> <span class="s2">&quot;film&quot;</span><span class="p">:</span>
+            <span class="n">frameRate</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fps</span> <span class="o">==</span> <span class="s2">&quot;ntsc&quot;</span><span class="p">:</span>
+            <span class="n">frameRate</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fps</span> <span class="o">==</span> <span class="s2">&quot;ntscf&quot;</span><span class="p">:</span>
+            <span class="n">frameRate</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #advanced options</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="n">advancedGroup</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QGroupBox</span><span class="p">(</span><span class="s2">&quot;Advanced Settings&quot;</span><span class="p">)</span>
+        <span class="n">vLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">advancedGroup</span><span class="p">)</span>
+        <span class="n">advancedGroup</span><span class="o">.</span><span class="n">setCheckable</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">advancedLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="n">advancedGroup</span><span class="p">)</span>
+        <span class="n">advancedFrame</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">()</span>
+        <span class="n">advancedLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">advancedFrame</span><span class="p">)</span>
+        <span class="n">advancedFrameLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="n">advancedFrame</span><span class="p">)</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #rotation interpolation</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="n">interpLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="n">advancedFrameLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="n">interpLayout</span><span class="p">)</span>
+
+        <span class="n">label3</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="s2">&quot;Rotation Interpolation: &quot;</span><span class="p">)</span>
+        <span class="n">interpLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">label3</span><span class="p">)</span>
+        <span class="n">label3</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="s2">&quot;background: transparent;&quot;</span><span class="p">)</span>
+
+        <span class="n">interpCombo</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QComboBox</span><span class="p">()</span>
+        <span class="n">interpLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">interpCombo</span><span class="p">)</span>
+        <span class="n">interpCombo</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;rotInterp&quot;</span><span class="p">)</span>
+        <span class="n">interpCombo</span><span class="o">.</span><span class="n">setMinimumWidth</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span>
+
+        <span class="n">interpCombo</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&quot;Quaternion Slerp&quot;</span><span class="p">)</span>
+        <span class="n">interpCombo</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&quot;Independent Euler-Angle&quot;</span><span class="p">)</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #sample rate and root options</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="n">rateRootLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="n">advancedFrameLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="n">rateRootLayout</span><span class="p">)</span>
+
+        <span class="n">label4</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="s2">&quot;Sample Rate: &quot;</span><span class="p">)</span>
+        <span class="n">rateRootLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">label4</span><span class="p">)</span>
+
+        <span class="n">sampleRate</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QDoubleSpinBox</span><span class="p">()</span>
+        <span class="n">sampleRate</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;sampleRate&quot;</span><span class="p">)</span>
+        <span class="n">rateRootLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">sampleRate</span><span class="p">)</span>
+        <span class="n">sampleRate</span><span class="o">.</span><span class="n">setButtonSymbols</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QAbstractSpinBox</span><span class="o">.</span><span class="n">NoButtons</span><span class="p">)</span>
+        <span class="n">sampleRate</span><span class="o">.</span><span class="n">setRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">sampleRate</span><span class="o">.</span><span class="n">setSingleStep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">sampleRate</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="mf">1.00</span><span class="p">)</span>
+
+        <span class="n">rootComboBox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QComboBox</span><span class="p">()</span>
+        <span class="n">rootComboBox</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;rootExportOptions&quot;</span><span class="p">)</span>
+        <span class="n">rootComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&quot;Export Root Animation&quot;</span><span class="p">)</span>
+        <span class="n">rootComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&quot;Zero Root&quot;</span><span class="p">)</span>
+        <span class="n">rootComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&quot;Zero Root, Keep World Space&quot;</span><span class="p">)</span>
+        <span class="n">rateRootLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">rootComboBox</span><span class="p">)</span>
+
+        <span class="c1"># signal slot for groupbox checkbox</span>
+        <span class="n">QtCore</span><span class="o">.</span><span class="n">QObject</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">advancedGroup</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s2">&quot;toggled(bool)&quot;</span><span class="p">),</span> <span class="n">advancedFrame</span><span class="o">.</span><span class="n">setVisible</span><span class="p">)</span>
+        <span class="n">advancedGroup</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># signal slot for groupbox title</span>
+        <span class="n">characterComboBox</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_updateTitle</span><span class="p">,</span> <span class="n">groupBox</span><span class="p">))</span>
+        <span class="n">pathField</span><span class="o">.</span><span class="n">textChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_updateTitle</span><span class="p">,</span> <span class="n">groupBox</span><span class="p">))</span>
+        <span class="n">startFrame</span><span class="o">.</span><span class="n">valueChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_updateTitle</span><span class="p">,</span> <span class="n">groupBox</span><span class="p">))</span>
+        <span class="n">endFrame</span><span class="o">.</span><span class="n">valueChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_updateTitle</span><span class="p">,</span> <span class="n">groupBox</span><span class="p">))</span>
+        <span class="n">checkBox</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_updateTitle</span><span class="p">,</span> <span class="n">groupBox</span><span class="p">))</span>
+
+        <span class="c1"># create groupbox title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbx_updateTitle</span><span class="p">(</span><span class="n">groupBox</span><span class="p">)</span>
+
+        <span class="c1"># set data if coming from duplicate call</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+
+            <span class="c1"># set character combo box</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">characterComboBox</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">characterComboBox</span><span class="o">.</span><span class="n">itemText</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">characterComboBox</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+            <span class="c1"># set export checkbox</span>
+            <span class="n">checkBox</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="c1"># set export path</span>
+            <span class="n">pathField</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+            <span class="c1"># set start frame</span>
+            <span class="n">startFrame</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+            <span class="c1"># set end frame</span>
+            <span class="n">endFrame</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+            <span class="c1"># set FPS</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">frameRate</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">frameRate</span><span class="o">.</span><span class="n">itemText</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span>
+                    <span class="n">frameRate</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+            <span class="c1"># set rotation interpolation</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">interpCombo</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">interpCombo</span><span class="o">.</span><span class="n">itemText</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span>
+                    <span class="n">interpCombo</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+            <span class="c1"># set sample rate</span>
+            <span class="n">sampleRate</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+
+            <span class="c1"># set root export</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rootComboBox</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">rootComboBox</span><span class="o">.</span><span class="n">itemText</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span>
+                    <span class="n">rootComboBox</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_createContextMenu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+
+        <span class="c1"># icons</span>
+        <span class="n">icon_delete</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/delete.png&quot;</span><span class="p">))</span>
+        <span class="n">icon_duplicate</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/duplicate.png&quot;</span><span class="p">))</span>
+        <span class="n">icon_collapse</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/upArrow.png&quot;</span><span class="p">))</span>
+        <span class="n">icon_expand</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/downArrow.png&quot;</span><span class="p">))</span>
+
+        <span class="c1"># create the context menu</span>
+        <span class="n">contextMenu</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMenu</span><span class="p">()</span>
+        <span class="n">contextMenu</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="n">icon_delete</span><span class="p">,</span> <span class="s2">&quot;Remove Sequence&quot;</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_removeAnimSequence</span><span class="p">,</span> <span class="n">widget</span><span class="p">))</span>
+        <span class="n">contextMenu</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="n">icon_duplicate</span><span class="p">,</span> <span class="s2">&quot;Duplicate Sequence&quot;</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_duplicateSequence</span><span class="p">,</span> <span class="n">widget</span><span class="p">))</span>
+        <span class="n">contextMenu</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="n">icon_expand</span><span class="p">,</span> <span class="s2">&quot;Expand All Sequences&quot;</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_expandAllSequences</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+        <span class="n">contextMenu</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="n">icon_collapse</span><span class="p">,</span> <span class="s2">&quot;Collapse All Sequences&quot;</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbx_expandAllSequences</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="n">contextMenu</span><span class="o">.</span><span class="n">exec_</span><span class="p">(</span><span class="n">widget</span><span class="o">.</span><span class="n">mapToGlobal</span><span class="p">(</span><span class="n">point</span><span class="p">))</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_removeAnimSequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+
+        <span class="n">widget</span><span class="o">.</span><span class="n">setParent</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">widget</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbx_saveExportData</span><span class="p">()</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_duplicateSequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+
+        <span class="n">sequenceData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fbx_getSequenceInfo</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbx_addSequence</span><span class="p">(</span><span class="n">sequenceData</span><span class="p">)</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fileBrowse_export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">fileDialog2</span><span class="p">(</span><span class="n">fm</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">okc</span><span class="o">=</span><span class="s2">&quot;Export&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">ff</span><span class="o">=</span><span class="s2">&quot;*.fbx&quot;</span><span class="p">)</span>
+            <span class="n">nicePath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">widget</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">nicePath</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fileBrowse_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">checkbox</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">fileDialog2</span><span class="p">(</span><span class="n">fm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">okc</span><span class="o">=</span><span class="s2">&quot;Accept&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">ff</span><span class="o">=</span><span class="s2">&quot;*.py;;*.mel&quot;</span><span class="p">)</span>
+            <span class="n">nicePath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">widget</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">nicePath</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">checkbox</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">checkbox</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_export</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># save settings</span>
+        <span class="n">characterData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fbx_saveExportData</span><span class="p">()</span>
+
+        <span class="c1"># find mayapy interpreter location</span>
+        <span class="n">mayapy</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">getMayaPyLoc</span><span class="p">()</span>
+
+        <span class="c1"># message box for confirming save action</span>
+        <span class="n">msgBax</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
+        <span class="n">msgBax</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Please make sure any changes to the current file are saved before continuing.</span><span class="se">\</span>
+<span class="s2">        This process will be creating a temporary file to do all of the exporting from.&quot;</span><span class="p">)</span>
+        <span class="n">msgBax</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Warning</span><span class="p">)</span>
+        <span class="n">msgBax</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Ok</span> <span class="o">|</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Cancel</span><span class="p">)</span>
+        <span class="n">msgBax</span><span class="o">.</span><span class="n">setDefaultButton</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">msgBax</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">:</span>
+
+            <span class="c1"># save copy of scene to temp location</span>
+            <span class="n">sourceFile</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sceneName</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">filePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">sourceFile</span><span class="p">)</span>
+            <span class="n">tempFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s2">&quot;export_TEMP.ma&quot;</span><span class="p">)</span>
+
+            <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">rename</span><span class="o">=</span><span class="n">tempFile</span><span class="p">)</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;mayaAscii&quot;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># pass tempFile and characterData to mayapy instance for processing</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">mayapy</span><span class="p">):</span>
+                <span class="n">script</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnFriendlyPath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span><span class="p">,</span> <span class="s2">&quot;Core\Scripts\System\ART_FbxExport.py&quot;</span><span class="p">))</span>
+
+                <span class="c1"># create a temp file with the json data</span>
+                <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">temp</span><span class="p">:</span>
+                    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">characterData</span><span class="p">,</span> <span class="n">temp</span><span class="p">)</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+                <span class="c1"># create a log file</span>
+                <span class="n">stdoutFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s2">&quot;export_log.txt&quot;</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">file</span><span class="p">(</span><span class="n">stdoutFile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+                <span class="c1"># open mayapy, passing in export file and character data</span>
+                <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">mayapy</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">script</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">tempFile</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span>
+                                 <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">temp</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">out</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+
+                <span class="c1"># close the output file (for logging)</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msgBox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
+                <span class="n">msgBox</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;mayapy executable not found. Currently not implemented for mac and linux.&quot;</span><span class="p">)</span>
+                <span class="n">msgBox</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Error</span><span class="p">)</span>
+                <span class="n">msgBox</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Ok</span> <span class="o">|</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Cancel</span><span class="p">)</span>
+                <span class="n">msgBox</span><span class="o">.</span><span class="n">setDefaultButton</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+                <span class="n">msgBox</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+            <span class="c1"># reopen the original file</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">sourceFile</span><span class="p">,</span> <span class="nb">open</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">findMorphs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># clear list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">characterMeshes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># get all characters</span>
+        <span class="n">characters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findCharacters</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">characters</span><span class="p">:</span>
+            <span class="n">currentCharacter</span> <span class="o">=</span> <span class="n">character</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># get meshes off of character node</span>
+            <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">currentCharacter</span> <span class="o">+</span> <span class="s2">&quot;:ART_RIG_ROOT&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">currentCharacter</span> <span class="o">+</span> <span class="s2">&quot;:ART_RIG_ROOT.LOD_0_Meshes&quot;</span><span class="p">):</span>
+                    <span class="n">characterMeshes</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listConnections</span><span class="p">(</span><span class="n">currentCharacter</span> <span class="o">+</span> <span class="s2">&quot;:ART_RIG_ROOT.LOD_0_Meshes&quot;</span><span class="p">)</span>
+
+            <span class="c1"># get skinClusters in scene and query their connections</span>
+            <span class="n">skins</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;skinCluster&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">skin</span> <span class="ow">in</span> <span class="n">skins</span><span class="p">:</span>
+                <span class="n">shapeInfo</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listConnections</span><span class="p">(</span><span class="n">skin</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;blendShape&quot;</span><span class="p">,</span> <span class="n">et</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">mesh</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listConnections</span><span class="p">(</span><span class="n">skin</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;mesh&quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">mesh</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># confirm that the blendshape found belongs to one of our character meshes. Then add to list</span>
+                    <span class="k">if</span> <span class="n">mesh</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">characterMeshes</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">shapeInfo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">shapeInfo</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">nodeType</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;blendShape&quot;</span><span class="p">:</span>
+                                    <span class="n">item</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                                    <span class="n">item</span><span class="o">.</span><span class="n">setSelected</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">findCustomCurves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># get all characters</span>
+        <span class="n">characters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findCharacters</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">characters</span><span class="p">:</span>
+            <span class="n">currentCharacter</span> <span class="o">=</span> <span class="n">character</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">rootBone</span> <span class="o">=</span> <span class="n">currentCharacter</span> <span class="o">+</span> <span class="s2">&quot;:root&quot;</span>
+            <span class="n">attrs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listAttr</span><span class="p">(</span><span class="n">rootBone</span><span class="p">,</span> <span class="n">keyable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="n">standardAttrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;translateX&quot;</span><span class="p">,</span> <span class="s2">&quot;translateY&quot;</span><span class="p">,</span> <span class="s2">&quot;translateZ&quot;</span><span class="p">,</span> <span class="s2">&quot;rotateX&quot;</span><span class="p">,</span> <span class="s2">&quot;rotateY&quot;</span><span class="p">,</span> <span class="s2">&quot;rotateZ&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;scaleX&quot;</span><span class="p">,</span> <span class="s2">&quot;scaleY&quot;</span><span class="p">,</span> <span class="s2">&quot;scaleZ&quot;</span><span class="p">,</span> <span class="s2">&quot;visibility&quot;</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">attr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">standardAttrs</span><span class="p">:</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">(</span><span class="n">currentCharacter</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="n">attr</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">setSelected</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">findCharacters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">characterInfo</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">allNodes</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;network&quot;</span><span class="p">)</span>
+        <span class="n">characterNodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">allNodes</span><span class="p">:</span>
+            <span class="n">attrs</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">listAttr</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;rigModules&quot;</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+                <span class="n">characterNodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="c1"># go through each node, find the character name, the namespace on the node, and the picker attribute</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">characterNodes</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">namespace</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s2">&quot;.namespace&quot;</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">namespace</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s2">&quot;.name&quot;</span><span class="p">)</span>
+
+            <span class="c1"># add the icon found on the node&#39;s icon path attribute to the tab</span>
+            <span class="n">iconPath</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s2">&quot;.iconPath&quot;</span><span class="p">)</span>
+            <span class="n">iconPath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">iconPath</span><span class="p">)</span>
+
+            <span class="n">characterInfo</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">namespace</span><span class="p">,</span> <span class="n">iconPath</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">characterInfo</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">updateIcon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comboBox</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">characterInfo</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+
+        <span class="c1"># get current selection of combo box</span>
+        <span class="n">characterName</span> <span class="o">=</span> <span class="n">comboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+
+        <span class="c1"># loop through characterInfo, find matching characterName, and get icon path</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">characterInfo</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">characterName</span> <span class="o">==</span> <span class="n">each</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">iconPath</span> <span class="o">=</span> <span class="n">each</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QImage</span><span class="p">(</span><span class="n">iconPath</span><span class="p">)</span>
+                <span class="n">pixmap</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QPixmap</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">scaledToWidth</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+                <span class="n">label</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="n">pixmap</span><span class="p">)</span>
+                <span class="n">label</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">windowResized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+
+        <span class="n">currentSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainWin</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="n">currentSize</span><span class="o">.</span><span class="n">height</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabLayoutFrame</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mi">50</span><span class="p">)</span>
+
+        <span class="n">width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabs</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">width</span><span class="o">.</span><span class="n">width</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxTabs</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fbxMainScroll</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">415</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mi">220</span><span class="p">)</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">disableWidget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">checkbox</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+
+        <span class="n">state</span> <span class="o">=</span> <span class="n">checkbox</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">state</span><span class="p">:</span>
+            <span class="n">widget</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">widget</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setHidden</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">widget</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">widget</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setHidden</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_updateTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groupBox</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+
+        <span class="c1"># get info from interface</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="n">groupBox</span><span class="o">.</span><span class="n">children</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">each</span><span class="p">)</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">:</span>
+                <span class="n">contents</span> <span class="o">=</span> <span class="n">each</span><span class="o">.</span><span class="n">children</span><span class="p">()</span>
+
+                <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+                    <span class="n">objectName</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">objectName</span><span class="p">()</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;charComboBox&quot;</span><span class="p">:</span>
+                        <span class="n">char</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;exportCheckBox&quot;</span><span class="p">:</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;exportPath&quot;</span><span class="p">:</span>
+                        <span class="n">path</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+                        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filename</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;startFrame&quot;</span><span class="p">:</span>
+                        <span class="n">startFrame</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">startFrame</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;endFrame&quot;</span><span class="p">:</span>
+                        <span class="n">endFrame</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">endFrame</span><span class="p">)</span>
+
+        <span class="n">titleString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">titleString</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+            <span class="n">titleString</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+            <span class="n">titleString</span> <span class="o">+=</span> <span class="s2">&quot;[&quot;</span>
+            <span class="n">titleString</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span>
+            <span class="n">titleString</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">titleString</span> <span class="o">+=</span> <span class="s2">&quot;Not Exporting..&quot;</span>
+        <span class="n">groupBox</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="n">titleString</span><span class="p">)</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_saveExportData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">exportData</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># get main export settings</span>
+        <span class="n">exportMesh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportMeshCB</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+        <span class="n">exportMorph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphsCB</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+        <span class="n">exportCurve</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportCustomAttrsCB</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+
+        <span class="n">exportData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exportMesh</span><span class="p">)</span>
+        <span class="n">exportData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exportMorph</span><span class="p">)</span>
+        <span class="n">exportData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exportCurve</span><span class="p">)</span>
+
+        <span class="c1"># get selected morphs</span>
+        <span class="n">morphs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportMorphList</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">isSelected</span><span class="p">():</span>
+                <span class="n">morphs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+
+        <span class="c1"># get selected curves</span>
+        <span class="n">curves</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exportCurveList</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">isSelected</span><span class="p">():</span>
+                <span class="n">curves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+
+        <span class="c1"># pre and post script</span>
+        <span class="n">preScript</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preScriptCB</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+        <span class="n">preScript_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preScript_path</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+        <span class="n">postScript</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">postScriptCB</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+        <span class="n">postScript_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">postScript_path</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+        <span class="n">exportData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">morphs</span><span class="p">)</span>
+        <span class="n">exportData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curves</span><span class="p">)</span>
+        <span class="n">exportData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">preScript</span><span class="p">,</span> <span class="n">preScript_path</span><span class="p">])</span>
+        <span class="n">exportData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">postScript</span><span class="p">,</span> <span class="n">postScript_path</span><span class="p">])</span>
+
+        <span class="c1"># get fbx sequences and settings</span>
+        <span class="n">characterData</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbxSequenceLayout</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fbxSequenceLayout</span><span class="o">.</span><span class="n">itemAt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">widget</span><span class="p">())</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QGroupBox</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">sequenceData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fbx_getSequenceInfo</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">widget</span><span class="p">())</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">exportData</span><span class="p">)</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sequenceData</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">sequenceData</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">characterData</span><span class="p">:</span>
+                    <span class="n">characterData</span><span class="p">[</span><span class="n">sequenceData</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">currentData</span> <span class="o">=</span> <span class="n">characterData</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sequenceData</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">currentData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="n">characterData</span><span class="p">[</span><span class="n">sequenceData</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">currentData</span>
+
+        <span class="c1"># loop through each key (character) in the dictionary, and write its data to the network node</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">characterData</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">characterData</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+
+            <span class="c1"># Add that data to the character node</span>
+            <span class="n">networkNode</span> <span class="o">=</span> <span class="n">each</span> <span class="o">+</span> <span class="s2">&quot;:ART_RIG_ROOT&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">networkNode</span> <span class="o">+</span> <span class="s2">&quot;.fbxAnimData&quot;</span><span class="p">):</span>
+                <span class="n">cmds</span><span class="o">.</span><span class="n">addAttr</span><span class="p">(</span><span class="n">networkNode</span><span class="p">,</span> <span class="n">ln</span><span class="o">=</span><span class="s2">&quot;fbxAnimData&quot;</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
+
+            <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">networkNode</span> <span class="o">+</span> <span class="s2">&quot;.fbxAnimData&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">characterData</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_getSequenceInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groupBox</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+
+        <span class="c1"># get info from interface</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">children</span> <span class="o">=</span> <span class="n">groupBox</span><span class="o">.</span><span class="n">children</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">each</span><span class="p">)</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">:</span>
+                <span class="n">contents</span> <span class="o">=</span> <span class="n">each</span><span class="o">.</span><span class="n">children</span><span class="p">()</span>
+
+                <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+                    <span class="n">objectName</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">objectName</span><span class="p">()</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;charComboBox&quot;</span><span class="p">:</span>
+                        <span class="n">char</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;exportCheckBox&quot;</span><span class="p">:</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;exportPath&quot;</span><span class="p">:</span>
+                        <span class="n">path</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;startFrame&quot;</span><span class="p">:</span>
+                        <span class="n">startFrame</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">startFrame</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;endFrame&quot;</span><span class="p">:</span>
+                        <span class="n">endFrame</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">endFrame</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">objectName</span> <span class="o">==</span> <span class="s2">&quot;frameRate&quot;</span><span class="p">:</span>
+                        <span class="n">fps</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fps</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QGroupBox</span><span class="p">:</span>
+                        <span class="n">subChildren</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">children</span><span class="p">()</span>
+
+                        <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">subChildren</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">:</span>
+                                <span class="n">advancedChildren</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">children</span><span class="p">()</span>
+                                <span class="k">for</span> <span class="n">advancedChild</span> <span class="ow">in</span> <span class="n">advancedChildren</span><span class="p">:</span>
+                                    <span class="n">advancedObj</span> <span class="o">=</span> <span class="n">advancedChild</span><span class="o">.</span><span class="n">objectName</span><span class="p">()</span>
+
+                                    <span class="k">if</span> <span class="n">advancedObj</span> <span class="o">==</span> <span class="s2">&quot;sampleRate&quot;</span><span class="p">:</span>
+                                        <span class="n">rate</span> <span class="o">=</span> <span class="n">advancedChild</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+                                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span>
+
+                                    <span class="k">if</span> <span class="n">advancedObj</span> <span class="o">==</span> <span class="s2">&quot;rotInterp&quot;</span><span class="p">:</span>
+                                        <span class="n">interp</span> <span class="o">=</span> <span class="n">advancedChild</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+                                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interp</span><span class="p">)</span>
+
+                                    <span class="k">if</span> <span class="n">advancedObj</span> <span class="o">==</span> <span class="s2">&quot;rootExportOptions&quot;</span><span class="p">:</span>
+                                        <span class="n">root</span> <span class="o">=</span> <span class="n">advancedChild</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+                                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="k">def</span> <span class="nf">fbx_expandAllSequences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+
+        <span class="c1"># get info from interface</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fbxSequenceLayout</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fbxSequenceLayout</span><span class="o">.</span><span class="n">itemAt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">widget</span><span class="p">())</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QGroupBox</span><span class="p">:</span>
+                <span class="n">child</span><span class="o">.</span><span class="n">widget</span><span class="p">()</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

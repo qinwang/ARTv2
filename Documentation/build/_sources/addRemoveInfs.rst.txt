@@ -1,0 +1,6 @@
+=========================
+ART_AddOrRemoveInfluences
+=========================
+
+.. automodule:: Interfaces.ART_AddOrRemoveInfluences
+    :members:

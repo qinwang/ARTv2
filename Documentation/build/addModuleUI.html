@@ -1,0 +1,176 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ART_AddModuleUI &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ART_AddOrRemoveInfluences" href="addRemoveInfs.html" />
+    <link rel="prev" title="Rigging Tools" href="rigTools.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="addRemoveInfs.html" title="ART_AddOrRemoveInfluences"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rigTools.html" title="Rigging Tools"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" accesskey="U">Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="rigTools.html"
+                        title="previous chapter">Rigging Tools</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="addRemoveInfs.html"
+                        title="next chapter">ART_AddOrRemoveInfluences</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/addModuleUI.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Interfaces.ART_AddModuleUI">
+<span id="art-addmoduleui"></span><h1>ART_AddModuleUI<a class="headerlink" href="#module-Interfaces.ART_AddModuleUI" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<dl class="class">
+<dt id="Interfaces.ART_AddModuleUI.ART_AddModule_UI">
+<em class="property">class </em><code class="descclassname">Interfaces.ART_AddModuleUI.</code><code class="descname">ART_AddModule_UI</code><span class="sig-paren">(</span><em>baseName</em>, <em>className</em>, <em>rigUiInst</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleUI.html#ART_AddModule_UI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleUI.ART_AddModule_UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class builds a UI used by the rig creator, and is called when a user pushed a module button to add to their
+rig. This UI presents options like prefix, suffix, and ability to specify the parent module bone.</p>
+<img alt="_images/addModuleUI.png" src="_images/addModuleUI.png" />
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleUI.ART_AddModule_UI.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>baseName</em>, <em>className</em>, <em>rigUiInst</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleUI.html#ART_AddModule_UI.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleUI.ART_AddModule_UI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the class, taking in the base name of the module to be added, the name of the class of the module
+to be added, and the instance of the rig creator UI. Then build the interface for the tool.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>baseName</strong> &#8211; The base name of the module to be added, defined in the module class file at the top.</li>
+<li><strong>className</strong> &#8211; The class name of the module to be added, so we can then initialize that module.</li>
+<li><strong>rigUiInst</strong> &#8211; The instance of the rig creator UI, from which this function was called.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleUI.ART_AddModule_UI.createModule">
+<code class="descname">createModule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleUI.html#ART_AddModule_UI.createModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleUI.ART_AddModule_UI.createModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate our module class to create with the user specified name, creating the network node, building
+the Skeleton Settings UI for the module, adding the joint mover for that module (importing the joint mover
+file), and adding the joint mover to the outliner.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleUI.ART_AddModule_UI.searchList">
+<code class="descname">searchList</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleUI.html#ART_AddModule_UI.searchList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleUI.ART_AddModule_UI.searchList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the search text from the QLineEdit and search the items in the QListWidget for any matches. Anything that
+does not match will be hidden in the QListWidget.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleUI.ART_AddModule_UI.updatePreview">
+<code class="descname">updatePreview</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleUI.html#ART_AddModule_UI.updatePreview"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleUI.ART_AddModule_UI.updatePreview" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the prefix and suffix QLineEdits, append an underscore, and update the previewName QLabel with the
+prefix, basename, and suffix to show what the final module name will be.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="addRemoveInfs.html" title="ART_AddOrRemoveInfluences"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="rigTools.html" title="Rigging Tools"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="rigTools.html" >Rigging Tools</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

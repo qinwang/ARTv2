@@ -1,0 +1,207 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ART_AddModuleToCanvas &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ART_AnimationUI" href="animationUI.html" />
+    <link rel="prev" title="Animation Tools" href="animTools.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="animationUI.html" title="ART_AnimationUI"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="animTools.html" title="Animation Tools"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="animTools.html" accesskey="U">Animation Tools</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="animTools.html"
+                        title="previous chapter">Animation Tools</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="animationUI.html"
+                        title="next chapter">ART_AnimationUI</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/addModuleToPicker.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Interfaces.ART_AddModuleToCanvas">
+<span id="art-addmoduletocanvas"></span><h1>ART_AddModuleToCanvas<a class="headerlink" href="#module-Interfaces.ART_AddModuleToCanvas" title="Permalink to this headline">¶</a></h1>
+<p>Author: Jeremy Ernst</p>
+<dl class="class">
+<dt id="Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas">
+<em class="property">class </em><code class="descclassname">Interfaces.ART_AddModuleToCanvas.</code><code class="descname">ART_AddModuleToCanvas</code><span class="sig-paren">(</span><em>animPickerUI</em>, <em>modulesToAdd</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleToCanvas.html#ART_AddModuleToCanvas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas" title="Permalink to this definition">¶</a></dt>
+<dd><p>This tool presents a UI that lists all modules not currently on the animation picker canvas, and allows the user
+to choose modules from the list to add to the animation picker canvas. This is an animator-facing tool.</p>
+<img alt="_images/addModuleToCanvas.png" src="_images/addModuleToCanvas.png" />
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>animPickerUI</em>, <em>modulesToAdd</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleToCanvas.html#ART_AddModuleToCanvas.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize the class, get the QSettings for the tool, and call on buildUI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>animPickerUI</strong> &#8211; the instance of the animation picker class that launched this class.</li>
+<li><strong>modulesToAdd</strong> &#8211; A list of the modules to add, which is a list of modules currently not on the animPickerUI</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.addModulesToList">
+<code class="descname">addModulesToList</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleToCanvas.html#ART_AddModuleToCanvas.addModulesToList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.addModulesToList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take the modules passed into the class, and if the modules do not already exist on the canvas, add them to
+the list widget.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.addSelectedToCanvas">
+<code class="descname">addSelectedToCanvas</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleToCanvas.html#ART_AddModuleToCanvas.addSelectedToCanvas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.addSelectedToCanvas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the selected module in the list widget and adds it to the picker canvas. The picker UI is contained in
+the self.pickerUI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.buildUI">
+<code class="descname">buildUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleToCanvas.html#ART_AddModuleToCanvas.buildUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.buildUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the interface for the tool, showing a list of modules not currently displayed on the picker.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.closeWin">
+<code class="descname">closeWin</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleToCanvas.html#ART_AddModuleToCanvas.closeWin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.closeWin" title="Permalink to this definition">¶</a></dt>
+<dd><p>deletes the UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.getCurrentCanvasTab">
+<code class="descname">getCurrentCanvasTab</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleToCanvas.html#ART_AddModuleToCanvas.getCurrentCanvasTab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.getCurrentCanvasTab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current tab of the current character of the animation picker.
+:return: returns the QGraphicsScene that items can then be added to.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.getExistingModules">
+<code class="descname">getExistingModules</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleToCanvas.html#ART_AddModuleToCanvas.getExistingModules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.getExistingModules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all existing modules on the canvas and return those modules as a list.
+:return: List of modules whose picker exists on the canvas.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.mirrorChildren">
+<code class="descname">mirrorChildren</code><span class="sig-paren">(</span><em>children</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Interfaces/ART_AddModuleToCanvas.html#ART_AddModuleToCanvas.mirrorChildren"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Interfaces.ART_AddModuleToCanvas.ART_AddModuleToCanvas.mirrorChildren" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take the passed in children and mirror the item so the text is not backwards. When a module is added to the
+canvas, if it was a right side module, it will be mirrored. This then unmirrors the text.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>children</strong> &#8211; List of QGraphicsSimpleTextItems that need to be mirrored.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="animationUI.html" title="ART_AnimationUI"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="animTools.html" title="Animation Tools"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="animTools.html" >Animation Tools</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

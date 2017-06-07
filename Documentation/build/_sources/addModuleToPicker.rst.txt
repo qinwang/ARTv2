@@ -1,0 +1,6 @@
+=====================
+ART_AddModuleToCanvas
+=====================
+
+.. automodule:: Interfaces.ART_AddModuleToCanvas
+    :members:

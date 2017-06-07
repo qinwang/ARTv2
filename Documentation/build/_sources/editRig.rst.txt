@@ -1,0 +1,6 @@
+=============
+ART_EditRigUI
+=============
+
+.. automodule:: Interfaces.ART_EditRigUI
+    :members:

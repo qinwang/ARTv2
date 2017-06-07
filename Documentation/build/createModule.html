@@ -1,0 +1,504 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Creating A Module &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Rig Modules" href="modules.html" />
+    <link rel="prev" title="Getting Started" href="gettingStarted.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="Rig Modules"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gettingStarted.html" title="Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="gettingStarted.html" accesskey="U">Getting Started</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Creating A Module</a><ul>
+<li><a class="reference internal" href="#ide-and-style-guide">IDE and Style Guide</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#create-an-icon">Create an Icon</a></li>
+<li><a class="reference internal" href="#create-the-python-file">Create the Python File</a></li>
+<li><a class="reference internal" href="#defining-the-module-class">Defining the Module Class</a></li>
+<li><a class="reference internal" href="#add-attributes">Add Attributes</a></li>
+<li><a class="reference internal" href="#skeleton-settings-ui">Skeleton Settings UI</a></li>
+<li><a class="reference internal" href="#building-the-joint-mover">Building the Joint Mover</a></li>
+<li><a class="reference internal" href="#testing-the-joint-mover">Testing the Joint Mover</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gettingStarted.html"
+                        title="previous chapter">Getting Started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="next chapter">Rig Modules</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/createModule.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="creating-a-module">
+<h1><a class="toc-backref" href="#id3">Creating A Module</a><a class="headerlink" href="#creating-a-module" title="Permalink to this headline">¶</a></h1>
+<div class="topic">
+<p class="topic-title first">Overview</p>
+<p>This page details the steps in creating your own module derived from the base class. The sections are presented in
+the order you should write your module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">Jun 05, 2017</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body"><strong>Jeremy Ernst</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#creating-a-module" id="id3">Creating A Module</a><ul>
+<li><a class="reference internal" href="#ide-and-style-guide" id="id4">IDE and Style Guide</a></li>
+<li><a class="reference internal" href="#getting-started" id="id5">Getting Started</a><ul>
+<li><a class="reference internal" href="#create-an-icon" id="id6">Create an Icon</a></li>
+<li><a class="reference internal" href="#create-the-python-file" id="id7">Create the Python File</a></li>
+<li><a class="reference internal" href="#defining-the-module-class" id="id8">Defining the Module Class</a></li>
+<li><a class="reference internal" href="#add-attributes" id="id9">Add Attributes</a></li>
+<li><a class="reference internal" href="#skeleton-settings-ui" id="id10">Skeleton Settings UI</a></li>
+<li><a class="reference internal" href="#building-the-joint-mover" id="id11">Building the Joint Mover</a></li>
+<li><a class="reference internal" href="#testing-the-joint-mover" id="id12">Testing the Joint Mover</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="ide-and-style-guide">
+<h2><a class="toc-backref" href="#id4">IDE and Style Guide</a><a class="headerlink" href="#ide-and-style-guide" title="Permalink to this headline">¶</a></h2>
+<p>The preferred IDE for developing ARTv2 modules is <a class="reference external" href="https://www.jetbrains.com/pycharm/">PyCharm</a>,
+since we can specify our code style and inspections in the settings.
+Below are the settings used for code style and inspections to set in PyCharm.</p>
+<p>To access the settings in PyCharm, go to File -&gt; Settings (or hit Ctrl+Alt+s). On the left, find Editor, then Code
+Style.</p>
+<img alt="_images/pyCharm_codeStyle_0.png" src="_images/pyCharm_codeStyle_0.png" />
+<p>Now, go to the Python section under Code Style. These are the settings for each of those tabs:</p>
+<img alt="_images/pyCharm_codeStyle_1.png" src="_images/pyCharm_codeStyle_1.png" />
+<img alt="_images/pyCharm_codeStyle_2.png" src="_images/pyCharm_codeStyle_2.png" />
+<p>For Inspections, browse in the settings to Editor -&gt; Inspections. There are two sections in here we will edit:
+General and Python.</p>
+<p>For General, items that have changed are denoted in blue text:</p>
+<img alt="_images/pyCharm_inspections_0.png" src="_images/pyCharm_inspections_0.png" />
+<p>For Python, items that have changed are denoted in blue text:</p>
+<img alt="_images/pyCharm_inspections_1.png" src="_images/pyCharm_inspections_1.png" />
+</div>
+<div class="section" id="getting-started">
+<h2><a class="toc-backref" href="#id5">Getting Started</a><a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create-an-icon">
+<h3><a class="toc-backref" href="#id6">Create an Icon</a><a class="headerlink" href="#create-an-icon" title="Permalink to this headline">¶</a></h3>
+<p>To begin creating a module, the very first thing you&#8217;ll want to do is create the icon for the module so it shows up
+in the UI. To do so, browse to ARTv2/Core/Icons/System and open moduleIcons.psd in Photoshop. Every module needs two
+icons: the standard icon and the hover-state icon. The photoshop file is setup to easily accommodate this.</p>
+<p>Standard icon for the Torso module:</p>
+<img alt="_images/torso.png" src="_images/torso.png" />
+<p>Hover icon for the Torso module:</p>
+<img alt="_images/hover_torso.png" src="_images/hover_torso.png" />
+<p>Your icons will be saved as a png in ARTv2/Core/Icons/Modules. The syntax is moduleName.png and hover_moduleName.png.</p>
+</div>
+<div class="section" id="create-the-python-file">
+<h3><a class="toc-backref" href="#id7">Create the Python File</a><a class="headerlink" href="#create-the-python-file" title="Permalink to this headline">¶</a></h3>
+<p>In the ARTv2/Core/Scripts/Modules folder, add a new python file for your module following the existing naming
+conventions (ART_moduleName.py)</p>
+<p>To get started on the class, open ART_Head.py and copy from the docstring down to right before the class definition.
+This will save time instead of having to write all this from scratch. If you have any new file attributes, update the
+docstring with that information. Most likely, the import statements won&#8217;t need to change, so let&#8217;s skip down to the
+file attributes and redefine these for our module.</p>
+<img alt="_images/fileAttrs.png" src="_images/fileAttrs.png" />
+<p>File Attributes:</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>*icon: relative path to the standard icon we created (&quot;Modules/moduleName.png&quot;).
+
+*search: search terms, separated by a &quot;:&quot;, that you want your module to be found by (&quot;joint:leaf&quot;).
+
+*className: the name of the module class, following the naming conventions (&quot;ART_Head&quot;).
+
+*jointMover: the relative path to the joint mover file (Hasn&#39;t been created yet, we&#39;ll come back to this).
+
+*baseName: when a module is created, the user can specify a prefix and suffix which wrap the base name.
+ For example, if our baseName is &quot;head&quot;, the module name will be (&quot;optionalPrefix&quot;) + &quot;head&quot; + (&quot;optionalSuffix&quot;).
+
+*rigs: a list of the rigs this module will build (for example, [&quot;FK::IK&quot;]).
+
+*fbxImport: a list of the available options when import motion onto the rig from an FBX,
+ (for example, [&quot;None&quot;, &quot;FK&quot;, &quot;IK&quot;, &quot;Both&quot;]). &quot;None&quot; should always be an option.
+
+*matchData: if the module has more than one rig type, you may want to add the ability to match between rig types.
+  This attribute allows you to specify whether or not the module can match (first argument in list) and if so,
+  what are the match options (a list of strings). For example: [True, [&quot;Match FK to IK&quot;, &quot;Match IK to FK&quot;] ].
+  If you do not want your module to have the ability to match, you would simply have [False, None]
+
+*controlTypes: this will make sense much later, but this is a list of the attributes you will create on the
+  network node that hold your different rig controls, and a label for what type of control those attributes
+  contain. For example: [[&quot;fkControls&quot;, &quot;FK&quot;]] means that on the module network node, there is an attribute called
+  fkControls that holds a list of the rig controls, and those controls are of type FK. This is used by the select
+  controls tool (ART_SelectControlsUI.py).
+</pre></div>
+</div>
+<p>At this point, your file should look something like this:</p>
+<img alt="_images/yourModule_1.png" src="_images/yourModule_1.png" />
+<p>If at this point, you were to launch the Rig Creator under the ART 2.0 menu, you should see your module now in the
+module list (just don&#8217;t click on it yet!)</p>
+</div>
+<div class="section" id="defining-the-module-class">
+<h3><a class="toc-backref" href="#id8">Defining the Module Class</a><a class="headerlink" href="#defining-the-module-class" title="Permalink to this headline">¶</a></h3>
+<p><strong>Steps</strong>:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Update docstring.</li>
+<li>Update base class init arguments.</li>
+</ol>
+</div></blockquote>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>Once again, it&#39;s probably easiest to just open a module like ART_Head.py and copy the class definition and the
+&quot;__init__&quot;. All modules should inherit from ART_RigModule as there is a ton of functionality in there that you&#39;ll
+get for free. This guide assumes you will be inheriting from ART_RigModule.
+</pre></div>
+</div>
+<img alt="_images/headModule.png" src="_images/headModule.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>All you really need to change here is any docstring info, and the call to the base class &quot;__init__&quot;, replacing
+the first two arguments with your module&#39;s information. Those first two arguments are: moduleName and moduleType.
+The moduleType is the same string you defined for your className at the top of the file. The moduleName is the name
+the network node will be given on creation. (For example: &quot;ART_Head_Module&quot;, &quot;ART_Head&quot;). The network node will
+store all our module&#39;s attributes and connections. Maya will automatically add a number to the end of the moduleName
+if a node of the same name already exists, which is what we want. Usually, the syntax for the moduleName is
+simply the moduleType + &quot;_Module&quot;.
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-attributes">
+<h3><a class="toc-backref" href="#id9">Add Attributes</a><a class="headerlink" href="#add-attributes" title="Permalink to this headline">¶</a></h3>
+<p><strong>Steps</strong>:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Add Created_Bones attribute and set its default value</li>
+<li>Add baseName attribute and set its value to baseName (var)</li>
+<li>Add canAim attribute and set its value depending on whether you want
+your module to be able to have &#8220;aim mode&#8221; functionality.</li>
+<li>Add aimMode attribute and set its default value to False.
+(This is whether or not the module is currently in aimMode.)</li>
+<li>Add any additional attributes your module will need.</li>
+</ol>
+</div></blockquote>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>The next function we need to implement will add any attributes we need to our module&#39;s network node.
+These are things like: can this module aim? how many spine joints? etc.
+
+The base class handles the creation of the network node, so if you were to launch the Rig Creator, and add your
+module, there would be a network node in the scene with your defined moduleName. There are some generic attributes
+that are always added by the base class, but this function will add attributes we want to track for our module.
+</pre></div>
+</div>
+<p>If you were to try and create your module now, you would still get errors, but a network node with your defined attrs
+should be created:</p>
+<blockquote>
+<div><img alt="_images/networkNode_attrs.png" src="_images/networkNode_attrs.png" />
+</div></blockquote>
+<p>There are four attributes you must add for your module, as the tools will be looking for them.</p>
+<img alt="_images/addAttrs.png" src="_images/addAttrs.png" />
+<div class="highlight-rest"><div class="highlight"><pre><span></span>For Created_Bones, you will set the value to be whatever your default joint mover configuration will be:
+&quot;joint_01::joint_02::joint_03::&quot; (ART_Chain). Since we haven&#39;t built our joint mover yet, this may change,
+but know that you&#39;ll need to revisit this attribute so the default value is equal to your default joint mover
+configuration.
+
+baseName is pretty self-explanatory. For canAim, if you want this module to have &quot;aim mode&quot; functionality, set this
+to True. You can leave aimMode set to False by default regardless.
+
+Any additional attributes you know you&#39;ll need, you&#39;ll want to add them in this function. This is anything that your
+settings UI will have options for, like number of toes, or number of neck joints, etc.
+</pre></div>
+</div>
+</div>
+<div class="section" id="skeleton-settings-ui">
+<h3><a class="toc-backref" href="#id10">Skeleton Settings UI</a><a class="headerlink" href="#skeleton-settings-ui" title="Permalink to this headline">¶</a></h3>
+<p><strong>Steps</strong>:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Call on base class method to get basic structure</li>
+<li>Add Mirror Module info (if applicable)</li>
+<li>Add Current Parent info (Always)</li>
+<li>Add Change Name and Change Parent buttons (Always)</li>
+<li>Add Mirror Module button (if applicable)</li>
+<li>Add Bake Offsets button (Always)</li>
+<li>Add any custom widgets needed for your module.</li>
+</ol>
+</div></blockquote>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>It&#39;s best to reference another module&#39;s implementation when writing this function. You&#39;ll likely be able to
+copy/paste quite a bit from another module for steps 1-6. If you&#39;re writing a module that does not support
+mirroring, open up ART_Head to copy/paste from for those first six steps. If your module can mirror, open
+up ART_Leaf.
+</pre></div>
+</div>
+<img alt="_images/skelSettings_chain.png" src="_images/skelSettings_chain.png" />
+<p>Open up ART_Chain.py and look at skeletonSettings_UI to view the code that created the above interface in the image.</p>
+<img alt="_images/skelSettings.png" src="_images/skelSettings.png" />
+</div>
+<div class="section" id="building-the-joint-mover">
+<h3><a class="toc-backref" href="#id11">Building the Joint Mover</a><a class="headerlink" href="#building-the-joint-mover" title="Permalink to this headline">¶</a></h3>
+<p><strong>Steps</strong>:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Build the joint mover geometry in a similar style to the existing joint movers.</li>
+<li>Create the global mover curve object and color it yellow. <em>(&#8221;.overrideColor&#8221;, 17)</em></li>
+<li>Create the offset mover curve object (usually duplicate the global, and scale down) and color it light blue.
+<em>(&#8221;.overrideColor&#8221;, 18)</em></li>
+<li>Create the geometry mover curve object (usually duplicate the offset, and scale down) and color it light pink.
+<em>(&#8221;.overrideColor&#8221;, 20)</em></li>
+<li>Name the joint mover curve objects according to the naming convention (list below)</li>
+<li>Create a group node for each global mover that is in the same space as the mover control. Name these according to
+the naming convention.</li>
+<li>Create the LRA node (pull from an existing file, making sure material names are unaffected) and the LRA group.</li>
+<li>Setup the hierarchy of movers.</li>
+<li>Set geometry to referenced, check naming, check materials, finalize hierarchy.</li>
+</ol>
+</div></blockquote>
+<p>The next step is to create the joint mover. There are a few basic rules when creating a joint mover for a module.
+It&#8217;s best to look at an existing joint mover file to review how they&#8217;re setup.
+When building the joint mover, try to adhere to the aesthetic that has been defined by the existing joint movers. The
+first step is to build the mesh that will be our proxy geometry.</p>
+<blockquote>
+<div><div class="highlight-rest"><div class="highlight"><pre><span></span>The geometry has a style to it that also uses two materials that you can see from an existing file.
+proxy_shader_black and proxy_shader_tan. Your geometry should also use those material names with those exact
+colors. It may be easiest to open an existing file and copy/paste the materials into your current working
+file. Make sure to also follow the naming convention for the geometry.
+
+In this example, I am building the chain module. For now, I will completely build out one link of the
+chain and deal with the other links later.
+</pre></div>
+</div>
+<img alt="_images/proxy_geo.png" src="_images/proxy_geo.png" />
+</div></blockquote>
+<p>After we have our geometry built with the correct naming and the materials assigned with the correct names and
+colors, the next step is to build the global mover curve object. This can be as simple or complex as you want. In the
+chain module, I&#8217;ll just use a simple circle.</p>
+<blockquote>
+<div><div class="highlight-rest"><div class="highlight"><pre><span></span>As noted in the steps, the global mover has to be a specific color. You can achieve this with selecting
+the object and simply running:
+    cmds.setAttr(cmds.ls(sl = True)[0] + &quot;.overrideEnabled&quot;, True)
+    cmds.setAttr(cmds.ls(sl = True)[0] + &quot;.overrideColor&quot;, 17)
+Also, the naming convention is controlName + &quot;_mover&quot;, so for this link of the chain, it will be
+&quot;chain_01_mover&quot;.
+One important thing I should note is that you should make sure your pivot on the control is where you
+want it! For this chain control, the pivot will actually be at the origin, right at the head of the chain.
+</pre></div>
+</div>
+<img alt="_images/global_mover.png" src="_images/global_mover.png" />
+</div></blockquote>
+<p>Now we need to create the offset mover, which is simply as easy as duplicating our global mover and scaling the CVs in.</p>
+<blockquote>
+<div><div class="highlight-rest"><div class="highlight"><pre><span></span>As noted in the steps, the offset mover has to be a specific color. You can achieve this with selecting
+the object and simply running:
+    cmds.setAttr(cmds.ls(sl = True)[0] + &quot;.overrideEnabled&quot;, True)
+    cmds.setAttr(cmds.ls(sl = True)[0] + &quot;.overrideColor&quot;, 18)
+Also, the naming convention is controlName + &quot;_mover_offset&quot;, so for this link of the chain, it will be
+&quot;chain_01_mover_offset&quot;.
+</pre></div>
+</div>
+<img alt="_images/offset_mover.png" src="_images/offset_mover.png" />
+</div></blockquote>
+<p>The last mover control is for the proxy geo itself, so the user can move, rotate, and scale the proxy geo itself,
+which doesn&#8217;t actually affect the joint position at all, it&#8217;s just for aesthetics. Again, duplicate the offset mover
+and scale the CVs in to quickly create this mover.</p>
+<blockquote>
+<div><div class="highlight-rest"><div class="highlight"><pre><span></span>As noted in the steps, the geo mover has to be a specific color. You can achieve this with selecting
+the object and simply running:
+    cmds.setAttr(cmds.ls(sl = True)[0] + &quot;.overrideEnabled&quot;, True)
+    cmds.setAttr(cmds.ls(sl = True)[0] + &quot;.overrideColor&quot;, 20)
+Also, the naming convention is controlName + &quot;_mover_geo&quot;, so for this link of the chain, it will be
+&quot;chain_01_mover_geo&quot;.
+</pre></div>
+</div>
+<img alt="_images/geo_mover.png" src="_images/geo_mover.png" />
+</div></blockquote>
+<p>Now we can setup the hierarchy of our movers. For the global mover, create an empty group that is in the same space as
+the global mover control. This can be achieved by creating an empty group, point and orient constraining the group to
+the global mover, and deleting the constraints. The name of the group will be controlName + &#8220;_mover_grp&#8221;. At this
+point, make sure that the orientation of your group is what you want your control to be. For instance, if you want
+rotateX to be your twist axis, make sure to adjust the group orientation to address this. For this chain control, I
+wanted Z to be my pitch axis, Y to be my yaw axis, and X to be my roll axis, so I needed to adjust the rotate values
+until this was the case.</p>
+<blockquote>
+<div><img alt="_images/mover_group.png" src="_images/mover_group.png" />
+</div></blockquote>
+<p>Now that the group orientation is as desired, go ahead and parent the global mover to the global mover group. Then
+parent the offset mover to the global mover. Then parent the geo mover to the offset mover, and lastly, parent the
+proxy_geo to the geo mover. Your hierarchy should look like this:</p>
+<blockquote>
+<div><img alt="_images/mover_hierarchy.png" src="_images/mover_hierarchy.png" />
+</div></blockquote>
+<p>Select the global mover (not the mover group) and freeze transforms on translate, rotate, and scale. Now our movers
+have the correct orientation that we want and we can move onto the next step.</p>
+<blockquote>
+<div><img alt="_images/mover_hierarchy.gif" src="_images/mover_hierarchy.gif" />
+</div></blockquote>
+<p>The next step for the joint mover is to add the LRA control (local rotation axis) to display the orientation of the
+&#8220;joint&#8221;. To do this, I usually will open another joint mover file, and copy an existing LRA control, and then go back
+to this scene and paste it, like so:</p>
+<blockquote>
+<div><img alt="_images/lra_control.gif" src="_images/lra_control.gif" />
+</div></blockquote>
+<p>We&#8217;ll need to unlock the translate and rotate channels on the LRA control (using the channel control) in order to be
+able to properly set the space of the control for the next step. Now you can point/orient constrain the lra to the
+global mover control and delete the constraints. The display of the LRA should match the true orientation of the
+global mover.</p>
+<blockquote>
+<div><img alt="_images/lra_control2.gif" src="_images/lra_control2.gif" />
+</div></blockquote>
+<p>Just like the global mover, we need to create a group node for the LRA control. The naming for the LRA control is
+controlName_lra, while the group will be controlName_lra_grp. Point/orient constrain the newly created group to the
+LRA control and remove the constraints. Name the group correctly, then parent the LRA under the group. The group will
+be parented under the offset control, so that your hierarchy looks like this:</p>
+<blockquote>
+<div><img alt="_images/lra_hierarchy.png" src="_images/lra_hierarchy.png" />
+</div></blockquote>
+<p>Real quick, since we copy/pasted our LRA control into this scene, let&#8217;s make sure the materials are still named
+correctly. As you can see, they have &#8220;<a href="#id1"><span class="problematic" id="id2">pasted__</span></a>&#8221; in the name, so let&#8217;s remove those prefixes from the materials before
+continuing.</p>
+<blockquote>
+<div><img alt="_images/lra_mats.png" src="_images/lra_mats.png" />
+</div></blockquote>
+<p>We also need to lock down the LRA control&#8217;s translate and rotate channels again, as we don&#8217;t want the user to be able
+to directly manipulate this control, as it is just for visualization.
+|
+|
+|
+|
+For each joint in your module, you would need to repeat all of these steps. Each joint&#8217;s &#8220;mover&#8221; group would then get
+parented under its parent&#8217;s global mover. For the chain module, if the joint mover had 3 links in the chain, this is
+what that would look like:</p>
+<blockquote>
+<div><img alt="_images/chain_module_hierarchy.png" src="_images/chain_module_hierarchy.png" />
+</div></blockquote>
+<p>Another thing we need to do real quick is set our proxy geo and LRA geo to be referenced by enabling overrideEnabled
+and setting the display type to reference. You can use this script to easily achieve this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">#select a piece of geometry, then run this to set that geometry to be referenced.</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">sl</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.overrideEnabled&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">sl</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.overrideDisplayType&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Lastly, we need to add a mover_grp as the very top group node to our joint mover. Simply create an empty group, name
+it mover_grp, and parent your top-most global mover group underneath. It should look like this:</p>
+<blockquote>
+<div><img alt="_images/mover_grp.png" src="_images/mover_grp.png" />
+</div></blockquote>
+<p>This concludes the basic guideline to creating a joint mover for your module. Definitely take a look at existing
+joint mover files and their applyModuleChanges functions to see how other modules are set up.</p>
+</div>
+<div class="section" id="testing-the-joint-mover">
+<h3><a class="toc-backref" href="#id12">Testing the Joint Mover</a><a class="headerlink" href="#testing-the-joint-mover" title="Permalink to this headline">¶</a></h3>
+<p>With the joint mover file now built, we should be able to test adding our module and making sure the joint mover file
+comes in. You will still get errors, as there are a few other functions that need to be added, but we can at least
+make sure our file is coming in properly. Remember that the file the class is looking for is defined at the top of
+the class file.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="Rig Modules"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gettingStarted.html" title="Getting Started"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="gettingStarted.html" >Getting Started</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

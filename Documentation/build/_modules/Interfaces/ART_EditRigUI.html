@@ -1,0 +1,666 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Interfaces.ART_EditRigUI &#8212; ARTv2 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Interfaces.ART_EditRigUI</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding=utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author: Jeremy Ernst</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+
+<span class="kn">import</span> <span class="nn">System.interfaceUtils</span> <span class="k">as</span> <span class="nn">interfaceUtils</span>
+<span class="kn">import</span> <span class="nn">System.utils</span> <span class="k">as</span> <span class="nn">utils</span>
+<span class="kn">import</span> <span class="nn">maya.cmds</span> <span class="k">as</span> <span class="nn">cmds</span>
+<span class="kn">from</span> <span class="nn">ThirdParty.Qt</span> <span class="k">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtWidgets</span>
+
+<span class="c1"># maya 2016&lt; maya2017&gt; compatability</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">shiboken</span> <span class="k">as</span> <span class="nn">shiboken</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">shiboken2</span> <span class="k">as</span> <span class="nn">shiboken</span>
+
+
+<div class="viewcode-block" id="getMainWindow"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.getMainWindow">[docs]</a><span class="k">def</span> <span class="nf">getMainWindow</span><span class="p">():</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Maya’s window as a QWidget and return the item in memory.</span>
+
+<span class="sd">    :return: a QWidget of Maya’s window</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">import</span> <span class="nn">maya.OpenMayaUI</span> <span class="k">as</span> <span class="nn">mui</span>
+    <span class="n">pointer</span> <span class="o">=</span> <span class="n">mui</span><span class="o">.</span><span class="n">MQtUtil</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">()</span>
+    <span class="c1"># pyside QMainWindow takes in a QWidget rather than QObject</span>
+    <span class="k">return</span> <span class="n">shiboken</span><span class="o">.</span><span class="n">wrapInstance</span><span class="p">(</span><span class="n">long</span><span class="p">(</span><span class="n">pointer</span><span class="p">),</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">)</span></div>
+
+
+<span class="n">windowTitle</span> <span class="o">=</span> <span class="s2">&quot;Edit Rig&quot;</span>
+<span class="n">windowObject</span> <span class="o">=</span> <span class="s2">&quot;pyArtEditRigWin&quot;</span>
+
+
+<div class="viewcode-block" id="ART_EditRigUI"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI">[docs]</a><span class="k">class</span> <span class="nc">ART_EditRigUI</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class builds a tool that allows a user to Edit a Rig or Add Character for Animation. Both functions use the</span>
+<span class="sd">    same interface. The title and button text get swapped out depending on which situation has been called for by</span>
+<span class="sd">    the A.R.T.2.0 menu.</span>
+
+<span class="sd">        .. image:: /images/editRig.png</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ART_EditRigUI.__init__"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edit</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiates the class, getting the QSettings and building the interface.</span>
+
+<span class="sd">        :param edit: Whether or not the operation is to edit the rig.</span>
+<span class="sd">        :param add: Whether or not the operation is to add the character for animation.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ART_EditRigUI</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edit</span> <span class="o">=</span> <span class="n">edit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span> <span class="o">=</span> <span class="n">add</span>
+
+        <span class="c1"># get the directory path of the tools</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QSettings</span><span class="p">(</span><span class="s2">&quot;Epic Games&quot;</span><span class="p">,</span> <span class="s2">&quot;ARTv2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;toolsPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;iconPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scriptPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;scriptPath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;projectPath&quot;</span><span class="p">)</span>
+
+        <span class="c1"># build the UI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createUI</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_EditRigUI.createUI"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI.createUI">[docs]</a>    <span class="k">def</span> <span class="nf">createUI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Builds the UI, listing options for choosing a project and showing all assets belonging to that project for</span>
+<span class="sd">        edit or add.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># fonts</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QFont</span><span class="p">()</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">setPointSize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">setBold</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">fontSmall</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QFont</span><span class="p">()</span>
+        <span class="n">fontSmall</span><span class="o">.</span><span class="n">setPointSize</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+        <span class="n">fontSmall</span><span class="o">.</span><span class="n">setBold</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># load stylesheet</span>
+        <span class="n">styleSheetFile</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolsPath</span><span class="p">,</span> <span class="s2">&quot;Core/Scripts/Interfaces/StyleSheets/mainScheme.qss&quot;</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">styleSheetFile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">)</span>
+        <span class="c1"># size policies</span>
+        <span class="n">mainSizePolicy</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Fixed</span><span class="p">)</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #create the main widget</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setCentralWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span><span class="p">)</span>
+
+        <span class="c1"># set qt object name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="n">windowObject</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="n">windowTitle</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Add Rig For Animation&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">WA_DeleteOnClose</span><span class="p">)</span>
+
+        <span class="c1"># create the mainLayout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setSizePolicy</span><span class="p">(</span><span class="n">mainSizePolicy</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSize</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
+
+        <span class="c1"># create the QFrame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFrame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">widgetLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;mid&quot;</span><span class="p">)</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #create two VBox Layouts to create 2 columns</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leftColumn</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">widgetLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leftColumn</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rightColumn</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">widgetLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rightColumn</span><span class="p">)</span>
+
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #left column : project comboBox, group comboBox, listWidget of characters</span>
+        <span class="c1"># =======================================================================</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QComboBox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leftColumn</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">populateGroups</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QComboBox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leftColumn</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">populateCharacters</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">characterList</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leftColumn</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">characterList</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">characterList</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">characterList</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">characterList</span><span class="o">.</span><span class="n">itemClicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">populateIcon</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">populateProjects</span><span class="p">()</span>
+        <span class="c1"># =======================================================================</span>
+        <span class="c1"># #right column: icon frame, edit button/add button, close button</span>
+        <span class="c1"># =======================================================================</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">characterIcon</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QLabel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">characterIcon</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">characterIcon</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rightColumn</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">characterIcon</span><span class="p">)</span>
+
+        <span class="c1"># default image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defaultPixMap</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QPixmap</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iconsPath</span><span class="p">,</span> <span class="s2">&quot;System/noCharacter.png&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">characterIcon</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defaultPixMap</span><span class="p">)</span>
+
+        <span class="c1"># if edit:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">editButton</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Edit Selected&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">editButton</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rightColumn</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">editButton</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">editButton</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">editButton</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">editButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">editSelected</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">editButton</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+
+        <span class="c1"># if add:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addButton</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Add Selected&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rightColumn</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addButton</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addSelected</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s2">&quot;Close&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rightColumn</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="o">.</span><span class="n">setMaximumSize</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">closeUI</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeButton</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;blueButton&quot;</span><span class="p">)</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_EditRigUI.populateProjects"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI.populateProjects">[docs]</a>    <span class="k">def</span> <span class="nf">populateProjects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find all projects on disk (using the project path setting) and add each project to the QComboBox. Then,</span>
+<span class="sd">        call on populateGroups.</span>
+
+<span class="sd">        .. seealso:: ART_EditRigUI.populateGroups()</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># if the project path doesn&#39;t exist on disk, create it</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">)</span>
+
+        <span class="c1"># get a list of the existing folders in projects</span>
+        <span class="n">existingProjects</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">)</span>
+        <span class="n">folders</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># find out which returned items are directories</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">existingProjects</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">each</span><span class="p">)):</span>
+                <span class="n">folders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+
+        <span class="c1"># add each project to the combo box</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+
+        <span class="c1"># find selected project and populate groups</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">populateGroups</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_EditRigUI.populateGroups"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI.populateGroups">[docs]</a>    <span class="k">def</span> <span class="nf">populateGroups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given the selected project, populate any groups for that project (using the project path from QSettings) and</span>
+<span class="sd">        add them to the groups QComboBox.</span>
+
+<span class="sd">        Then, call on populateCharacters.</span>
+
+<span class="sd">        .. seealso:: ART_EditRigUI.populateCharacters()</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get a list of the existing folders in projects</span>
+        <span class="n">selectedProject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">selectedProject</span><span class="p">)</span>
+        <span class="n">existingGroups</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+        <span class="n">folders</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># find out which returned items are directories</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">existingGroups</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">each</span><span class="p">)):</span>
+                <span class="n">folders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+
+        <span class="c1"># otherwise, add each project to the combo box</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+
+        <span class="c1"># populate characters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">populateCharacters</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_EditRigUI.populateCharacters"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI.populateCharacters">[docs]</a>    <span class="k">def</span> <span class="nf">populateCharacters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given the selected project and group, populate the QListWidget with any assets found using that information.</span>
+<span class="sd">        The project path comes from the QSettings, the group is a subfolder of the project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># add project button</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QFont</span><span class="p">()</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">setPointSize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">setBold</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># get a list of the existing folders in projects</span>
+        <span class="n">selectedProject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="n">fullPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">selectedProject</span><span class="p">)</span>
+        <span class="n">selectedGroup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selectedGroup</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">fullPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">selectedGroup</span><span class="p">)</span>
+
+        <span class="n">existingCharacters</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">fullPath</span><span class="p">)</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># find out which returned items are directories</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">existingCharacters</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">each</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">each</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ma&quot;</span><span class="p">:</span>
+                    <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+
+        <span class="c1"># otherwise, add each project to the combo box</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">characterList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">(</span><span class="n">each</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;.ma&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">characterList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_EditRigUI.populateIcon"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI.populateIcon">[docs]</a>    <span class="k">def</span> <span class="nf">populateIcon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given the selected character, display the correct icon for that character in the UI.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># default</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">characterIcon</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defaultPixMap</span><span class="p">)</span>
+
+        <span class="c1"># get a list of the existing folders in projects</span>
+        <span class="n">selectedProject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="n">fullPath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">selectedProject</span><span class="p">)</span>
+        <span class="n">selectedGroup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selectedGroup</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">fullPath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">selectedGroup</span><span class="p">)</span>
+
+        <span class="n">selectedCharacter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">characterList</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">fullPath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">selectedCharacter</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fullPath</span><span class="p">):</span>
+            <span class="n">pixmap</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QPixmap</span><span class="p">(</span><span class="n">fullPath</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">characterIcon</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="n">pixmap</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">characterIcon</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defaultPixMap</span><span class="p">)</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_EditRigUI.editSelected"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI.editSelected">[docs]</a>    <span class="k">def</span> <span class="nf">editSelected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the selected character, and open that file for edit. The path is constructed using the QSettings info,</span>
+<span class="sd">        with any group as a subfolder, and lastly the selected asset/character as the last part of the path.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get a list of the existing folders in projects</span>
+        <span class="n">selectedProject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="n">fullPath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">selectedProject</span><span class="p">)</span>
+        <span class="n">selectedGroup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selectedGroup</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">fullPath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">selectedGroup</span><span class="p">)</span>
+
+        <span class="n">selectedCharacter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">characterList</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">mayaFile</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">selectedCharacter</span> <span class="o">+</span> <span class="s2">&quot;.ma&quot;</span><span class="p">)</span>
+        <span class="n">iconFile</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">selectedCharacter</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">mayaFile</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">iconFile</span><span class="p">):</span>
+                <span class="n">launchUI</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="c1"># get current file</span>
+                <span class="n">currentFile</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sceneName</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">currentFile</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">modified</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">proceed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unsavedChanges</span><span class="p">(</span><span class="n">currentFile</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">proceed</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">mayaFile</span><span class="p">,</span> <span class="nb">open</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="s2">&quot;v=0&quot;</span><span class="p">,</span> <span class="n">ignoreVersion</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;mayaAscii&quot;</span><span class="p">,</span>
+                                  <span class="n">f</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">launchUI</span> <span class="o">=</span> <span class="kc">True</span>
+
+                    <span class="k">if</span> <span class="n">proceed</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">mayaFile</span><span class="p">,</span> <span class="nb">open</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="s2">&quot;v=0&quot;</span><span class="p">,</span> <span class="n">ignoreVersion</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;mayaAscii&quot;</span><span class="p">,</span>
+                                  <span class="n">f</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">launchUI</span> <span class="o">=</span> <span class="kc">True</span>
+
+                    <span class="k">if</span> <span class="n">proceed</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="k">return</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">mayaFile</span><span class="p">,</span> <span class="nb">open</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="s2">&quot;v=0&quot;</span><span class="p">,</span> <span class="n">ignoreVersion</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;mayaAscii&quot;</span><span class="p">,</span>
+                              <span class="n">f</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">launchUI</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">launchUI</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">Interfaces.ART_RigCreatorUI</span> <span class="k">as</span> <span class="nn">ART_RigCreatorUI</span>
+            <span class="n">reload</span><span class="p">(</span><span class="n">ART_RigCreatorUI</span><span class="p">)</span>
+            <span class="n">ART_RigCreatorUI</span><span class="o">.</span><span class="n">createUI</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_EditRigUI.addSelected"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI.addSelected">[docs]</a>    <span class="k">def</span> <span class="nf">addSelected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds the selected character, and references that file into the currently opened scene. The path is</span>
+<span class="sd">        constructed using the QSettings info, with any group as a subfolder, and lastly the selected asset/character</span>
+<span class="sd">        as the last part of the path.</span>
+
+<span class="sd">        Also handles namespaces, adding the new namespace to the network node of the added asset, and launches the</span>
+<span class="sd">        animationUI.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get a list of the existing folders in projects</span>
+        <span class="n">selectedProject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projectMenu</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="n">fullPath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">selectedProject</span><span class="p">)</span>
+        <span class="n">selectedGroup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">groupMenu</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selectedGroup</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">fullPath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">selectedGroup</span><span class="p">)</span>
+
+        <span class="n">selectedCharacter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">characterList</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">mayaFile</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">selectedCharacter</span> <span class="o">+</span> <span class="s2">&quot;.ma&quot;</span><span class="p">)</span>
+        <span class="n">iconFile</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="n">fullPath</span><span class="p">,</span> <span class="n">selectedCharacter</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">)</span>
+
+        <span class="c1"># reference in the selected character if the file exists on drive</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">mayaFile</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">iconFile</span><span class="p">):</span>
+
+                <span class="c1"># find existing namespaces in scene</span>
+                <span class="n">namespaces</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">namespaceInfo</span><span class="p">(</span><span class="n">listOnlyNamespaces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="c1"># reference the rig file</span>
+                <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">mayaFile</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;mayaAscii&quot;</span><span class="p">,</span> <span class="n">loadReferenceDepth</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">selectedCharacter</span><span class="p">,</span>
+                          <span class="n">options</span><span class="o">=</span><span class="s2">&quot;v=0&quot;</span><span class="p">)</span>
+
+                <span class="c1"># clear selection and fit view</span>
+                <span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">cmds</span><span class="o">.</span><span class="n">viewFit</span><span class="p">()</span>
+                <span class="n">panels</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getPanel</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;modelPanel&#39;</span><span class="p">)</span>
+
+                <span class="c1"># turn on smooth shading</span>
+                <span class="k">for</span> <span class="n">panel</span> <span class="ow">in</span> <span class="n">panels</span><span class="p">:</span>
+                    <span class="n">editor</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">modelPanel</span><span class="p">(</span><span class="n">panel</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">modelEditor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">modelEditor</span><span class="p">(</span><span class="n">editor</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">displayAppearance</span><span class="o">=</span><span class="s2">&quot;smoothShaded&quot;</span><span class="p">,</span> <span class="n">displayTextures</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">textures</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="c1"># find new namespaces in scene to figure out the namespace that was created upon referencing the</span>
+                <span class="c1"># character</span>
+                <span class="n">newCharacterName</span> <span class="o">=</span> <span class="n">selectedCharacter</span>
+                <span class="n">newNamespaces</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">namespaceInfo</span><span class="p">(</span><span class="n">listOnlyNamespaces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">newNamespaces</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">namespaces</span><span class="p">:</span>
+                        <span class="n">newCharacterName</span> <span class="o">=</span> <span class="n">name</span>
+
+                <span class="c1"># add an attribute to the rig root (if needed) and set the namespace attr to the newCharacterName</span>
+                <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">newCharacterName</span> <span class="o">+</span> <span class="s2">&quot;:ART_RIG_ROOT&quot;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">cmds</span><span class="o">.</span><span class="n">objExists</span><span class="p">(</span><span class="n">newCharacterName</span> <span class="o">+</span> <span class="s2">&quot;:ART_RIG_ROOT.namespace&quot;</span><span class="p">):</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">addAttr</span><span class="p">(</span><span class="n">newCharacterName</span> <span class="o">+</span> <span class="s2">&quot;:ART_RIG_ROOT&quot;</span><span class="p">,</span> <span class="n">ln</span><span class="o">=</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="n">keyable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">newCharacterName</span> <span class="o">+</span> <span class="s2">&quot;:ART_RIG_ROOT.namespace&quot;</span><span class="p">,</span> <span class="n">newCharacterName</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
+
+                <span class="c1"># delete any interfaces that may be up</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">closeUI</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">dockControl</span><span class="p">(</span><span class="s2">&quot;pyArtRigCreatorDock&quot;</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="s2">&quot;pyArtRigCreatorUi&quot;</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                        <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;pyArtRigCreatorUi&quot;</span><span class="p">,</span> <span class="n">wnd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;pyArtRigCreatorDock&quot;</span><span class="p">,</span> <span class="n">control</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># launch anim UI</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">stylesheetDir</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">returnNicePath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scriptPath</span><span class="p">,</span> <span class="s2">&quot;Interfaces/StyleSheets/&quot;</span><span class="p">)</span>
+        <span class="n">stylesheets</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">stylesheetDir</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="n">stylesheets</span><span class="p">:</span>
+            <span class="n">interfaceUtils</span><span class="o">.</span><span class="n">writeQSS</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stylesheetDir</span><span class="p">,</span> <span class="n">sheet</span><span class="p">))</span>
+
+        <span class="kn">import</span> <span class="nn">Interfaces.ART_AnimationUI</span> <span class="k">as</span> <span class="nn">ART_AnimationUI</span>
+        <span class="n">ART_AnimationUI</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_EditRigUI.unsavedChanges"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI.unsavedChanges">[docs]</a>    <span class="k">def</span> <span class="nf">unsavedChanges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Displays a message box that warns the user of unsaved file changed and returns their response.</span>
+
+<span class="sd">        :return: Returns the user response (Save, Don&#39;t Save, Cancel)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># message box for letting user know current file has unsaved changes</span>
+        <span class="n">msgBox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
+        <span class="n">msgBox</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Warning</span><span class="p">)</span>
+        <span class="n">msgBox</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Current File Has Unsaved Changes!&quot;</span><span class="p">)</span>
+        <span class="n">msgBox</span><span class="o">.</span><span class="n">addButton</span><span class="p">(</span><span class="s2">&quot;Save Changes&quot;</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">YesRole</span><span class="p">)</span>
+        <span class="n">msgBox</span><span class="o">.</span><span class="n">addButton</span><span class="p">(</span><span class="s2">&quot;Don&#39;t Save&quot;</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">NoRole</span><span class="p">)</span>
+        <span class="n">msgBox</span><span class="o">.</span><span class="n">addButton</span><span class="p">(</span><span class="s2">&quot;Cancel&quot;</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">NoRole</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">msgBox</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+    <span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="ART_EditRigUI.closeUI"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.ART_EditRigUI.closeUI">[docs]</a>    <span class="k">def</span> <span class="nf">closeUI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Closes and deletes the interface for the class.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="s2">&quot;pyArtEditRigWin&quot;</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;pyArtEditRigWin&quot;</span><span class="p">,</span> <span class="n">wnd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates an instance of the class for Editing a rig. The ARTv2 menu calls on this function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="s2">&quot;pyArtEditRigWin&quot;</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;pyArtEditRigWin&quot;</span><span class="p">,</span> <span class="n">wnd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">gui</span> <span class="o">=</span> <span class="n">ART_EditRigUI</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">getMainWindow</span><span class="p">())</span>
+    <span class="n">gui</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<div class="viewcode-block" id="runAdd"><a class="viewcode-back" href="../../editRig.html#Interfaces.ART_EditRigUI.runAdd">[docs]</a><span class="k">def</span> <span class="nf">runAdd</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates an instance of the class for adding a rig for animation. The artv2 menu calls this function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="s2">&quot;pyArtEditRigWin&quot;</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">deleteUI</span><span class="p">(</span><span class="s2">&quot;pyArtEditRigWin&quot;</span><span class="p">,</span> <span class="n">wnd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">gui</span> <span class="o">=</span> <span class="n">ART_EditRigUI</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">getMainWindow</span><span class="p">())</span>
+    <span class="n">gui</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ARTv2 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jeremy Ernst.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>
