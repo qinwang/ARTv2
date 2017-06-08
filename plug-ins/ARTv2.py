@@ -36,8 +36,8 @@ def makeMyCustomUI():
 
     cmds.menuItem(parent=customMenu, divider=True, dividerLabel="Misc:")
     cmds.menuItem(parent=customMenu, label="Settings", c=launchSettings)
-    cmds.menuItem(parent=customMenu, label="Check For Updates", c=ART_Update)
-    cmds.menuItem(parent=customMenu, label="Report an Issue", c=ART_Report)
+    # cmds.menuItem(parent=customMenu, label="Check For Updates", c=ART_Update)
+    # cmds.menuItem(parent=customMenu, label="Report an Issue", c=ART_Report)
 
     cmds.menuItem(parent=customMenu, divider=True, dividerLabel="Help")
     cmds.menuItem(parent=customMenu, label="Technical Documentation", c=ART_TechDocs)
@@ -136,6 +136,7 @@ def ART_TechDocs(*args):
     html_file = os.path.join(toolsPath, "Documentation\\build\\index.html")
     webbrowser.get().open('file://' + os.path.realpath(html_file))
 
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -192,7 +193,6 @@ def browse(*args):
     # confirm that this is actually the maya tools directory
     if os.path.basename(mayaToolsDir) != "ARTv2":
         cmds.warning("Selected directory is not valid. Please locate the ARTv2 directory.")
-
 
     else:
         cmds.deleteUI("epicToolsInstall_UI")
