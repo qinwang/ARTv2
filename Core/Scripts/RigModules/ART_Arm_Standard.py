@@ -571,7 +571,10 @@ class ART_Arm_Standard(ART_RigModule):
 
         # if there are fingers, create a finger picker
         fingerControls = json.loads(cmds.getAttr(networkNode + ".fkFingerControls"))
-        ikFingerControls = json.loads(cmds.getAttr(networkNode + ".ikFingerControls"))
+        ikFingerControls = []
+        if cmds.objExists(networkNode + ".ikFingerControls"):
+            ikFingerControls = json.loads(cmds.getAttr(networkNode + ".ikFingerControls"))
+
 
         if len(fingerControls) > 0:
 

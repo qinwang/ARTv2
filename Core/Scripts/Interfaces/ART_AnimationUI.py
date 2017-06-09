@@ -410,7 +410,7 @@ class ART_AnimationUI(QtWidgets.QMainWindow):
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    def setButtonIcon(self, movie):
+    def setButtonIcon(self, movie, *args):
         """
         Sets the icon of the matchRangeBtn to the next frame in the passed in movie. Note: This was a test function
         to see if animated gifs could be used as buttons.
