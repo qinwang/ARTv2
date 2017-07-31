@@ -192,7 +192,7 @@ def browse(*args):
     mayaToolsDir = cmds.fileDialog2(dialogStyle=2, fileMode=3)[0]
     # confirm that this is actually the maya tools directory
     if os.path.basename(mayaToolsDir) != "ARTv2":
-        cmds.warning("Selected directory is not valid. Please locate the ARTv2 directory.")
+        cmds.warning("Selected directory is not valid. Please locate the ARTv2 directory or ensure the directory is named 'ARTv2'.")
 
     else:
         cmds.deleteUI("epicToolsInstall_UI")
