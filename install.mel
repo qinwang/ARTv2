@@ -1,57 +1,65 @@
-string $scriptLocation=`scriptLocation`;
+// This script installs and loads the ARTv2 plugin, and configures it to load automatically.
+// To run, open the Script Editor and Source the file.
 
 
-// Setup module
-python("import os");
-python("home = os.path.expanduser(\"~\")");
+// ---- GLOBAL PROCEDURES ----
 
-string $mayaModDir = python("home+\"/maya/modules/\"");
-if (`about -os` == "mac") $mayaModDir = python("home+\"/Library/Preferences/Autodesk/maya/modules/\"");
-python("try:\n\tmodDir=os.path.relpath(\""+$scriptLocation+"\",\""+$mayaModDir+"\").replace('\\\\', '/')\nexcept:\n\tmodDir=\"\"");
-string $modDir = python("modDir");
-if ($modDir == "") $modDir = `substring $scriptLocation 1 (size($scriptLocation)-1)`;
-
-
-string $modName = "ARTv2";
-string $modFileName = $modName+".mod";
-string $modFile = $scriptLocation + "/" + $modFileName;
-string $newModFile = $mayaModDir + $modFileName ;
-string $toBeReplacedStr = "REPLACE_TO_YOUR_PATH";
-
-
-int $copySuccess = `sysFile -cp $newModFile $modFile`;
-if (!$copySuccess) sysFile -md $mayaModDir;
-
-
-$inFileId=`fopen $modFile "r"`;
-$outFileId=`fopen $newModFile "w"`;
-string $nextLine = `fgetline $inFileId`;
-
-while ( size( $nextLine ) > 0 ) {
-	$nextLine = `substitute $toBeReplacedStr $nextLine $modDir`;
-	fprint($outFileId, $nextLine);
-    $nextLine = `fgetline $inFileId`;
-}
-fclose $inFileId;
-fclose $outFileId;
-
-
-// load script path for current session
-loadModule -a;
-loadPlugin "ARTv2";
-pluginInfo -edit -autoload true "ARTv2";
-
-// Helper functions for locating script's location
+// Dummy procedure used to locate the source script file path
 global proc scriptLocator (){}
 
+// Return path to directory containing this script
 global proc string scriptLocation ()
 {
     string $whatIs=`whatIs scriptLocator`;
-    string $fullPath=`substring $whatIs 25 999`;
-    string $buffer[];
-    int $numTok=`tokenize $fullPath "/" $buffer`;
-    int $numLetters=size($fullPath);
-    int $numLettersLastFolder=size($buffer[$numTok-1]);
-    string $scriptLocation=`substring $fullPath 1 ($numLetters-$numLettersLastFolder)`;
-    return $scriptLocation;
+    string $fullPath=`substring $whatIs 25 999`;  // Strip the human-readable preamble before the file path
+    python("import os");  // Just in case this hasn't been imported already by some other scope
+    return python("os.path.dirname('" + $fullPath + "')");
 }
+
+// ---- INSTALLATION SCRIPT ----
+
+string $scriptLocation = scriptLocation();
+
+python("import os");
+python("home = os.path.expanduser(\"~\")");
+
+// Generate platform-relevant path to user's Maya modules directory.
+if (`about -os` == "mac")
+{
+    python("mayaModDir = os.path.join(home, 'Library', 'Preferences', 'Autodesk', 'maya', 'modules'");
+}
+else
+{
+    python("mayaModDir = os.path.join(home, 'maya', 'modules')");
+}
+python("scriptLoc = '" + $scriptLocation + "'");
+
+// Attempt to generate relative path to the script, otherwise use the install script's location
+// NB: This is formatted to look like 4 lines, but it's actually a single
+// string containing 2 logical lines manually broken with \n
+python("try:\
+    modDir = os.path.normpath(os.path.relpath(scriptLoc, mayaModDir))\n\
+except:\
+    modDir = scriptLoc");
+
+// Set up names and paths for generating the module file
+python("modName = 'ARTv2'");
+python("modFileName = modName + '.mod'");
+python("modFile = os.path.join(scriptLoc, modFileName)");
+python("newModFile = os.path.join(mayaModDir, modFileName)");
+python("replace_str = 'REPLACE_TO_YOUR_PATH'");
+
+// Create new module file from template
+python("if not os.path.exists(mayaModDir): os.path.makedirs(mayaModDir)");
+python("with open(modFile, 'r') as f: template = f.read()");
+python("with open(newModFile, 'w') as f: f.write(template.replace(replace_str, modDir))");
+
+// Load plugin and set to auto-load
+
+loadModule -ld `python("newModFile")`;
+
+string $result = `confirmDialog -title "ARTv2" -message "ARTv2 installed! Maya will now close.\nPlease restart Maya \
+and load the ARTv2 plugin\n(set auto-load as well!) and follow the prompts."
+     -button "Finish"`;
+
+quit -force;
