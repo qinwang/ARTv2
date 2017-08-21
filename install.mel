@@ -50,7 +50,7 @@ python("newModFile = os.path.join(mayaModDir, modFileName)");
 python("replace_str = 'REPLACE_TO_YOUR_PATH'");
 
 // Create new module file from template
-python("if not os.path.exists(mayaModDir): os.path.makedirs(mayaModDir)");
+python("if not os.path.exists(mayaModDir): os.makedirs(mayaModDir)");
 python("with open(modFile, 'r') as f: template = f.read()");
 python("with open(newModFile, 'w') as f: f.write(template.replace(replace_str, modDir))");
 
